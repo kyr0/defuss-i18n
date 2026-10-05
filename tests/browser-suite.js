@@ -174,6 +174,11 @@ export async function run(api, query) {
     const el = root(`<section><div data-i18n-target="a"><span data-i18n-target="b"></span></div><template data-i18n-for="a" data-i18n-locale="en">A</template><template data-i18n-for="b" data-i18n-locale="en">B</template></section>`);
     ok(api.validateI18n(el).some(issue => issue.code === 'OVERLAPPING_TARGET')); throws(() => api.bind(el, own(api.createI18n())), /OVERLAPPING_TARGET/); ok(el.querySelector('span'));
   });
+  await test('values projected before an afterRender failure stay committed', ({ root, own }) => {
+    const el = root('<section data-i18n-component><span data-i18n-value="name"></span></section>'); let fail = false; const i = own(api.createI18n());
+    const b = own(api.bind(el, i, { values: { name: 'old' }, afterRender: () => { if (fail) throw Error('after'); } }));
+    fail = true; throws(() => b.setValues({ name: 'new' }), /after/); eq(el.textContent, 'new'); eq(b.context.values.name, 'new'); fail = false; b.refresh(); eq(el.textContent, 'new');
+  });
   await test('async afterRender is rejected instead of emitting early completion', ({ root, own }) => {
     const el = root('<section></section>'); const i = own(api.createI18n()); throws(() => api.bind(el, i, { render: () => '<p>copy</p>', afterRender: async () => {} }), /afterRender must be synchronous/);
   });

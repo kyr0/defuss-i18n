@@ -180,7 +180,8 @@ export function createDomI18n(runtime: QueryRuntime) {
       setValues(values) {
         assertLive(); assertValues(values); const previous = overrideValues;
         overrideValues = Object.freeze({ ...values });
-        try { refresh(); } catch (error) { overrideValues = previous; throw error; }
+        // Restore only before live writes; once projected, the map is committed like a locale.
+        try { refresh(); } catch (error) { if (context?.values !== overrideValues) overrideValues = previous; throw error; }
       },
       rescan() { assertLive(); scan(); refresh(); },
       dispose() { if (disposed) return; disposed = true; unsubscribe(); if (bindings.get(root) === api) bindings.delete(root); },
