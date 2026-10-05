@@ -179,6 +179,22 @@ export async function run(api, query) {
     const b = own(api.bind(el, i, { values: { name: 'old' }, afterRender: () => { if (fail) throw Error('after'); } }));
     fail = true; throws(() => b.setValues({ name: 'new' }), /after/); eq(el.textContent, 'new'); eq(b.context.values.name, 'new'); fail = false; b.refresh(); eq(el.textContent, 'new');
   });
+  await test('lazy-loaded templates adopted by rescan in the commit render the new locale', async ({ root, own }) => {
+    const markup = `<section data-i18n-component><h2 data-i18n-target="heading">Welcome</h2><template data-i18n-for="heading" data-i18n-locale="en">Welcome</template></section>`;
+    const parse = html => { const holder = document.createElement('template'); holder.innerHTML = html; return holder.content; };
+    const source = '<template data-i18n-for="heading" data-i18n-locale="de">Willkommen</template>';
+    let el = root(markup); let i = own(api.createI18n()); const b = own(api.bind(el, i));
+    const result = await i.loadLocale('de', async () => parse(source), fragment => { el.append(fragment); b.rescan(); });
+    eq(result.status, 'applied'); eq(el.querySelector('h2').textContent, 'Willkommen'); eq(el.querySelector('h2').lang, 'de');
+    el = root(markup); i = own(api.createI18n()); own(api.bind(el, i));
+    await i.loadLocale('de', async () => parse(source), fragment => { el.append(fragment); });
+    eq(el.querySelector('h2').textContent, 'Welcome'); eq(el.querySelector('h2').lang, 'en');
+  });
+  await test('formatted labels display separately from numeric plural counts', ({ root, own }) => {
+    const el = root(`<article data-i18n-component><p data-i18n-target="q" data-i18n-count="count"></p>${['en:one:item', 'en:other:items', 'de:one:Artikel', 'de:other:Artikel'].map(entry => { const [locale, plural, noun] = entry.split(':'); return `<template data-i18n-for="q" data-i18n-locale="${locale}" data-i18n-plural="${plural}"><span data-i18n-value="label"></span> ${noun}</template>`; }).join('')}</article>`);
+    const i = own(api.createI18n()); throws(() => api.bind(el, i, { values: { count: i.formatNumber(1200) } }), /finite number/);
+    own(api.bind(el, i, { values: () => ({ count: 1200, label: i.formatNumber(1200) }) })); eq(el.querySelector('p').textContent, '1,200 items'); i.setLocale('de'); eq(el.querySelector('p').textContent, '1.200 Artikel');
+  });
   await test('async afterRender is rejected instead of emitting early completion', ({ root, own }) => {
     const el = root('<section></section>'); const i = own(api.createI18n()); throws(() => api.bind(el, i, { render: () => '<p>copy</p>', afterRender: async () => {} }), /afterRender must be synchronous/);
   });

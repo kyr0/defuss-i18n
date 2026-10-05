@@ -8,7 +8,7 @@ const temporary = await mkdtemp(join(tmpdir(), 'defuss-i18n-consumer-'));
 try {
   const packed = JSON.parse(execFileSync('npm', ['pack', '--ignore-scripts', '--json', '--pack-destination', temporary], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }))[0];
   const paths = packed.files.map(file => file.path);
-  for (const required of ['dist/index.js', 'dist/cjs/index.js', 'dist/core.d.ts', 'dist/global.min.js', 'src/locale.ts', 'documentation/i18n.mdx', 'examples/index.html']) assert(paths.includes(required), `${required} missing from npm pack`);
+  for (const required of ['dist/index.js', 'dist/cjs/index.js', 'dist/core.d.ts', 'dist/global.min.js', 'src/locale.ts', 'documentation/i18n.mdx', 'documentation/api.md', 'documentation/errors.md', 'examples/index.html']) assert(paths.includes(required), `${required} missing from npm pack`);
   for (const path of paths) assert(!/^(node_modules|tests|test-results|coverage|scripts)\//.test(path), `Unexpected dev file ${path}`);
   const consumer = join(temporary, 'consumer'); await mkdir(join(consumer, 'node_modules'), { recursive: true });
   execFileSync('tar', ['-xzf', join(temporary, packed.filename), '-C', temporary]);

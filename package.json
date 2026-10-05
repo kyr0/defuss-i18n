@@ -82,7 +82,7 @@
   "scripts": {
     "build": "node scripts/build.mjs",
     "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p tests/tsconfig.json",
-    "test:unit": "c8 --reporter=text --reporter=json-summary --reporter=lcov --include=dist/locale.js --include=dist/attributes.js node --test tests/core.test.mjs",
+    "test:unit": "c8 --reporter=text --reporter=json-summary --reporter=lcov --include=dist/locale.js --include=dist/attributes.js node --test tests/core.test.mjs tests/docs.test.mjs",
     "test:browser": "node --test tests/browser.test.mjs",
     "test:package": "node scripts/package-tests.mjs",
     "test": "npm run test:unit && npm run test:browser",

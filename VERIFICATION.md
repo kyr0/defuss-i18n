@@ -1,4 +1,4 @@
-# Release verification — defuss-i18n 0.1.0
+# Release verification: defuss-i18n 0.1.0
 
 Verified 2026-10-01 with `npm run check` (exit 0).
 

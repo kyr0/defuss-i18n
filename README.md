@@ -8,6 +8,15 @@ HTML-authored localization for defuss-query, defuss-morph and defuss-shadcn. Kee
 - Optional state-driven HTML rendering and explicit live-property control.
 - Strict TypeScript, ESM/CommonJS declarations, browser ESM/classic script, source maps, measured sizes, real Chromium tests and packed-consumer verification.
 
+## Documentation
+
+| Guide | Reference |
+| --- | --- |
+| [Getting started](documentation/getting-started.md) | [API reference](documentation/api.md): every export, option, attribute and event |
+| [State and ownership](documentation/state-and-ownership.md) | [Errors and diagnostics](documentation/errors.md): every message and validator code |
+| [Lazy loading](documentation/lazy-loading.md) | [Design rationale](documentation/design.md) |
+| [Security model](documentation/security.md) | [Authoring contract](documentation/component-skill.md) · [Docs index](documentation/index.md) |
+
 ## Install and run
 
 ```sh
@@ -163,4 +172,4 @@ npm publish
 
 `prepublishOnly` gates release: build → strict types → unit tests/coverage → browser behavior → packed ESM/CJS/type consumers → source/version/maps/size/peer-exclusion verification. Browser tests use installed Playwright Chromium, an explicit `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH`, or the pinned npm-distributed Sparticuz fallback; no test-time browser download. Core coverage concerns locale/attribute modules, not the entire DOM adapter. Browser outcomes/screenshot go to `test-results/`; measured raw/gzip/Brotli sizes are in `dist/stats.json`.
 
-The npm package includes sources, distributions, docs and demos, excluding test fixtures/tools/reports. See [architecture](ARCH.md), [MDX](documentation/i18n.mdx) and [agent authoring contract](documentation/component-skill.md). MIT.
+The npm package includes sources, distributions, docs and demos, excluding test fixtures/tools/reports. See the [documentation index](documentation/index.md), [architecture](ARCH.md), [MDX](documentation/i18n.mdx) and [agent authoring contract](documentation/component-skill.md). MIT.
