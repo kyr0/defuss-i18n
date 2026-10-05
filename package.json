@@ -14,7 +14,7 @@
     "typescript",
     "shadcn"
   ],
-  "main": "./dist/cjs/index.js",
+  "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
@@ -24,8 +24,8 @@
         "default": "./dist/index.js"
       },
       "require": {
-        "types": "./dist/cjs/index.d.ts",
-        "default": "./dist/cjs/index.js"
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
       }
     },
     "./core": {
@@ -34,8 +34,8 @@
         "default": "./dist/core.js"
       },
       "require": {
-        "types": "./dist/cjs/core.d.ts",
-        "default": "./dist/cjs/core.js"
+        "types": "./dist/core.d.cts",
+        "default": "./dist/core.cjs"
       }
     },
     "./global": {
@@ -48,8 +48,7 @@
   "sideEffects": [
     "./dist/all.js",
     "./dist/all.min.js",
-    "./dist/global.min.js",
-    "./dist/cjs/all.js"
+    "./dist/global.min.js"
   ],
   "jsdelivr": "dist/all.min.js",
   "unpkg": "dist/all.min.js",
@@ -73,22 +72,26 @@
     "defuss-morph": "0.1.1",
     "defuss-query": "0.1.0",
     "esbuild": "0.25.12",
+    "oxlint": "1.87.0",
+    "pkgroll": "2.28.1",
     "playwright": "1.58.2",
     "typescript": "5.8.3"
   },
   "engines": {
     "node": ">=22"
   },
+  "packageManager": "bun@1.4.2",
   "scripts": {
-    "build": "node scripts/build.mjs",
+    "build": "pkgroll --clean-dist --sourcemap '--packagejson=dist/{index,core,global}.{js,cjs,d.ts,d.cts}' && node scripts/build.mjs",
     "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p tests/tsconfig.json",
-    "test:unit": "c8 --reporter=text --reporter=json-summary --reporter=lcov --include=dist/locale.js --include=dist/attributes.js node --test tests/core.test.mjs tests/docs.test.mjs",
+    "lint": "oxlint --deny-warnings && bun run typecheck",
+    "test:unit": "c8 --exclude-after-remap --reporter=text --reporter=json-summary --reporter=lcov --include=src/locale.ts --include=src/attributes.ts node --test tests/core.test.mjs tests/docs.test.mjs",
     "test:browser": "node --test tests/browser.test.mjs",
     "test:package": "node scripts/package-tests.mjs",
-    "test": "npm run test:unit && npm run test:browser",
+    "test": "bun run test:unit && bun run test:browser",
     "verify": "node scripts/verify.mjs",
-    "check": "npm run build && npm run typecheck && npm test && npm run test:package && npm run verify",
+    "check": "bun run build && bun run lint && bun run test && bun run test:package && bun run verify",
     "serve": "node scripts/serve.mjs",
-    "prepublishOnly": "npm run check"
+    "prepublishOnly": "bun run check"
   }
 }

@@ -2,16 +2,18 @@ import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
 import { mkdtemp, mkdir, readFile, rename, symlink, writeFile, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
-import { join, resolve } from 'node:path';
+import { basename, join, resolve } from 'node:path';
 const root = process.cwd();
 const temporary = await mkdtemp(join(tmpdir(), 'defuss-i18n-consumer-'));
 try {
-  const packed = JSON.parse(execFileSync('npm', ['pack', '--ignore-scripts', '--json', '--pack-destination', temporary], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }))[0];
-  const paths = packed.files.map(file => file.path);
-  for (const required of ['dist/index.js', 'dist/cjs/index.js', 'dist/core.d.ts', 'dist/global.min.js', 'src/locale.ts', 'documentation/i18n.mdx', 'documentation/api.md', 'documentation/errors.md', 'examples/index.html']) assert(paths.includes(required), `${required} missing from npm pack`);
+  // VERIFIED: `bun publish --dry-run` lists the same files as `bun pm pack`, so this tarball is what gets published.
+  const tarball = join(temporary, basename(execFileSync('bun', ['pm', 'pack', '--ignore-scripts', '--quiet', '--destination', temporary], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim().split('\n').pop()));
+  const paths = execFileSync('tar', ['-tzf', tarball], { encoding: 'utf8' }).trim().split('\n').map(path => path.replace(/^package\//, ''));
+  const { version } = JSON.parse(await readFile('package.json', 'utf8'));
+  for (const required of ['dist/index.js', 'dist/index.cjs', 'dist/core.d.ts', 'dist/global.min.js', 'src/locale.ts', 'documentation/i18n.mdx', 'documentation/api.md', 'documentation/errors.md', 'examples/index.html']) assert(paths.includes(required), `${required} missing from the packed tarball`);
   for (const path of paths) assert(!/^(node_modules|tests|test-results|coverage|scripts)\//.test(path), `Unexpected dev file ${path}`);
   const consumer = join(temporary, 'consumer'); await mkdir(join(consumer, 'node_modules'), { recursive: true });
-  execFileSync('tar', ['-xzf', join(temporary, packed.filename), '-C', temporary]);
+  execFileSync('tar', ['-xzf', tarball, '-C', temporary]);
   await rename(join(temporary, 'package'), join(consumer, 'node_modules/defuss-i18n'));
   await writeFile(join(consumer, 'package.json'), '{"private":true,"type":"module"}\n');
   // Core must work with no peers available in the consumer.
@@ -28,18 +30,20 @@ import df$ from 'defuss-query';
 const i = createI18n({ locale: 'de' });
 const root = {} as HTMLElement;
 bindI18n(root, i, { getState: () => ({ count: 2 }), values: s => ({ count: s.count }), render: ({ state }) => String(state.count) });
-createDomI18n(df$);
-const runtime = df$ as WithI18n<typeof df$>;
-runtime.i18n.createI18n();
+// VERIFIED: exported inferred values force declaration emit to name our types; this caught invalid bundled declarations (TS2693).
+export const dom = createDomI18n(df$);
+export const runtime = df$ as WithI18n<typeof df$>;
+export const controller = runtime.i18n.createI18n();
+export const browserApi = runtime.i18n;
 // @ts-expect-error invalid primitive interpolation
 bindI18n(root, i, { values: { nested: {} } });
 // @ts-expect-error asynchronous renderers are unsupported
 bindI18n(root, i, { render: async () => 'x' });
 `;
   for (const extension of ['mts', 'cts']) await writeFile(join(consumer, `consumer.${extension}`), source);
-  await writeFile(join(consumer, 'tsconfig.json'), JSON.stringify({ compilerOptions: { target: 'ES2022', module: 'NodeNext', moduleResolution: 'NodeNext', strict: true, noEmit: true, esModuleInterop: true, lib: ['ES2022', 'DOM', 'DOM.Iterable'], skipLibCheck: false }, include: ['consumer.mts', 'consumer.cts'] }));
+  await writeFile(join(consumer, 'tsconfig.json'), JSON.stringify({ compilerOptions: { target: 'ES2022', module: 'NodeNext', moduleResolution: 'NodeNext', strict: true, declaration: true, emitDeclarationOnly: true, outDir: 'types-out', esModuleInterop: true, lib: ['ES2022', 'DOM', 'DOM.Iterable'], skipLibCheck: false }, include: ['consumer.mts', 'consumer.cts'] }));
   execFileSync(process.execPath, [resolve(root, 'node_modules/typescript/bin/tsc'), '-p', join(consumer, 'tsconfig.json')], { cwd: consumer, stdio: 'inherit' });
   const stats = JSON.parse(await readFile(join(consumer, 'node_modules/defuss-i18n/dist/stats.json'), 'utf8'));
-  assert.equal(stats.version, packed.version);
+  assert.equal(stats.version, version);
   console.log(`Packed consumer verification passed: ${paths.length} files; peer-free core, ESM/CJS root, guarded imports and strict .mts/.cts consumers.`);
 } finally { await rm(temporary, { recursive: true, force: true }); }

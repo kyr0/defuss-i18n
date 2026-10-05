@@ -20,7 +20,7 @@ HTML-authored localization for defuss-query, defuss-morph and defuss-shadcn. Kee
 ## Install and run
 
 ```sh
-npm install defuss-i18n defuss-query defuss-morph
+bun add defuss-i18n defuss-query defuss-morph   # or: npm install defuss-i18n defuss-query defuss-morph
 ```
 
 ```js
@@ -33,7 +33,7 @@ binding.dispose();
 locale.dispose();
 ```
 
-For this downloaded source project, run `npm ci && npm run serve` and open <http://127.0.0.1:8080/examples/>. The demo uses local peer scripts pinned by the lockfile. Built `dist/` files are included for self-hosting.
+For this downloaded source project, run `bun install && bun run serve` and open <http://127.0.0.1:8080/examples/>. The demo uses local peer scripts pinned by the lockfile. Built `dist/` files are included for self-hosting.
 
 ## HTML contract
 
@@ -164,12 +164,12 @@ Browser ESM: `all.js`/`all.min.js`. Classic script: `global.min.js`. Peers remai
 `validateI18n(root, { locales: ['en', 'de'], values: ['count'] })` returns `{ code, message, element }[]`; `assertValidI18n` throws an actionable list. Check source/target pairing, duplicates, locale/attribute coverage, stable identity tags, locale syntax, attribute policy, plural sets, values, ownership and ARIA/label references. This validates markup contracts, not linguistic correctness.
 
 ```sh
-npm ci
-npm run check
-make check
-npm publish
+bun install --frozen-lockfile
+bun run check
+make verify
+bun publish
 ```
 
-`prepublishOnly` gates release: build → strict types → unit tests/coverage → browser behavior → packed ESM/CJS/type consumers → source/version/maps/size/peer-exclusion verification. Browser tests use installed Playwright Chromium, an explicit `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH`, or the pinned npm-distributed Sparticuz fallback; no test-time browser download. Core coverage concerns locale/attribute modules, not the entire DOM adapter. Browser outcomes/screenshot go to `test-results/`; measured raw/gzip/Brotli sizes are in `dist/stats.json`.
+`prepublishOnly` gates release: build → oxlint + strict types → unit tests/coverage → browser behavior → packed ESM/CJS/type consumers → source/version/maps/size/peer-exclusion verification. Browser tests use installed Playwright Chromium, an explicit `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH`, or, on Linux x64 only, the pinned Sparticuz Chromium package; no test-time browser download. Core coverage concerns locale/attribute modules, not the entire DOM adapter. Browser outcomes/screenshot go to `test-results/`; measured raw/gzip/Brotli sizes are in `dist/stats.json`.
 
 The npm package includes sources, distributions, docs and demos, excluding test fixtures/tools/reports. See the [documentation index](documentation/index.md), [architecture](ARCH.md), [MDX](documentation/i18n.mdx) and [agent authoring contract](documentation/component-skill.md). MIT.

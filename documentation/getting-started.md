@@ -5,7 +5,7 @@
 With a bundler:
 
 ```sh
-npm install defuss-i18n defuss-query defuss-morph
+bun add defuss-i18n defuss-query defuss-morph   # or: npm install defuss-i18n defuss-query defuss-morph
 ```
 
 `defuss-query` and `defuss-morph` are peer dependencies: your app and defuss-i18n share a single copy of each.

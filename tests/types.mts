@@ -17,4 +17,4 @@ bindI18n(element, i18n, { values: { object: {} } });
 // @ts-expect-error a renderer must return HTML synchronously
 bindI18n(element, i18n, { render: async () => '<p>Hello</p>' });
 // @ts-expect-error wrong state property
-binding.context?.state.missing;
+void binding.context?.state.missing;

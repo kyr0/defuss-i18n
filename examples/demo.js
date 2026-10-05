@@ -1,4 +1,4 @@
-// Run npm ci and npm run serve. All three runtime scripts are local and pinned by the lockfile.
+// Run bun install and bun run serve. All three runtime scripts are local and pinned by the lockfile.
 await import('../node_modules/defuss-morph/dist/all.min.js');
 await import('../node_modules/defuss-query/dist/all.min.js');
 await import('../dist/all.js');

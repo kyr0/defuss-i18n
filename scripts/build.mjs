@@ -1,15 +1,12 @@
-import { execFileSync } from 'node:child_process';
-import { mkdir, readFile, readdir, rm, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { gzipSync, brotliCompressSync } from 'node:zlib';
 import { build } from 'esbuild';
 const root = new URL('../', import.meta.url);
 process.chdir(root.pathname);
 const pkg = JSON.parse(await readFile('package.json', 'utf8'));
-await rm('dist', { recursive: true, force: true });
-execFileSync(process.execPath, ['node_modules/typescript/bin/tsc', '-p', 'tsconfig.json'], { stdio: 'inherit' });
-execFileSync(process.execPath, ['node_modules/typescript/bin/tsc', '-p', 'tsconfig.json', '--module', 'CommonJS', '--moduleResolution', 'Node', '--verbatimModuleSyntax', 'false', '--esModuleInterop', 'true', '--outDir', 'dist/cjs'], { stdio: 'inherit' });
-await writeFile('dist/cjs/package.json', '{"type":"commonjs"}\n');
+// Runs after pkgroll (package.json#scripts.build), which cleans dist/ and emits the npm entries.
+// VERIFIED: pkgroll 2.28 has no output-format option, so esbuild owns the browser bundles, including the classic-script IIFE.
 const banner = `/*! defuss-i18n v${pkg.version} | MIT | external runtime: defuss-query + defuss-morph */`;
 for (const [name, format, minify] of [['all.js', 'esm', false], ['all.min.js', 'esm', true], ['global.min.js', 'iife', true]]) {
   await build({ entryPoints: ['src/all.ts'], outfile: `dist/${name}`, bundle: true, format, platform: 'browser', target: 'es2022', minify, sourcemap: true, banner: { js: banner }, legalComments: 'none' });

@@ -26,7 +26,7 @@ Async loaders stage data without side effects. An abort signal and request ticke
 
 ## Shipping and proof
 
-Compile strict TypeScript to ESM/CommonJS with condition-specific declarations. Bundle only internal code into browser ESM/classic artifacts. Query/morph stay external. Ship license/version banners, maps, raw/gzip/Brotli stats and source hashes. Gate release on actual distribution browser tests with real peers, DOM-free tests, strict consumer types, packed imports and artifact freshness. Do not infer runtime behavior from compilation or claim DOM-adapter coverage from the core-only V8 report.
+pkgroll builds the npm entries from `package.json#exports`: ESM, CommonJS and condition-specific declarations. esbuild bundles only internal code into the browser ESM and classic-script artifacts, because pkgroll has no IIFE output. Query/morph stay external. Ship license/version banners, maps, raw/gzip/Brotli stats and source hashes. Gate release on actual distribution browser tests with real peers, DOM-free tests, strict consumer types, packed imports and artifact freshness. Do not infer runtime behavior from compilation or claim DOM-adapter coverage from the core-only V8 report.
 
 ## Limits
 
