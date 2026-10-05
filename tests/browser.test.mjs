@@ -8,6 +8,7 @@ async function launch() {
   if (process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH) return chromium.launch({ executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH, args: ['--no-sandbox'] });
   try { await access(chromium.executablePath()); return chromium.launch(); }
   catch {
+    if (process.platform !== 'linux' || process.arch !== 'x64') throw Error(`No Playwright Chromium at ${chromium.executablePath()}; the Sparticuz fallback is Linux x64 only. Run npx playwright install chromium or set PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH.`);
     const fallback = (await import('@sparticuz/chromium')).default;
     // Some hosted runtimes seed an empty path; Sparticuz otherwise treats it as a cache hit.
     try { if ((await stat('/tmp/chromium')).size === 0) await rm('/tmp/chromium'); } catch {}

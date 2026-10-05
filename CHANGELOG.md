@@ -6,6 +6,7 @@
 - Resolve validator ID references within the root's shadow/detached tree, so valid shadow-root components bind.
 - Detect overlapping targets for roots bound without `data-i18n-component`.
 - `setValues` keeps a map committed once its values were projected, matching locale commit semantics.
+- Browser tests fail with an actionable message instead of ENOEXEC when the Linux-x64-only Sparticuz fallback cannot run.
 
 ## 0.1.0 — 2026-10-01
 
