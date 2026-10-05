@@ -35,4 +35,16 @@ RULES = [{
     "path": "documentation/lazy-loading.md",
     "text": "```mermaid",
     "claim": "latest-request-wins loading stays a rendered sequence diagram",
+}, {
+    "id": "make.env-dotenv",
+    "kind": "not_regex",
+    "path": "Makefile",
+    "pattern": r"^-?include\s+\.env",
+    "claim": "Makefile never parses .env as Makefile syntax (keeps literal quotes); recipes load it via bun --env-file",
+}, {
+    "id": "make.setup-bootstraps-bun",
+    "kind": "contains",
+    "path": "Makefile",
+    "text": "command -v bun >/dev/null 2>&1 || curl -fsSL https://bun.sh/install | bash",
+    "claim": "make setup installs a missing bun with the official installer (AGENTS.md toolchain contract)",
 }]
