@@ -20,6 +20,10 @@ export function validateI18n(root: Element, options: ValidationOptions = {}): Di
   const variants = new Map<string, Set<string>>();
   const identities = new Map<string, Map<string, string>>();
   const elements = ownedElements(root);
+  // VERIFIED: document lookups miss shadow roots (browser suite), so resolve IDs in the root's own tree, detached subtrees included.
+  const tree = root.getRootNode() as Element | Document | ShadowRoot;
+  const byId = (id: string): Element | null => 'getElementById' in tree
+    ? tree.getElementById(id) : [tree, ...tree.querySelectorAll('[id]')].find(element => element.id === id) ?? null;
   const validateContent = (element: Element): void => {
     const translations = new Map<string, Set<string>>();
     const record = (attribute: string, locale: string): void => {
@@ -125,7 +129,7 @@ export function validateI18n(root: Element, options: ValidationOptions = {}): Di
     for (const child of content.querySelectorAll('[aria-labelledby], [aria-describedby], label[for]')) {
       for (const attr of ['aria-labelledby', 'aria-describedby', 'for']) {
         for (const id of (child.getAttribute(attr) ?? '').split(/\s+/).filter(Boolean)) {
-          const existing = root.ownerDocument.getElementById(id);
+          const existing = byId(id);
           const liveTarget = elements.find(element => element.getAttribute('data-i18n-target') === sourceFor);
           const external = existing && (existing === liveTarget || !liveTarget?.contains(existing));
           if (!ids.has(id) && !external) report('MISSING_ID_REFERENCE', `Unresolved ${attr} reference ${id}`, child);

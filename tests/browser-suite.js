@@ -163,6 +163,13 @@ export async function run(api, query) {
     const shell = root('<section data-i18n-component><style data-i18n-value="v"></style></section>'); throws(() => api.bind(shell, own(api.createI18n()), { values: { v: payload } }), /raw-text/);
     throws(() => api.bind(root('<section></section>'), own(api.createI18n()), { values: { v: payload }, render: () => '<style data-i18n-value="v"></style>' }), /raw-text/); ok(!window.__i18nInjected);
   });
+  await test('shadow-root ID references resolve in the shadow tree, not the document', ({ own }) => {
+    const host = document.createElement('div'); fixture.append(host); const shadow = host.attachShadow({ mode: 'open' });
+    shadow.innerHTML = `<section data-i18n-component><input id="shadow-name"><div data-i18n-target="t"><label for="shadow-name">Name</label></div><template data-i18n-for="t" data-i18n-locale="en"><label for="shadow-name">Name</label></template><template data-i18n-for="t" data-i18n-locale="de"><label for="shadow-name">Name DE</label><label for="absent">X</label></template></section>`;
+    const el = shadow.firstElementChild; eq(api.validateI18n(el).map(issue => issue.code).join(), 'MISSING_ID_REFERENCE');
+    shadow.querySelector('[data-i18n-locale="de"]').content.lastElementChild.remove(); eq(api.validateI18n(el).length, 0);
+    const i = own(api.createI18n()); own(api.bind(el, i)); i.setLocale('de'); eq(el.querySelector('label').textContent, 'Name DE');
+  });
   await test('async afterRender is rejected instead of emitting early completion', ({ root, own }) => {
     const el = root('<section></section>'); const i = own(api.createI18n()); throws(() => api.bind(el, i, { render: () => '<p>copy</p>', afterRender: async () => {} }), /afterRender must be synchronous/);
   });
