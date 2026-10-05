@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { access, readFile, writeFile, mkdir, stat, rm } from 'node:fs/promises';
 import { chromium } from 'playwright';
 import { serve } from '../scripts/serve.mjs';
+const reportDir = process.env.I18N_REPORT_DIR ?? 'test-results';
 
 async function launch() {
   if (process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH) return chromium.launch({ executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH, args: ['--no-sandbox'] });
@@ -69,12 +70,12 @@ test('shipped browser artifacts and side-effect-free DOM adapter', async t => {
       await page.locator('#settings-close').click();
       await page.locator('#add-item').click();
       assert.match(await page.locator('#cart-copy').textContent(), /2 items/);
-      await mkdir('test-results', { recursive: true });
-      await page.screenshot({ path: 'test-results/demo.png', fullPage: true });
+      await mkdir(reportDir, { recursive: true });
+      await page.screenshot({ path: `${reportDir}/demo.png`, fullPage: true });
       assert.deepEqual(errors, []); await page.close();
     });
   } finally {
-    await writeFile('test-results/browser-report.json', JSON.stringify(report, null, 2) + '\n');
+    await mkdir(reportDir, { recursive: true }); await writeFile(`${reportDir}/browser-report.json`, JSON.stringify(report, null, 2) + '\n');
     await browser.close(); await new Promise(resolve => server.close(resolve));
   }
 });
