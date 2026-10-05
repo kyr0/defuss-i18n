@@ -47,4 +47,11 @@ RULES = [{
     "path": "Makefile",
     "text": "command -v bun >/dev/null 2>&1 || curl -fsSL https://bun.sh/install | bash",
     "claim": "make setup installs a missing bun with the official installer (AGENTS.md toolchain contract)",
+}, {
+    "id": "docs.demo-builds-first",
+    "kind": "not_regex",
+    "glob": "*",
+    "docs": True,
+    "pattern": r"bun install(?: --frozen-lockfile)? && bun run serve",
+    "claim": "demo instructions build dist/ before serving it (dist/ is gitignored, a fresh clone has none)",
 }]

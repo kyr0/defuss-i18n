@@ -2,11 +2,13 @@
 
 ## 1. Install
 
-With a bundler:
+With a bundler, install the package next to its peers. defuss-i18n is not on npm yet, so pack a checkout (`bun run build && bun pm pack`) and install the tarball:
 
 ```sh
-bun add defuss-i18n defuss-query defuss-morph   # or: npm install defuss-i18n defuss-query defuss-morph
+bun add ../defuss-i18n/defuss-i18n-0.1.0.tgz defuss-query@0.1.0 defuss-morph@0.1.1
 ```
+
+Once it is published, `bun add defuss-i18n defuss-query defuss-morph` (or the npm equivalent) replaces the tarball.
 
 `defuss-query` and `defuss-morph` are peer dependencies: your app and defuss-i18n share a single copy of each.
 

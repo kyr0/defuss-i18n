@@ -1,6 +1,6 @@
 # Author HTML with defuss-i18n
 
-Apply this contract when making defuss-shadcn/plain HTML locale-aware. Read [README](../README.md) for the complete API.
+Apply this contract when making defuss-shadcn/plain HTML locale-aware. Read the [API reference](api.md) for the complete API and [errors](errors.md) for every diagnostic.
 
 1. Reuse defuss-shadcn core's df$; load i18n afterwards. Without shadcn load morph 0.1.1, query 0.1.0, then i18n in the same ordered module sequence.
 2. Mark durable roots `[data-i18n-component]`; give translation targets unique component-local names. Keep native modal/popover shells, imperative state/initialization and child boundaries outside translated regions.

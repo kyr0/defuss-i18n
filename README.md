@@ -1,175 +1,128 @@
 # defuss-i18n
 
-HTML-authored localization for defuss-query, defuss-morph and defuss-shadcn. Keep locale variants in `<template>` elements or `data-i18n-*` attributes; morph component-owned translation regions. No framework, JSX, Astro, translation-key catalog or second reconciler.
+[![CI](https://github.com/kyr0/defuss-i18n/actions/workflows/verify.yml/badge.svg)](https://github.com/kyr0/defuss-i18n/actions/workflows/verify.yml)
+[![License](https://img.shields.io/github/license/kyr0/defuss-i18n)](LICENSE)
 
-- DOM-free, isolated locale controllers: canonical BCP 47 tags, ordered fallback, immutable snapshots, subscriptions, disposal and latest-request-wins loading.
-- Localized content/images/links/accessibility attributes through the existing defuss runtime.
-- Native Intl formatting and plural selection; literal primitive interpolation.
-- Optional state-driven HTML rendering and explicit live-property control.
-- Strict TypeScript, ESM/CommonJS declarations, browser ESM/classic script, source maps, measured sizes, real Chromium tests and packed-consumer verification.
+HTML-authored localization for pages built on defuss-query and defuss-morph, including defuss-shadcn: locale variants live in your markup, and a language switch patches only the regions a component owns.
 
-## Documentation
+## TL;DR
 
-| Guide | Reference |
-| --- | --- |
-| [Getting started](documentation/getting-started.md) | [API reference](documentation/api.md): every export, option, attribute and event |
-| [State and ownership](documentation/state-and-ownership.md) | [Errors and diagnostics](documentation/errors.md): every message and validator code |
-| [Lazy loading](documentation/lazy-loading.md) | [Design rationale](documentation/design.md) |
-| [Security model](documentation/security.md) | [Authoring contract](documentation/component-skill.md) · [Docs index](documentation/index.md) |
+Swapping translated markup wholesale destroys the elements inside it, and with them focus, text selection and half-typed input. defuss-i18n keeps each locale's markup in inert `<template>` elements next to the default HTML and morphs only the translated regions in place, so that state survives a switch and the page shows its default language without JavaScript.
 
-## Install and run
+- Locale variants per region as `<template data-i18n-for data-i18n-locale>`; content attributes (`alt`, `title`, `aria-label`, `href` and 12 more) through `data-i18n-{attribute}-{locale}`.
+- Canonical BCP 47 tags with ordered fallback (`zh-Hant-TW → zh-Hant → zh → en`), native `Intl` number and date formatting, and CLDR plural templates.
+- Literal-text value slots, authoring diagnostics with `validateI18n`, and latest-request-wins lazy loading of locale data.
+- Isolated controllers with no import-time globals; ESM, CommonJS, browser ESM and classic-script builds, about 6 KB gzip minified with the peers external.
 
-```sh
-bun add defuss-i18n defuss-query defuss-morph   # or: npm install defuss-i18n defuss-query defuss-morph
+## Quick start
+
+Requirements: Node.js >= 22 and, for development, bun 1.4.2. The peers are defuss-query `^0.1.0` and defuss-morph `^0.1.1`.
+
+Run the demo from a checkout of this repository:
+
+```bash
+bun install --frozen-lockfile
+bun run build
+bun run serve
+```
+
+Open <http://127.0.0.1:8080/examples/> and switch languages: the heading, image and cart text change, while the open settings dialog keeps its edited name field. `bun run build` is required because `dist/` is not checked in.
+
+To use it in an app before it is published to npm, pack the checkout and install the tarball next to the peers:
+
+```bash
+bun pm pack                                             # in this checkout, after bun run build
+bun add ../defuss-i18n/defuss-i18n-0.1.0.tgz defuss-query@0.1.0 defuss-morph@0.1.1   # in your app
+```
+
+```js
+import { createI18n } from 'defuss-i18n';
+
+const locale = createI18n({ locale: 'de-DE' });
+console.log(locale.locale, locale.formatNumber(1234.5)); // de-DE 1.234,5
+```
+
+Once the package is on npm, `bun add defuss-i18n defuss-query defuss-morph` replaces the tarball step.
+
+## Usage
+
+### Translate a region of a component
+
+```html
+<section id="welcome" data-i18n-component>
+  <div data-i18n-target="intro"><h2 key="heading">Welcome</h2></div>
+  <template data-i18n-for="intro" data-i18n-locale="en"><h2 key="heading">Welcome</h2></template>
+  <template data-i18n-for="intro" data-i18n-locale="de"><h2 key="heading">Willkommen</h2></template>
+</section>
 ```
 
 ```js
 import { createI18n, bindI18n } from 'defuss-i18n';
+
 const locale = createI18n({ locale: 'en', fallback: ['en'] });
-const binding = bindI18n(document.getElementById('welcome'), locale);
-locale.setLocale('de');
-// On unmount:
-binding.dispose();
-locale.dispose();
+const welcome = bindI18n(document.getElementById('welcome'), locale);
+locale.setLocale('de'); // the <h2> now reads "Willkommen"; it is the same element as before
+welcome.dispose();      // when the component is removed
 ```
 
-For this downloaded source project, run `bun install && bun run serve` and open <http://127.0.0.1:8080/examples/>. The demo uses local peer scripts pinned by the lockfile. Built `dist/` files are included for self-hosting.
-
-## HTML contract
-
-```html
-<section id="welcome" data-i18n-component>
-  <div data-i18n-target="intro">
-    <h2 key="heading">Welcome</h2>
-    <img key="image" src="welcome-en.webp" alt="Welcome illustration">
-  </div>
-  <template data-i18n-for="intro" data-i18n-locale="en">
-    <h2 key="heading">Welcome</h2>
-    <img key="image" src="welcome-en.webp" alt="Welcome illustration">
-  </template>
-  <template data-i18n-for="intro" data-i18n-locale="de">
-    <h2 key="heading">Willkommen</h2>
-    <img key="image" src="welcome-de.webp" alt="Willkommensillustration">
-  </template>
-</section>
-```
-
-Active HTML supplies the no-JS default. Targets own their complete descendant markup. Keep templates outside their target; they are cloned/captured at bind time, never consumed or mutated during switching. `binding.rescan()` explicitly adopts changed sources/targets. Preserve keys/IDs and tag names for identity-sensitive nodes.
-
-Keep imperative shells/state outside regions. Targets cannot overlap, contain nested `[data-i18n-component]` boundaries or introduce nested targets/templates. A parent ignores nested components; bind each child independently. `mountI18n(scope, locale)` binds all declared roots, including a component scope itself, and returns `{ bindings, dispose() }`. Do not mount the same roots twice. Bind/dispose dynamic components explicitly; no global MutationObserver exists.
-
-Querying never pierces shadow roots. Bind an explicit root inside a shadow tree or a custom-element host's light DOM. Regular elements with their own open shadow root inherit the morph peer's shadow targeting rule. SVG/MathML, event delegation and other morph/query limitations remain inherited.
-
-## Attributes
+### Translate attributes outside a region
 
 ```html
 <button data-i18n-component aria-label="Close"
-        data-i18n-aria-label-en="Close" data-i18n-aria-label-de="Schließen"
-        title="Close" data-i18n-title-en="Close"
-        data-i18n-remove-de="title">×</button>
+        data-i18n-aria-label-en="Close" data-i18n-aria-label-de="Schließen">×</button>
 ```
 
-Use `data-i18n-{attribute}-{locale}`. Empty strings are real values. Explicit absence uses `data-i18n-remove-{locale}="title aria-label"`; declaring removal and a value for the same attribute/locale conflicts. HTML lowercases attribute names; locale suffixes are canonicalized, including `zh-hant-tw`.
+After `setLocale('de')` the button's `aria-label` is `Schließen`; its other attributes and state are untouched. `data-i18n-remove-{locale}="title"` removes an attribute in one locale.
 
-Supported: `alt`, `title`, `placeholder`, `aria-label`, `aria-description`, `aria-roledescription`, `aria-placeholder`, `aria-valuetext`, `src`, `srcset`, `sizes`, `href`, `poster`, `label`, `download`, `content`.
-
-ARIA state (`aria-expanded`/`aria-checked`), ID references (`aria-labelledby`/`aria-describedby`), input `value`/`checked`, runtime classes and initialization markers are not attribute-translation targets. A full region still owns every descendant attribute: imperative changes there may be overwritten. Keep stateful shells outside it or use a complete state renderer.
-
-## Values and plurals
+### Show values and plurals
 
 ```html
-<section id="cart" data-i18n-component>
+<article id="cart" data-i18n-component>
   <p data-i18n-target="quantity" data-i18n-count="count">1 item</p>
-  <template data-i18n-for="quantity" data-i18n-locale="en" data-i18n-plural="one">
-    <span data-i18n-value="count"></span> item
-  </template>
-  <template data-i18n-for="quantity" data-i18n-locale="en" data-i18n-plural="other">
-    <span data-i18n-value="count"></span> items
-  </template>
-</section>
+  <template data-i18n-for="quantity" data-i18n-locale="en" data-i18n-plural="one"><span data-i18n-value="label"></span> item</template>
+  <template data-i18n-for="quantity" data-i18n-locale="en" data-i18n-plural="other"><span data-i18n-value="label"></span> items</template>
+  <template data-i18n-for="quantity" data-i18n-locale="de" data-i18n-plural="one"><span data-i18n-value="label"></span> Artikel</template>
+  <template data-i18n-for="quantity" data-i18n-locale="de" data-i18n-plural="other"><span data-i18n-value="label"></span> Artikel</template>
+</article>
 ```
 
 ```js
-const cart = bindI18n(document.getElementById('cart'), locale, { values: { count: 1 } });
-cart.setValues({ count: 2 });
-```
-
-Each plural locale requires `other`; add optional native CLDR categories. Plural selection uses the resolved template locale. Counts must be finite numbers. Values must be strings/numbers/booleans; missing values throw. Slots may contain text only and cannot be raw-text elements (`script`, `style`, `iframe`, `noscript`, ...) because serialization would not escape them. Values are literal text, never HTML or evaluated code. `setValues` replaces its map and restores the prior map when preparation fails; once live writes happened (e.g. `afterRender` threw), the new map stays committed.
-
-For application state, pass `getState` and `values: state => ({ count: state.count })`; call `binding.refresh()` after an atomic state update. Format with `locale.formatNumber(value, options)`, `.formatDate(date, options)` and `.plural(count, options)`. Set an explicit time zone for deterministic dates.
-
-## State renderer
-
-```js
-let state = Object.freeze({ checked: true });
-const binding = bindI18n(document.getElementById('preferences'), locale, {
-  getState: () => state,
-  render: ({ locale }) => `<label key="label"><input key="check" type="checkbox"> ${locale === 'de' ? 'Aktiv' : 'Enabled'}</label>`,
-  afterRender: ({ root, query, state }) => query(root.querySelector('input')).prop('checked', state.checked),
+let cart = { count: 1200 };
+const binding = bindI18n(document.getElementById('cart'), locale, {
+  getState: () => cart,
+  values: state => ({ count: state.count, label: locale.formatNumber(state.count) }),
 });
-state = Object.freeze({ checked: false });
-binding.refresh();
+// "1,200 items" in en, "1.200 Artikel" in de; after cart = { count: 1 } and binding.refresh(): "1 item"
 ```
 
-Read `getState()` once immediately before projection, including after lazy loading. `render(context)` must return HTML synchronously. Context is `{ state, values, locale, snapshot, i18n, root, query }`. Renderers cannot own/introduce nested components/templates. afterRender must also be synchronous. `afterRender` performs explicit property control or native lifecycle operations after morphing.
+Values are always inserted as literal text. The [getting-started guide](documentation/getting-started.md) continues with locale negotiation, a language switcher and validation; the [documentation index](documentation/index.md) lists every guide and reference.
 
-Omitting HTML attributes does not explicitly uncheck a checkbox or clear every live form property: morph preserves unspecified uncontrolled state. Use `.prop(...)` for explicit control. Application state belongs to the caller; this package does not capture native modal/popover/focus state or create a reactive store. Template/renderer HTML and URL attributes are trusted authoring input. Escape dynamic renderer strings or use literal slots; this package is not a sanitizer.
+## Configuration
 
-## Locale API
+The library reads no environment or global configuration: each controller is configured by `createI18n({ locale, fallback, direction })` and each component by the options of `bind` (see the [API reference](documentation/api.md)).
 
-`createI18n({ locale: 'en', fallback: ['en'], direction })` returns an isolated controller.
+Development reads a gitignored `.env` (see `.env.example`), which `make` loads through `bun --env-file`:
 
-| Member | Behavior |
-| --- | --- |
-| `snapshot`, `locale`, `disposed` | Immutable current `{ locale, revision, fallback, direction }`, locale shortcut, lifecycle flag |
-| `setLocale(tag)` | Canonical synchronous update; canonical no-op does not notify |
-| `refresh()` | Increment revision and re-project the current locale |
-| `subscribe(fn, { immediate, phase })` | Return idempotent unsubscribe; default phase is `notify` |
-| `resolveLocale(tags, requested?)` | Deterministic fallback match or undefined |
-| `directionFor(tag?)` | Apply the configured direction policy |
-| `formatNumber`, `formatDate`, `plural` | Native Intl in the requested locale |
-| `loadLocale(tag, loader, commit?)` | Stage data, then install/publish only the latest request |
-| `dispose()` | Cancel loads and clear listeners; repeated disposal is harmless |
+| Key | Meaning | Default |
+| --- | --- | --- |
+| `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` | Chromium for the browser tests | Playwright's installed Chromium, else (Linux x64 only) the pinned Sparticuz package |
+| `I18N_REPORT_DIR` | directory for the browser report and screenshot | `test-results` (`make e2e` uses `output`) |
+| `PORT` | port of `bun run serve` | `8080` |
 
-Fallback walks the requested tag, extension-free base and shorter parents, then configured fallbacks/parents: `zh-Hant-TW → zh-Hant → zh → en`. No sibling-locale guessing. Missing matches throw before that binding's live translation writes. Direction uses native Intl locale text info, with a likely-subtag script fallback; override it with `direction: tag => 'ltr' | 'rtl'`. Roots reflect requested language/direction; regions reflect the selected fallback locale. Set `reflectLocale: false` to manage them yourself.
+## How it works
 
-An async loader receives `(canonicalTag, AbortSignal)` and returns staged data without side effects. Its optional synchronous commit receives that data and runs only for the still-current request; update trusted template sources then call `binding.rescan()`. Result is `{ status: 'applied' | 'superseded', snapshot }`. Successful loads force refresh even for the same locale. New loads, `setLocale` (including a no-op), `refresh` and disposal invalidate prior tickets. Current loader/commit failures propagate; stale loader failures are suppressed. Abort is advisory.
+A controller holds the current locale as an immutable snapshot. When it changes, every bound component selects one template per region through the fallback chain and plural rules, prepares attributes and values on detached copies, and then lets defuss-morph patch the live region through defuss-query, which keeps matched elements and their state. [ARCH.md](ARCH.md) describes the modules, write ordering, failure behavior and trust boundaries.
 
-## Notifications, lifecycle and errors
+## Development
 
-Bindings use the controller's `render` phase. Normal subscribers run afterwards, after all render callbacks. Each binding emits `defuss-i18n:change` after its own writes/`afterRender`, with `detail: { snapshot, root }`; it bubbles, does not cross shadow boundaries, and may use `eventTarget` override. Component events are not document-wide completion events; use a normal controller subscriber for that. State-only binding refreshes also emit the component event.
-
-Source/attribute/value preparation precedes live translation writes within one binding. The locale snapshot commits before subscribers run. Subscriber failures are collected, remaining subscribers run, then `AggregateError` is thrown. There is no cross-component rollback or DOM transaction; morph lifecycle callbacks/user code may observe intermediate mutations. Reentrant locale changes/refreshes are rejected; schedule a microtask for follow-up work.
-
-Binding methods: `refresh()`, `setValues(map)`, `rescan()`, `dispose()`; properties: `root`, `controller`, `disposed`, `context`. Dispose on unmount; controller disposal stops all subscriptions and permits rebinding a root to another live controller.
-
-## Browser / defuss-shadcn
-
-Load defuss-shadcn `core.js` first, then the supplied `dist/all.js`. It installs `df$.i18n` and reuses the same runtime; no additional query/morph bundle is needed. Without shadcn:
-
-```html
-<script type="module">
-  await import('https://cdn.jsdelivr.net/npm/defuss-morph@0.1.1/dist/all.min.js');
-  await import('https://cdn.jsdelivr.net/npm/defuss-query@0.1.0/dist/all.min.js');
-  await import('./defuss-i18n/dist/all.min.js');
-  const locale = df$.i18n.createI18n({ locale: 'en' });
-  const components = df$.i18n.mount(document, locale);
-</script>
+```bash
+make setup && make verify
 ```
 
-Browser ESM: `all.js`/`all.min.js`. Classic script: `global.min.js`. Peers remain external; missing runtime/version conflicts fail explicitly. Root/core imports have no import-time DOM reads/global writes; `defuss-i18n/core` also avoids peer imports and supports `createDomI18n(customDf$)` injection. Use `WithI18n<typeof df$>` from `defuss-i18n/global` for global-runtime typing without conflicting ambient declarations.
+`make verify` runs oxlint and strict TypeScript, the unit and docs tests with coverage, the browser suite against all four shipped builds in real Chromium, a packed-consumer check and release verification. The bundled Chromium fallback runs only on Linux x64; elsewhere install Playwright's Chromium (`bunx playwright install chromium`) or set `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` in `.env`. `bun publish` runs `prepublishOnly`, which is `bun run check`.
 
-## Validation and release
+Start with [ARCH.md](ARCH.md), then the [design rationale](documentation/design.md) and the [authoring contract](documentation/component-skill.md).
 
-`validateI18n(root, { locales: ['en', 'de'], values: ['count'] })` returns `{ code, message, element }[]`; `assertValidI18n` throws an actionable list. Check source/target pairing, duplicates, locale/attribute coverage, stable identity tags, locale syntax, attribute policy, plural sets, values, ownership and ARIA/label references. This validates markup contracts, not linguistic correctness.
+## License
 
-```sh
-bun install --frozen-lockfile
-bun run check
-make verify
-bun publish
-```
-
-`prepublishOnly` gates release: build → oxlint + strict types → unit tests/coverage → browser behavior → packed ESM/CJS/type consumers → source/version/maps/size/peer-exclusion verification. Browser tests use installed Playwright Chromium, an explicit `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH`, or, on Linux x64 only, the pinned Sparticuz Chromium package; no test-time browser download. Core coverage concerns locale/attribute modules, not the entire DOM adapter. Browser outcomes/screenshot go to `test-results/`; measured raw/gzip/Brotli sizes are in `dist/stats.json`.
-
-The npm package includes sources, distributions, docs and demos, excluding test fixtures/tools/reports. See the [documentation index](documentation/index.md), [architecture](ARCH.md), [MDX](documentation/i18n.mdx) and [agent authoring contract](documentation/component-skill.md). MIT.
+MIT, see [LICENSE](LICENSE).
