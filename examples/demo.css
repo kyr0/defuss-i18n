@@ -1,0 +1,21 @@
+:root { color-scheme: light dark; --background: #f7f8fa; --foreground: #17202e; --card: #fff; --border: #dfe4eb; --primary: #2563eb; --muted: #606d81; font-family: Inter, ui-sans-serif, system-ui, sans-serif; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--background); color: var(--foreground); }
+main { max-width: 1040px; margin: auto; padding: 28px; }
+header, nav, footer, .actions { display: flex; gap: 12px; align-items: center; }
+header, footer { justify-content: space-between; }
+.brand { font-size: 22px; font-weight: 760; text-decoration: none; color: var(--foreground); letter-spacing: -.8px; }
+.brand span { color: var(--primary); }
+button, input { font: inherit; border: 1px solid var(--border); border-radius: 9px; padding: 10px 15px; background: var(--card); color: var(--foreground); }
+button { cursor: pointer; } button:hover { border-color: var(--primary); } button:focus-visible, input:focus-visible { outline: 3px solid var(--primary); outline-offset: 3px; }
+.primary { background: var(--primary); color: #fff; border-color: var(--primary); }
+.hero { padding: 72px 0 44px; } .hero h1 { font-size: clamp(48px, 8vw, 84px); line-height: 1; margin: 12px 0 22px; letter-spacing: -3px; } .hero p:not(.eyebrow) { max-width: 590px; font-size: 19px; color: var(--muted); line-height: 1.7; } .hero img { margin-top: 8px; }
+.eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 1.7px; color: var(--primary); }
+.cards { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-bottom: 22px; }
+.card { padding: 25px; background: var(--card); border: 1px solid var(--border); border-radius: 16px; }
+h2 { font-size: 24px; letter-spacing: -.6px; margin: 12px 0 18px; } .card p { color: var(--muted); line-height: 1.6; } #cart-copy { font-size: 34px; font-weight: 700; color: var(--foreground); }
+#state-renderer { display: grid; gap: 12px; } #state-renderer > button { justify-self: start; } input[type=checkbox] { margin-inline-end: 7px; }
+dialog { width: min(440px, 92vw); color: var(--foreground); } dialog::backdrop { background: #17202e88; backdrop-filter: blur(4px); } dialog input:not([type=checkbox]) { width: 100%; margin: 12px 0 22px; } dialog .actions { margin-bottom: 20px; flex-wrap: wrap; }
+footer { margin-top: 35px; color: var(--muted); font-size: 12px; }
+@media (max-width: 650px) { main { padding: 20px; } header, footer { align-items: start; flex-direction: column; } .cards { grid-template-columns: 1fr; } nav { gap: 6px; } }
+@media (prefers-color-scheme: dark) { :root { --background: #11151d; --foreground: #edf1f7; --card: #1a202c; --border: #303a4b; --primary: #83aaff; --muted: #a4b0c1; } .primary { color: #11151d; } }

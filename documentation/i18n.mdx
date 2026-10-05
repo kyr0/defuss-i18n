@@ -1,0 +1,48 @@
+---
+title: Internationalization
+description: HTML locale variants, localized attributes and component-owned morphing.
+---
+
+# Internationalization
+
+`defuss-i18n` shares defuss-shadcn's query/morph runtime. Keep immutable locale sources in ordinary HTML templates, translate content attributes declaratively and preserve state by owning explicit regions.
+
+## Demo
+
+Run `npm ci && npm run serve`; open `/examples/`. The pure HTML/CSS/JS demo includes English/German/Arabic, localized images/attributes, cart plurals, a modal dialog with edited input and an explicit state renderer.
+
+## Markup
+
+```html
+<section id="greeting" data-i18n-component>
+  <h2 data-i18n-target="heading">Welcome</h2>
+  <template data-i18n-for="heading" data-i18n-locale="en">Welcome</template>
+  <template data-i18n-for="heading" data-i18n-locale="de">Willkommen</template>
+  <button aria-label="Close" data-i18n-aria-label-en="Close"
+          data-i18n-aria-label-de="Schließen">×</button>
+</section>
+```
+
+## Wiring
+
+Load shadcn core, then the self-hosted i18n module in order:
+
+```html
+<script type="module">
+  await import('./components/core.js');
+  await import('./defuss-i18n/dist/all.js');
+  const locale = df$.i18n.createI18n({ locale: 'en', fallback: ['en'] });
+  const component = df$.i18n.bind(document.getElementById('greeting'), locale);
+  locale.setLocale('de');
+</script>
+```
+
+With a bundler, import `createI18n`/`bindI18n` from `defuss-i18n`. Dispose bindings/controllers explicitly on unmount.
+
+## State and accessibility
+
+Targets own complete descendant markup. Keep modal/popover shells, initialization and nested component state outside targets. Preserve semantic IDs/stable keys. Translate accessible content labels; preserve ARIA state and ID references. Root lang/dir reflects requested locale; fallback regions reflect the actual language rendered.
+
+Use `[data-i18n-value]` for literal values and `[data-i18n-count]` with plural categories for quantities. Missing values, unsupported coverage and ownership violations produce actionable errors. Complete state renderers are optional; use afterRender for explicit checked/value property control.
+
+Read `README.md` and `documentation/component-skill.md` for the API/authoring contract. Run `npm run check` before release. Tests exercise actual distributions and real defuss peers, including modal/focus/input preservation.

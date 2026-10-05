@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>defuss-i18n · HTML-native localization</title><link rel="stylesheet" href="demo.css"></head>
+<body>
+  <main>
+    <header><a class="brand" href="./">defuss<span>-i18n</span></a><nav aria-label="Language"><button data-demo-locale="en" lang="en">English</button><button data-demo-locale="de" lang="de">Deutsch</button><button data-demo-locale="ar" lang="ar" dir="rtl">العربية</button></nav></header>
+    <section class="hero" data-i18n-component id="welcome">
+      <p class="eyebrow">HTML + DOM MORPHING + NATIVE INTL</p>
+      <div data-i18n-target="intro"><h1 id="welcome-heading" key="heading">Welcome</h1><p key="description">Your markup is the translation catalog. Your DOM keeps its identity.</p><img key="image" src="welcome-en.svg" alt="Hello in a speech bubble" width="240" height="120"></div>
+      <template data-i18n-for="intro" data-i18n-locale="en"><h1 id="welcome-heading" key="heading">Welcome</h1><p key="description">Your markup is the translation catalog. Your DOM keeps its identity.</p><img key="image" src="welcome-en.svg" alt="Hello in a speech bubble" width="240" height="120"></template>
+      <template data-i18n-for="intro" data-i18n-locale="de"><h1 id="welcome-heading" key="heading">Willkommen</h1><p key="description">Dein HTML ist der Übersetzungskatalog. Dein DOM behält seine Identität.</p><img key="image" src="welcome-de.svg" alt="Hallo in einer Sprechblase" width="240" height="120"></template>
+      <template data-i18n-for="intro" data-i18n-locale="ar"><h1 id="welcome-heading" key="heading">مرحبًا</h1><p key="description">قوالب HTML تحمل الترجمات مع الحفاظ على هوية عناصر الصفحة.</p><img key="image" src="welcome-ar.svg" alt="مرحبًا في فقاعة كلام" width="240" height="120"></template>
+    </section>
+    <section class="cards">
+      <article class="card" data-i18n-component id="cart">
+        <p class="eyebrow">PLURAL TEMPLATES</p><h2>Shopping cart</h2><p id="cart-copy" data-i18n-target="quantity" data-i18n-count="count">1 item</p>
+        <template data-i18n-for="quantity" data-i18n-locale="en" data-i18n-plural="one"><span data-i18n-value="count"></span> item</template>
+        <template data-i18n-for="quantity" data-i18n-locale="en" data-i18n-plural="other"><span data-i18n-value="count"></span> items</template>
+        <template data-i18n-for="quantity" data-i18n-locale="de" data-i18n-plural="one"><span data-i18n-value="count"></span> Artikel</template>
+        <template data-i18n-for="quantity" data-i18n-locale="de" data-i18n-plural="other"><span data-i18n-value="count"></span> Artikel</template>
+        <template data-i18n-for="quantity" data-i18n-locale="ar" data-i18n-plural="other"><span data-i18n-value="count"></span> عنصر</template>
+        <div class="actions"><button id="remove-item" aria-label="Remove item" data-i18n-aria-label-en="Remove item" data-i18n-aria-label-de="Artikel entfernen" data-i18n-aria-label-ar="إزالة عنصر">−</button><button id="add-item" aria-label="Add item" data-i18n-aria-label-en="Add item" data-i18n-aria-label-de="Artikel hinzufügen" data-i18n-aria-label-ar="إضافة عنصر">+</button></div>
+      </article>
+      <article class="card" data-i18n-component id="settings-card">
+        <p class="eyebrow">PRESERVED NATIVE STATE</p><h2 data-i18n-target="heading">Your settings</h2>
+        <template data-i18n-for="heading" data-i18n-locale="en">Your settings</template><template data-i18n-for="heading" data-i18n-locale="de">Deine Einstellungen</template><template data-i18n-for="heading" data-i18n-locale="ar">إعداداتك</template>
+        <p>Open the dialog, edit the name, then switch languages inside it.</p>
+        <button id="open-settings" class="primary" title="Open settings" data-i18n-title-en="Open settings" data-i18n-title-de="Einstellungen öffnen" data-i18n-title-ar="فتح الإعدادات">↗</button>
+      </article>
+    </section>
+    <section class="card" id="state-renderer"><p class="eyebrow">EXPLICIT STATE RENDERER</p><div id="rendered"></div><button id="toggle-checked">Toggle checked state</button></section>
+    <footer><span id="locale-status" aria-live="polite">Locale: en</span><span>Zero framework · Shared defuss runtime</span></footer>
+  </main>
+  <dialog id="settings" class="card" data-i18n-component>
+    <h2 data-i18n-target="heading">Your settings</h2><template data-i18n-for="heading" data-i18n-locale="en">Your settings</template><template data-i18n-for="heading" data-i18n-locale="de">Deine Einstellungen</template><template data-i18n-for="heading" data-i18n-locale="ar">إعداداتك</template>
+    <label for="nickname">Name</label><input id="nickname" placeholder="Your name" data-i18n-placeholder-en="Your name" data-i18n-placeholder-de="Dein Name" data-i18n-placeholder-ar="اسمك">
+    <div class="actions"><button data-demo-locale="en">English</button><button data-demo-locale="de">Deutsch</button><button data-demo-locale="ar">العربية</button></div>
+    <button id="settings-close" class="primary" aria-label="Close" data-i18n-aria-label-en="Close" data-i18n-aria-label-de="Schließen" data-i18n-aria-label-ar="إغلاق">✓</button>
+  </dialog>
+  <script type="module" src="demo.js"></script>
+</body></html>
