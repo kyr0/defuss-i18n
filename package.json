@@ -5,6 +5,14 @@
   "type": "module",
   "license": "MIT",
   "author": "Aron Homberg <info@aron-homberg.de>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kyr0/defuss-i18n.git"
+  },
+  "homepage": "https://github.com/kyr0/defuss-i18n#readme",
+  "bugs": {
+    "url": "https://github.com/kyr0/defuss-i18n/issues"
+  },
   "keywords": [
     "defuss",
     "i18n",
