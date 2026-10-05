@@ -154,6 +154,15 @@ export async function run(api, query) {
   await test('validation covers attributes and stable identity tags before binding', ({ root }) => {
     const el = root(`<section><button data-i18n-title-en="Close"></button><div data-i18n-target="x"></div><template data-i18n-for="x" data-i18n-locale="en"><h2 key="heading">A</h2></template><template data-i18n-for="x" data-i18n-locale="de"><h3 key="heading">B</h3></template></section>`); const codes = api.validateI18n(el, { locales: ['en', 'de'] }).map(issue => issue.code); ok(codes.includes('MISSING_ATTRIBUTE_LOCALE')); ok(codes.includes('IDENTITY_TAG_MISMATCH'));
   });
+  await test('raw-text interpolation slots are rejected before serialization can inject markup', ({ root, own }) => {
+    const payload = '</style></script><img src="x" onerror="window.__i18nInjected=true">';
+    for (const tag of ['style', 'script']) {
+      const el = root(`<section data-i18n-component><div data-i18n-target="t">safe</div><template data-i18n-for="t" data-i18n-locale="en"><${tag} data-i18n-value="v"></${tag}></template></section>`); const i = own(api.createI18n());
+      throws(() => api.bind(el, i, { values: { v: payload } }), /raw-text/); eq(el.querySelector('[data-i18n-target]').innerHTML, 'safe'); ok(!el.querySelector('img'));
+    }
+    const shell = root('<section data-i18n-component><style data-i18n-value="v"></style></section>'); throws(() => api.bind(shell, own(api.createI18n()), { values: { v: payload } }), /raw-text/);
+    throws(() => api.bind(root('<section></section>'), own(api.createI18n()), { values: { v: payload }, render: () => '<style data-i18n-value="v"></style>' }), /raw-text/); ok(!window.__i18nInjected);
+  });
   await test('async afterRender is rejected instead of emitting early completion', ({ root, own }) => {
     const el = root('<section></section>'); const i = own(api.createI18n()); throws(() => api.bind(el, i, { render: () => '<p>copy</p>', afterRender: async () => {} }), /afterRender must be synchronous/);
   });

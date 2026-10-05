@@ -7,6 +7,8 @@ import type { BindOptions, I18nBinding, QueryRuntime, RenderContext } from './ty
 
 export const I18N_CHANGE_EVENT = 'defuss-i18n:change';
 const bindings = new WeakMap<Element, I18nBinding<unknown>>();
+// VERIFIED: HTML serialization leaves raw-text contents unescaped, so a slot value could close its element (browser suite).
+const RAW_TEXT = new Set(['script', 'style', 'xmp', 'iframe', 'noembed', 'noframes', 'noscript', 'plaintext']);
 interface Source { readonly locale: string; readonly plural: string; readonly template: HTMLTemplateElement }
 interface Region { readonly name: string; readonly target: Element; readonly sources: readonly Source[] }
 interface AttributeWrite { readonly element: Element; readonly name: string; readonly value: string | null }
@@ -23,6 +25,7 @@ function interpolatePlan(elements: readonly Element[], values: Values): TextWrit
     if (key === null) return [];
     if (!Object.hasOwn(values, key)) throw new Error(`defuss-i18n: missing interpolation value ${key}`);
     if (element.children.length) throw new Error(`defuss-i18n: interpolation slot ${key} must contain text only`);
+    if (RAW_TEXT.has(element.localName)) throw new Error(`defuss-i18n: interpolation slot ${key} cannot be a raw-text <${element.localName}>`);
     return [{ element, value: String(values[key]) }];
   });
 }

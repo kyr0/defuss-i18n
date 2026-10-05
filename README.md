@@ -85,7 +85,7 @@ const cart = bindI18n(document.getElementById('cart'), locale, { values: { count
 cart.setValues({ count: 2 });
 ```
 
-Each plural locale requires `other`; add optional native CLDR categories. Plural selection uses the resolved template locale. Counts must be finite numbers. Values must be strings/numbers/booleans; missing values throw. Slots may contain text only. Values are literal text, never HTML or evaluated code. `setValues` replaces its map, and restores the prior map on a failed refresh.
+Each plural locale requires `other`; add optional native CLDR categories. Plural selection uses the resolved template locale. Counts must be finite numbers. Values must be strings/numbers/booleans; missing values throw. Slots may contain text only and cannot be raw-text elements (`script`, `style`, `iframe`, `noscript`, ...) because serialization would not escape them. Values are literal text, never HTML or evaluated code. `setValues` replaces its map, and restores the prior map on a failed refresh.
 
 For application state, pass `getState` and `values: state => ({ count: state.count })`; call `binding.refresh()` after an atomic state update. Format with `locale.formatNumber(value, options)`, `.formatDate(date, options)` and `.plural(count, options)`. Set an explicit time zone for deterministic dates.
 
