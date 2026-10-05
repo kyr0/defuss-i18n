@@ -4,6 +4,7 @@
 
 - Reject interpolation slots on raw-text elements; serialized region/renderer values could otherwise inject markup.
 - Resolve validator ID references within the root's shadow/detached tree, so valid shadow-root components bind.
+- Detect overlapping targets for roots bound without `data-i18n-component`.
 
 ## 0.1.0 — 2026-10-01
 

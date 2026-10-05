@@ -70,7 +70,7 @@ export function validateI18n(root: Element, options: ValidationOptions = {}): Di
       if (element.localName === 'template') report('INVALID_TARGET', 'A template cannot be a live translation target', element);
       if (element.querySelector('[data-i18n-component]')) report('NESTED_OWNERSHIP', `Target ${target} contains another component`, element);
       const ancestor = element.parentElement?.closest('[data-i18n-target]');
-      if (ancestor && (ancestor === root || ancestor.closest('[data-i18n-component]') === root)) {
+      if (ancestor && root.contains(ancestor)) {
         report('OVERLAPPING_TARGET', 'Translation targets must not overlap', element);
       }
     }

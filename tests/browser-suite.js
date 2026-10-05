@@ -170,6 +170,10 @@ export async function run(api, query) {
     shadow.querySelector('[data-i18n-locale="de"]').content.lastElementChild.remove(); eq(api.validateI18n(el).length, 0);
     const i = own(api.createI18n()); own(api.bind(el, i)); i.setLocale('de'); eq(el.querySelector('label').textContent, 'Name DE');
   });
+  await test('overlapping targets are rejected for an unmarked root', ({ root, own }) => {
+    const el = root(`<section><div data-i18n-target="a"><span data-i18n-target="b"></span></div><template data-i18n-for="a" data-i18n-locale="en">A</template><template data-i18n-for="b" data-i18n-locale="en">B</template></section>`);
+    ok(api.validateI18n(el).some(issue => issue.code === 'OVERLAPPING_TARGET')); throws(() => api.bind(el, own(api.createI18n())), /OVERLAPPING_TARGET/); ok(el.querySelector('span'));
+  });
   await test('async afterRender is rejected instead of emitting early completion', ({ root, own }) => {
     const el = root('<section></section>'); const i = own(api.createI18n()); throws(() => api.bind(el, i, { render: () => '<p>copy</p>', afterRender: async () => {} }), /afterRender must be synchronous/);
   });
