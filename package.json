@@ -1,6 +1,6 @@
 {
   "name": "defuss-i18n",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "HTML-authored localization with component-owned DOM morphing, attribute translations and native Intl formatting.",
   "type": "module",
   "license": "MIT",

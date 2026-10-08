@@ -1,5 +1,5 @@
 /** The DOM-free locale controller. No document reads, globals or peer imports. */
-export const I18N_VERSION = '0.1.0';
+export const I18N_VERSION = '0.2.0';
 export type Direction = 'ltr' | 'rtl';
 export type Primitive = string | number | boolean;
 export type Values = Readonly<Record<string, Primitive>>;

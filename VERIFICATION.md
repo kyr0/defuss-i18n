@@ -1,19 +1,17 @@
-# Release verification: defuss-i18n 0.1.0
+# Release verification: defuss-i18n 0.2.0
 
-Verified 2026-10-01 with `npm run check` (exit 0).
+Verified 2026-10-08 with `bun run check` (exit 0), the command `prepublishOnly` runs before `bun publish`.
 
-- Node: v24.19.0; TypeScript: 5.8.3.
-- Peers: defuss-query 0.1.0, defuss-morph 0.1.1. Real engine; no mocks or vendored snapshot.
-- Unit tests: 27 passed; zero failures/skips.
-- Chromium: 153.0.8010.0.
-- Browser behavior: 168 scenario executions (all.js: 42, all.min.js: 42, global.min.js: 42, core: 42), plus missing-runtime and interactive-demo checks; all passed.
-- Strict source/API type checks: passed, including positive/negative state/interpolation/renderer cases.
-- npm pack: 100 shipped files; peer-free core imports, ESM/CJS root imports with DOM/global access guards, strict NodeNext .mts/.cts consumers passed.
-- Release verification: source freshness, version agreement, byte budgets, source maps, peer exclusion and required artifacts passed.
-- Locale/attribute core coverage: 100% lines/statements, 100% functions, 96.8% branches. This is core-only coverage, not whole-package DOM coverage.
-- Minified browser ESM: 16088 bytes, 6153 gzip bytes, 5439 Brotli bytes. External query/morph peers excluded.
-- Demo screenshot inspected for layout; included under test-results/demo.png.
+- Toolchain: bun 1.4.2, Node v24.14.0, TypeScript 5.8.3, oxlint with `--deny-warnings`, Playwright 1.58.2.
+- Peers: defuss-query 0.1.0 and defuss-morph 0.1.1, the real engines; no mocks and no vendored snapshot.
+- Unit and docs tests: 31 passed, 0 failed, 0 skipped.
+- Chromium: 153.0.8010.12.
+- Browser behavior: 192 scenario executions (48 each in all.js, all.min.js, global.min.js and core), the missing-runtime check and the interactive demo in two passes, all passed. The "published" pass loaded defuss-i18n 0.1.0 from jsDelivr; the "checkout" pass loaded this build's `dist/all.min.js` (version 0.2.0).
+- Strict source and consumer types: passed, including the positive and negative state, interpolation and renderer cases.
+- Packed consumer: 55 files; peer-free core imports, ESM and CommonJS root imports under DOM and global access guards, strict NodeNext `.mts`/`.cts` consumers passed.
+- Release verification: source freshness, version agreement, byte budgets, source maps, peer exclusion, the pinned demo runtime and the required artifacts passed.
+- Coverage of `src/locale.ts` and `src/attributes.ts`, remapped from `dist/core.js`: 100% lines, statements, functions and branches. This is core-only coverage, not whole-package DOM coverage.
+- Minified browser ESM: 16242 bytes, 6202 gzip bytes, 5499 Brotli bytes, with the query and morph peers excluded.
+- Demo screenshots (`test-results/demo-*.png`) inspected for layout in English and Arabic.
 
-Behavior verified includes open modal/focus/selection preservation, edited forms, keyed identity/listeners, nested ownership, canonical/fallback locales, content attributes/removal, literal interpolation, native plural categories, latest state after lazy loading, explicit form properties, cross-document/shadow roots, cleanup/rebinding, source validation, version reuse and all shipping formats.
-
-Browser execution covered Chromium. Firefox/Safari and a live defuss-shadcn docs-site integration were not executed. The shadcn integration uses the same injected callable query/morph runtime contract. Templates/renderer HTML remain trusted authoring input; no DOM transaction or sanitizer is claimed.
+Browser execution covered Chromium only; Firefox and Safari were not run. The demo runs on defuss-shadcn 0.9.7's `df$` runtime, while the browser suite injects the peers above. Template and renderer HTML remain trusted authoring input; no DOM transaction or sanitizer is claimed.

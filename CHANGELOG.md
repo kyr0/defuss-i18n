@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.2.0 (2026-10-08)
 
 - Reject interpolation slots on raw-text elements; serialized region/renderer values could otherwise inject markup.
 - Resolve validator ID references within the root's shadow/detached tree, so valid shadow-root components bind.
