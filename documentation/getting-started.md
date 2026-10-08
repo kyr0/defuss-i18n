@@ -2,13 +2,13 @@
 
 ## 1. Install
 
-With a bundler, install the package next to its peers. defuss-i18n is not on npm yet, so pack a checkout (`bun run build && bun pm pack`) and install the tarball:
+With a bundler, install the package next to its peers, keeping the peers inside their supported ranges:
 
 ```sh
-bun add ../defuss-i18n/defuss-i18n-0.1.0.tgz defuss-query@0.1.0 defuss-morph@0.1.1
+bun add defuss-i18n defuss-query@^0.1.0 defuss-morph@^0.1.1
 ```
 
-Once it is published, `bun add defuss-i18n defuss-query defuss-morph` (or the npm equivalent) replaces the tarball.
+A bare `bun add defuss-query defuss-morph` installs their latest releases, which can fall outside the peer ranges (0.2.0 does).
 
 `defuss-query` and `defuss-morph` are peer dependencies: your app and defuss-i18n share a single copy of each.
 
@@ -18,7 +18,7 @@ Without a bundler, load the peers first and then a browser build. If the page al
 <script type="module">
   await import('https://cdn.jsdelivr.net/npm/defuss-morph@0.1.1/dist/all.min.js');
   await import('https://cdn.jsdelivr.net/npm/defuss-query@0.1.0/dist/all.min.js');
-  await import('./vendor/defuss-i18n/dist/all.min.js'); // installs df$.i18n
+  await import('https://cdn.jsdelivr.net/npm/defuss-i18n@0.1.0/dist/all.min.js'); // installs df$.i18n
 </script>
 ```
 

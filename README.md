@@ -21,18 +21,15 @@ Requirements: Node.js >= 22 and, for development, bun 1.4.2. The peers are defus
 Run the demo from a checkout of this repository:
 
 ```bash
-bun install --frozen-lockfile
-bun run build
 bun run serve
 ```
 
-Open <http://127.0.0.1:8080/examples/> and switch languages: the heading, image and cart text change, while the open settings dialog keeps its edited name field. `bun run build` is required because `dist/` is not checked in.
+Open <http://127.0.0.1:8080/examples/> and switch languages: the heading, image and cart text change, while the open settings dialog keeps its edited name field. The demo is built from defuss-shadcn 0.9.7 components and loads defuss-shadcn and the released defuss-i18n 0.1.0 from jsDelivr, so it needs network access but no install or build; any static file server can serve `examples/`.
 
-To use it in an app before it is published to npm, pack the checkout and install the tarball next to the peers:
+Install the package next to its peers, with the peers inside their supported ranges:
 
 ```bash
-bun pm pack                                             # in this checkout, after bun run build
-bun add ../defuss-i18n/defuss-i18n-0.1.0.tgz defuss-query@0.1.0 defuss-morph@0.1.1   # in your app
+bun add defuss-i18n defuss-query@^0.1.0 defuss-morph@^0.1.1
 ```
 
 ```js
@@ -42,7 +39,7 @@ const locale = createI18n({ locale: 'de-DE' });
 console.log(locale.locale, locale.formatNumber(1234.5)); // de-DE 1.234,5
 ```
 
-Once the package is on npm, `bun add defuss-i18n defuss-query defuss-morph` replaces the tarball step.
+A bare `bun add defuss-query defuss-morph` installs their latest releases, which can fall outside the peer ranges (0.2.0 does). To try unreleased changes, run `bun run build && bun pm pack` in this checkout and add the tarball instead of `defuss-i18n`.
 
 ## Usage
 

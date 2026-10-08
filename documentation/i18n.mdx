@@ -9,7 +9,7 @@ description: HTML locale variants, localized attributes and component-owned morp
 
 ## Demo
 
-Run `bun install --frozen-lockfile && bun run build && bun run serve`; open `/examples/`. The pure HTML/CSS/JS demo includes English/German/Arabic, localized images/attributes, cart plurals, a modal dialog with edited input and an explicit state renderer.
+Run `bun run serve` and open `/examples/`. The demo is built from defuss-shadcn components (site header, hero, cards, toggle groups, dialog, footer) and loads defuss-shadcn 0.9.7 and defuss-i18n 0.1.0 from jsDelivr. It shows English, German and Arabic, localized images and attributes, cart plurals, a modal dialog with an edited input and an explicit state renderer.
 
 ## Markup
 
@@ -25,12 +25,12 @@ Run `bun install --frozen-lockfile && bun run build && bun run serve`; open `/ex
 
 ## Wiring
 
-Load shadcn core, then the self-hosted i18n module in order:
+Load shadcn core, then the i18n module, in this order:
 
 ```html
 <script type="module">
-  await import('./components/core.js');
-  await import('./defuss-i18n/dist/all.js');
+  await import('https://cdn.jsdelivr.net/gh/kyr0/defuss-shadcn@0.9.7/dist/components/core.min.js');
+  await import('https://cdn.jsdelivr.net/npm/defuss-i18n@0.1.0/dist/all.min.js');
   const locale = df$.i18n.createI18n({ locale: 'en', fallback: ['en'] });
   const component = df$.i18n.bind(document.getElementById('greeting'), locale);
   locale.setLocale('de');

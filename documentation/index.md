@@ -14,4 +14,4 @@ defuss-i18n localizes plain HTML. Each locale's markup lives next to the default
 | [Authoring contract](component-skill.md) | give an agent or reviewer the condensed rules for writing components |
 | [Docs-site page (MDX)](i18n.mdx) | embed the overview in the defuss-shadcn docs |
 
-The [README](../README.md) is the compact overview, and [ARCH.md](../ARCH.md) is the module map for contributors. To see the library running, run `bun install --frozen-lockfile && bun run build && bun run serve` and open <http://127.0.0.1:8080/examples/>.
+The [README](../README.md) is the compact overview, and [ARCH.md](../ARCH.md) is the module map for contributors. To see the library running, run `bun run serve` and open <http://127.0.0.1:8080/examples/>; the demo loads its runtime from jsDelivr.
