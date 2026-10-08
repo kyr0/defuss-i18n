@@ -16,3 +16,4 @@ input/*
 .DS_Store
 dist/
 .cache/
+.agents/SWARM_STATUS.yaml
