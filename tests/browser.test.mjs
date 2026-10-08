@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { access, readFile, writeFile, mkdir, stat, rm } from 'node:fs/promises';
 import { chromium } from 'playwright';
+import { fileURLToPath } from 'node:url';
 import { serve } from '../scripts/serve.mjs';
 const reportDir = process.env.I18N_REPORT_DIR ?? 'test-results';
 
@@ -28,6 +29,7 @@ test('shipped browser artifacts and side-effect-free DOM adapter', async t => {
   catch (error) { await new Promise(resolve => server.close(resolve)); throw error; }
   const report = { browser: browser.version(), modes: {} };
   try {
+    await mkdir(reportDir, { recursive: true });
     for (const mode of ['all.js', 'all.min.js', 'global.min.js', 'core']) {
       await t.test(mode, async () => {
         const page = await browser.newPage();
@@ -56,23 +58,72 @@ test('shipped browser artifacts and side-effect-free DOM adapter', async t => {
       const error = await page.evaluate(async () => { try { await import('/dist/all.js'); } catch (error) { return error.message; } });
       assert.match(error, /load defuss-shadcn core.js/); await page.close();
     });
-    await t.test('interactive shipped demo', async () => {
-      const page = await browser.newPage(); const errors = []; page.on('pageerror', error => errors.push(error.message));
+    // The demo loads defuss-shadcn and the released defuss-i18n from jsDelivr. "published" runs it as visitors get it;
+    // "checkout" serves this build's dist/all.min.js for the defuss-i18n URL, so the demo also checks unreleased code.
+    const demoSource = await readFile('examples/demo.js', 'utf8');
+    const i18nUrl = demoSource.match(/https:\/\/cdn\.jsdelivr\.net\/npm\/defuss-i18n@([^/]+)\/dist\/all\.min\.js/);
+    assert(i18nUrl, 'examples/demo.js no longer loads defuss-i18n from jsDelivr');
+    const { version } = JSON.parse(await readFile('package.json', 'utf8'));
+    report.demo = {};
+    for (const pass of ['published', 'checkout']) await t.test(`interactive shipped demo (${pass})`, async () => {
+      const page = await browser.newPage(); const problems = [];
+      page.on('pageerror', error => problems.push(`page error: ${error.message}`));
+      page.on('console', message => { if (message.type() === 'error') problems.push(`console error: ${message.text()}`); });
+      page.on('requestfailed', request => problems.push(`request failed: ${request.url()} (${request.failure()?.errorText})`));
+      page.on('response', response => { if (response.status() >= 400) problems.push(`HTTP ${response.status()}: ${response.url()}`); });
+      let routed = 0;
+      if (pass === 'checkout') await page.route(i18nUrl[0], route => { routed++; return route.fulfill({ path: fileURLToPath(new URL('../dist/all.min.js', import.meta.url)), contentType: 'text/javascript', headers: { 'access-control-allow-origin': '*' } }); });
       await page.goto(`${base}/examples/`);
-      await page.waitForFunction(() => window.demoReady === true);
-      await page.locator('header [data-demo-locale="de"]').click();
+      await page.waitForFunction(() => document.getElementById('locale-status')?.textContent.includes('revision'), null, { timeout: 30000 })
+        .catch(error => { throw Error(`demo did not start (it needs cdn.jsdelivr.net): ${problems.join('; ') || error.message}`); });
+      const loaded = await page.evaluate(() => window.df$.i18n.version);
+      assert.equal(loaded, pass === 'published' ? i18nUrl[1] : version);
+      assert.equal(routed, pass === 'checkout' ? 1 : 0, 'the checkout pass must load dist/all.min.js');
+      report.demo[pass] = { i18n: loaded };
+      const pressed = selector => page.locator(`${selector} .toggle[aria-pressed="true"]`).evaluateAll(toggles => toggles.map(toggle => toggle.value));
+      const heading = await page.$('#welcome-heading'); const nickname = await page.$('#nickname');
+
+      await page.locator('#locale-switcher .toggle[value="de"]').click();
       assert.equal(await page.locator('#welcome-heading').textContent(), 'Willkommen');
+      assert(await heading.evaluate(element => element === document.getElementById('welcome-heading')), 'the heading keeps its identity');
+      assert.match(await page.locator('.mk-hero-media img').getAttribute('src'), /welcome-de\.svg$/);
+      assert.equal(await page.locator('.mk-hero-media img').getAttribute('alt'), 'Hallo in einer Sprechblase');
+      assert.equal(await page.locator('#add-item').getAttribute('aria-label'), 'Artikel hinzufügen');
+      assert.equal(await page.locator('#cart-copy').textContent(), '1 Artikel');
+      assert.deepEqual([await pressed('#locale-switcher'), await pressed('#settings-locale')], [['de'], ['de']]);
+      assert.equal(await page.locator('html').getAttribute('lang'), 'de');
+      // A single-select toggle group clears the pressed item on a second click; the demo keeps the current locale pressed.
+      await page.locator('#locale-switcher .toggle[value="de"]').click();
+      assert.deepEqual(await pressed('#locale-switcher'), ['de']);
+
       await page.locator('#open-settings').click();
-      await page.locator('#nickname').fill('preserved state');
-      await page.locator('#settings [data-demo-locale="en"]').click();
-      assert.equal(await page.locator('#nickname').inputValue(), 'preserved state');
       assert(await page.locator('#settings').evaluate(element => element.open));
+      await page.locator('#nickname').fill('preserved state');
+      await page.locator('#settings-locale .toggle[value="en"]').click();
+      assert.equal(await page.locator('#settings-title').textContent(), 'Your settings');
+      assert.equal(await page.locator('#nickname').inputValue(), 'preserved state');
+      assert(await nickname.evaluate(element => element === document.getElementById('nickname')), 'the input keeps its identity');
+      assert(await page.locator('#settings').evaluate(element => element.open), 'the modal stays open across a switch');
+      assert.deepEqual(await pressed('#locale-switcher'), ['en']);
       await page.locator('#settings-close').click();
+      assert(!(await page.locator('#settings').evaluate(element => element.open)));
+
       await page.locator('#add-item').click();
-      assert.match(await page.locator('#cart-copy').textContent(), /2 items/);
-      await mkdir(reportDir, { recursive: true });
-      await page.screenshot({ path: `${reportDir}/demo.png`, fullPage: true });
-      assert.deepEqual(errors, []); await page.close();
+      await page.locator('#add-item').click();
+      assert.equal(await page.locator('#cart-copy').textContent(), '3 items');
+      await page.locator('#remove-item').click();
+      assert.equal(await page.locator('#cart-copy').textContent(), '2 items');
+      await page.locator('#controlled').uncheck();
+      await page.screenshot({ path: `${reportDir}/demo-${pass}-en.png`, fullPage: true });
+      await page.locator('#locale-switcher .toggle[value="ar"]').click();
+      assert.deepEqual([await page.locator('html').getAttribute('lang'), await page.locator('html').getAttribute('dir')], ['ar', 'rtl']);
+      assert.match(await page.locator('#cart-copy').textContent(), /عنصر$/);
+      assert.equal(await page.locator('label[for="controlled"]').textContent(), 'مربع اختيار تتحكم فيه الحالة');
+      assert.equal(await page.locator('#controlled').isChecked(), false, 'the renderer keeps application state across a switch');
+      await page.locator('#toggle-checked').click();
+      assert.equal(await page.locator('#controlled').isChecked(), true);
+      await page.screenshot({ path: `${reportDir}/demo-${pass}-ar.png`, fullPage: true });
+      assert.deepEqual(problems, []); await page.close();
     });
   } finally {
     await mkdir(reportDir, { recursive: true }); await writeFile(`${reportDir}/browser-report.json`, JSON.stringify(report, null, 2) + '\n');

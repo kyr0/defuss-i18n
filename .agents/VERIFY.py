@@ -48,10 +48,9 @@ RULES = [{
     "text": "command -v bun >/dev/null 2>&1 || curl -fsSL https://bun.sh/install | bash",
     "claim": "make setup installs a missing bun with the official installer (AGENTS.md toolchain contract)",
 }, {
-    "id": "docs.demo-builds-first",
-    "kind": "not_regex",
-    "glob": "*",
-    "docs": True,
-    "pattern": r"bun install(?: --frozen-lockfile)? && bun run serve",
-    "claim": "demo instructions build dist/ before serving it (dist/ is gitignored, a fresh clone has none)",
+    "id": "examples.released-runtime",
+    "kind": "contains",
+    "path": "examples/demo.js",
+    "text": "https://cdn.jsdelivr.net/npm/defuss-i18n@",
+    "claim": "the demo runs on the released defuss-i18n from jsDelivr, never on dist/ or node_modules/ (human decision 2026-10-08)",
 }]

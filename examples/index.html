@@ -1,41 +1,207 @@
 <!doctype html>
-<html lang="en">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>defuss-i18n · HTML-native localization</title><link rel="stylesheet" href="demo.css"></head>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>defuss-i18n · HTML-native localization</title>
+  <meta name="description" content="defuss-i18n on defuss-shadcn: locale variants in HTML templates, morphed in place.">
+  <link rel="icon" href="data:,">
+  <!-- defuss-shadcn from jsDelivr at an exact release: tokens + layout utilities, then every component's CSS. -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kyr0/defuss-shadcn@0.9.7/dist/components/core.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kyr0/defuss-shadcn@0.9.7/dist/components/all.min.css">
+  <!-- The components carry no page base: border-box sizing (blocks such as .mk-hero pair width:100% with padding)
+       and a body that reads only theme tokens, as the defuss-shadcn scaffolds do. -->
+  <style>*,::before,::after{box-sizing:border-box}body{margin:0;background:var(--background);color:var(--foreground);font-family:var(--font-sans)}</style>
+  <script>
+    // Before first paint: follow the OS colour scheme (defuss-shadcn dark mode is class="dark" on <html>).
+    if (matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.documentElement.classList.add('dark');
+      document.documentElement.style.colorScheme = 'dark';
+    }
+  </script>
+</head>
 <body>
-  <main>
-    <header><a class="brand" href="./">defuss<span>-i18n</span></a><nav aria-label="Language"><button data-demo-locale="en" lang="en">English</button><button data-demo-locale="de" lang="de">Deutsch</button><button data-demo-locale="ar" lang="ar" dir="rtl">العربية</button></nav></header>
-    <section class="hero" data-i18n-component id="welcome">
-      <p class="eyebrow">HTML + DOM MORPHING + NATIVE INTL</p>
-      <div data-i18n-target="intro"><h1 id="welcome-heading" key="heading">Welcome</h1><p key="description">Your markup is the translation catalog. Your DOM keeps its identity.</p><img key="image" src="welcome-en.svg" alt="Hello in a speech bubble" width="240" height="120"></div>
-      <template data-i18n-for="intro" data-i18n-locale="en"><h1 id="welcome-heading" key="heading">Welcome</h1><p key="description">Your markup is the translation catalog. Your DOM keeps its identity.</p><img key="image" src="welcome-en.svg" alt="Hello in a speech bubble" width="240" height="120"></template>
-      <template data-i18n-for="intro" data-i18n-locale="de"><h1 id="welcome-heading" key="heading">Willkommen</h1><p key="description">Dein HTML ist der Übersetzungskatalog. Dein DOM behält seine Identität.</p><img key="image" src="welcome-de.svg" alt="Hallo in einer Sprechblase" width="240" height="120"></template>
-      <template data-i18n-for="intro" data-i18n-locale="ar"><h1 id="welcome-heading" key="heading">مرحبًا</h1><p key="description">قوالب HTML تحمل الترجمات مع الحفاظ على هوية عناصر الصفحة.</p><img key="image" src="welcome-ar.svg" alt="مرحبًا في فقاعة كلام" width="240" height="120"></template>
+  <header class="mk-header" data-i18n-component id="site-header">
+    <div class="mk-header-inner">
+      <a href="./" class="mk-header-brand">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/></svg>
+        <span class="mk-header-name">defuss-i18n</span>
+      </a>
+      <nav class="mk-header-nav" aria-label="Project" data-i18n-aria-label-en="Project" data-i18n-aria-label-de="Projekt" data-i18n-aria-label-ar="المشروع">
+        <ul class="nav-menu-list">
+          <li class="nav-menu-item"><a class="nav-menu-link" href="https://github.com/kyr0/defuss-i18n#readme">GitHub</a></li>
+          <li class="nav-menu-item"><a class="nav-menu-link" href="https://www.npmjs.com/package/defuss-i18n">npm</a></li>
+        </ul>
+      </nav>
+      <div class="mk-header-actions">
+        <div class="toggle-group" role="group" id="locale-switcher" data-type="single" data-variant="outline" data-size="sm"
+             aria-label="Language" data-i18n-aria-label-en="Language" data-i18n-aria-label-de="Sprache" data-i18n-aria-label-ar="اللغة">
+          <button class="toggle" aria-pressed="true" value="en" lang="en">English</button>
+          <button class="toggle" aria-pressed="false" value="de" lang="de">Deutsch</button>
+          <button class="toggle" aria-pressed="false" value="ar" lang="ar" dir="rtl">العربية</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="stack gap-6 py-8">
+    <section class="mk-hero" data-variant="split" data-i18n-component id="welcome">
+      <div class="mk-hero-copy">
+        <span class="mk-hero-badge">HTML templates · DOM morphing · native Intl</span>
+        <h1 class="mk-hero-title" id="welcome-heading" data-i18n-target="heading">Welcome</h1>
+        <p class="mk-hero-desc" data-i18n-target="description">Your markup is the translation catalog. Your DOM <strong>keeps its identity</strong>.</p>
+      </div>
+      <figure class="mk-hero-media">
+        <img src="welcome-en.svg" alt="Hello in a speech bubble" width="240" height="180"
+             data-i18n-src-en="welcome-en.svg" data-i18n-src-de="welcome-de.svg" data-i18n-src-ar="welcome-ar.svg"
+             data-i18n-alt-en="Hello in a speech bubble" data-i18n-alt-de="Hallo in einer Sprechblase" data-i18n-alt-ar="مرحبًا في فقاعة كلام">
+      </figure>
+      <template data-i18n-for="heading" data-i18n-locale="en">Welcome</template>
+      <template data-i18n-for="heading" data-i18n-locale="de">Willkommen</template>
+      <template data-i18n-for="heading" data-i18n-locale="ar">مرحبًا</template>
+      <template data-i18n-for="description" data-i18n-locale="en">Your markup is the translation catalog. Your DOM <strong>keeps its identity</strong>.</template>
+      <template data-i18n-for="description" data-i18n-locale="de">Dein HTML ist der Übersetzungskatalog. Dein DOM <strong>behält seine Identität</strong>.</template>
+      <template data-i18n-for="description" data-i18n-locale="ar">قوالب HTML تحمل الترجمات <strong>مع الحفاظ على هوية عناصر الصفحة</strong>.</template>
     </section>
-    <section class="cards">
+
+    <div class="container grid grid-cols-auto gap-4" style="--layout-gutter:1.25rem;--layout-min:18rem;">
       <article class="card" data-i18n-component id="cart">
-        <p class="eyebrow">PLURAL TEMPLATES</p><h2>Shopping cart</h2><p id="cart-copy" data-i18n-target="quantity" data-i18n-count="count">1 item</p>
-        <template data-i18n-for="quantity" data-i18n-locale="en" data-i18n-plural="one"><span data-i18n-value="count"></span> item</template>
-        <template data-i18n-for="quantity" data-i18n-locale="en" data-i18n-plural="other"><span data-i18n-value="count"></span> items</template>
-        <template data-i18n-for="quantity" data-i18n-locale="de" data-i18n-plural="one"><span data-i18n-value="count"></span> Artikel</template>
-        <template data-i18n-for="quantity" data-i18n-locale="de" data-i18n-plural="other"><span data-i18n-value="count"></span> Artikel</template>
-        <template data-i18n-for="quantity" data-i18n-locale="ar" data-i18n-plural="other"><span data-i18n-value="count"></span> عنصر</template>
-        <div class="actions"><button id="remove-item" aria-label="Remove item" data-i18n-aria-label-en="Remove item" data-i18n-aria-label-de="Artikel entfernen" data-i18n-aria-label-ar="إزالة عنصر">−</button><button id="add-item" aria-label="Add item" data-i18n-aria-label-en="Add item" data-i18n-aria-label-de="Artikel hinzufügen" data-i18n-aria-label-ar="إضافة عنصر">+</button></div>
+        <div class="card-header" style="flex-direction:row;align-items:center;justify-content:space-between;">
+          <h2 class="card-title" data-i18n-target="title">Shopping cart</h2>
+          <span class="badge" data-variant="secondary">Plural rules</span>
+          <template data-i18n-for="title" data-i18n-locale="en">Shopping cart</template>
+          <template data-i18n-for="title" data-i18n-locale="de">Warenkorb</template>
+          <template data-i18n-for="title" data-i18n-locale="ar">سلة التسوق</template>
+        </div>
+        <div class="card-content">
+          <div class="statistic">
+            <p class="statistic-title" data-i18n-target="caption">In your cart</p>
+            <p class="statistic-value" id="cart-copy" data-i18n-target="quantity" data-i18n-count="count">1 item</p>
+            <template data-i18n-for="caption" data-i18n-locale="en">In your cart</template>
+            <template data-i18n-for="caption" data-i18n-locale="de">Im Warenkorb</template>
+            <template data-i18n-for="caption" data-i18n-locale="ar">في سلتك</template>
+            <template data-i18n-for="quantity" data-i18n-locale="en" data-i18n-plural="one"><span data-i18n-value="label"></span> item</template>
+            <template data-i18n-for="quantity" data-i18n-locale="en" data-i18n-plural="other"><span data-i18n-value="label"></span> items</template>
+            <template data-i18n-for="quantity" data-i18n-locale="de" data-i18n-plural="one"><span data-i18n-value="label"></span> Artikel</template>
+            <template data-i18n-for="quantity" data-i18n-locale="de" data-i18n-plural="other"><span data-i18n-value="label"></span> Artikel</template>
+            <template data-i18n-for="quantity" data-i18n-locale="ar" data-i18n-plural="other"><span data-i18n-value="label"></span> عنصر</template>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="btn-group" role="group" aria-label="Quantity" data-i18n-aria-label-en="Quantity" data-i18n-aria-label-de="Menge" data-i18n-aria-label-ar="الكمية">
+            <button class="btn" data-variant="outline" data-size="icon" id="remove-item"
+                    aria-label="Remove item" data-i18n-aria-label-en="Remove item" data-i18n-aria-label-de="Artikel entfernen" data-i18n-aria-label-ar="إزالة عنصر">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/></svg>
+            </button>
+            <button class="btn" data-variant="outline" data-size="icon" id="add-item"
+                    aria-label="Add item" data-i18n-aria-label-en="Add item" data-i18n-aria-label-de="Artikel hinzufügen" data-i18n-aria-label-ar="إضافة عنصر">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+            </button>
+          </div>
+        </div>
       </article>
+
       <article class="card" data-i18n-component id="settings-card">
-        <p class="eyebrow">PRESERVED NATIVE STATE</p><h2 data-i18n-target="heading">Your settings</h2>
-        <template data-i18n-for="heading" data-i18n-locale="en">Your settings</template><template data-i18n-for="heading" data-i18n-locale="de">Deine Einstellungen</template><template data-i18n-for="heading" data-i18n-locale="ar">إعداداتك</template>
-        <p>Open the dialog, edit the name, then switch languages inside it.</p>
-        <button id="open-settings" class="primary" title="Open settings" data-i18n-title-en="Open settings" data-i18n-title-de="Einstellungen öffnen" data-i18n-title-ar="فتح الإعدادات">↗</button>
+        <div class="card-header" style="flex-direction:row;align-items:center;justify-content:space-between;">
+          <h2 class="card-title" data-i18n-target="title">Your settings</h2>
+          <span class="badge" data-variant="secondary">Native state</span>
+          <template data-i18n-for="title" data-i18n-locale="en">Your settings</template>
+          <template data-i18n-for="title" data-i18n-locale="de">Deine Einstellungen</template>
+          <template data-i18n-for="title" data-i18n-locale="ar">إعداداتك</template>
+        </div>
+        <div class="card-content">
+          <p data-i18n-target="description">Open the dialog, edit the name, then switch languages inside it.</p>
+          <template data-i18n-for="description" data-i18n-locale="en">Open the dialog, edit the name, then switch languages inside it.</template>
+          <template data-i18n-for="description" data-i18n-locale="de">Öffne den Dialog, ändere den Namen und wechsle darin die Sprache.</template>
+          <template data-i18n-for="description" data-i18n-locale="ar">افتح مربع الحوار، عدّل الاسم، ثم بدّل اللغة من داخله.</template>
+        </div>
+        <div class="card-footer">
+          <button class="btn" data-variant="default" id="open-settings" data-dialog-trigger="settings" aria-haspopup="dialog">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/><circle cx="12" cy="12" r="3"/></svg>
+            <span data-i18n-target="open">Open settings</span>
+          </button>
+          <template data-i18n-for="open" data-i18n-locale="en">Open settings</template>
+          <template data-i18n-for="open" data-i18n-locale="de">Einstellungen öffnen</template>
+          <template data-i18n-for="open" data-i18n-locale="ar">فتح الإعدادات</template>
+        </div>
       </article>
-    </section>
-    <section class="card" id="state-renderer"><p class="eyebrow">EXPLICIT STATE RENDERER</p><div id="rendered"></div><button id="toggle-checked">Toggle checked state</button></section>
-    <footer><span id="locale-status" aria-live="polite">Locale: en</span><span>Zero framework · Shared defuss runtime</span></footer>
+
+      <article class="card" data-i18n-component id="renderer-card">
+        <div class="card-header" style="flex-direction:row;align-items:center;justify-content:space-between;">
+          <h2 class="card-title" data-i18n-target="title">Application state</h2>
+          <span class="badge" data-variant="secondary">State renderer</span>
+          <template data-i18n-for="title" data-i18n-locale="en">Application state</template>
+          <template data-i18n-for="title" data-i18n-locale="de">Anwendungszustand</template>
+          <template data-i18n-for="title" data-i18n-locale="ar">حالة التطبيق</template>
+        </div>
+        <div class="card-content">
+          <!-- A nested component: its markup comes from render(), so the card's binding never owns it. -->
+          <div id="rendered" data-i18n-component>
+            <div class="flex items-center gap-2"><input class="checkbox" type="checkbox" id="controlled" checked><label class="label" for="controlled" style="margin:0;">A controlled checkbox</label></div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <button class="btn" data-variant="outline" id="toggle-checked" data-i18n-target="toggle">Toggle checked state</button>
+          <template data-i18n-for="toggle" data-i18n-locale="en">Toggle checked state</template>
+          <template data-i18n-for="toggle" data-i18n-locale="de">Häkchen umschalten</template>
+          <template data-i18n-for="toggle" data-i18n-locale="ar">تبديل حالة التحديد</template>
+        </div>
+      </article>
+    </div>
   </main>
-  <dialog id="settings" class="card" data-i18n-component>
-    <h2 data-i18n-target="heading">Your settings</h2><template data-i18n-for="heading" data-i18n-locale="en">Your settings</template><template data-i18n-for="heading" data-i18n-locale="de">Deine Einstellungen</template><template data-i18n-for="heading" data-i18n-locale="ar">إعداداتك</template>
-    <label for="nickname">Name</label><input id="nickname" placeholder="Your name" data-i18n-placeholder-en="Your name" data-i18n-placeholder-de="Dein Name" data-i18n-placeholder-ar="اسمك">
-    <div class="actions"><button data-demo-locale="en">English</button><button data-demo-locale="de">Deutsch</button><button data-demo-locale="ar">العربية</button></div>
-    <button id="settings-close" class="primary" aria-label="Close" data-i18n-aria-label-en="Close" data-i18n-aria-label-de="Schließen" data-i18n-aria-label-ar="إغلاق">✓</button>
+
+  <footer class="mk-footer" data-variant="simple" data-i18n-component id="site-footer">
+    <div class="mk-footer-inner">
+      <a href="./" class="mk-footer-brand" aria-label="Go to home page" data-i18n-aria-label-en="Go to home page" data-i18n-aria-label-de="Zur Startseite" data-i18n-aria-label-ar="الانتقال إلى الصفحة الرئيسية">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/></svg>
+        <span class="mk-footer-brand-name">defuss-i18n</span>
+      </a>
+      <ul class="mk-footer-links">
+        <li><a href="https://github.com/kyr0/defuss-i18n">GitHub</a></li>
+        <li><a href="https://www.npmjs.com/package/defuss-i18n">npm</a></li>
+        <li><a href="https://www.jsdelivr.com/package/npm/defuss-i18n">jsDelivr</a></li>
+      </ul>
+      <p class="mk-footer-copy">MIT · <span id="locale-status" dir="ltr" aria-live="polite">Locale: en</span></p>
+    </div>
+  </footer>
+
+  <dialog id="settings" class="dialog" role="dialog" aria-modal="true" aria-labelledby="settings-title" data-i18n-component>
+    <div class="dialog-content">
+      <div class="dialog-header">
+        <h2 class="dialog-title" id="settings-title" data-i18n-target="heading">Your settings</h2>
+        <p class="dialog-description" data-i18n-target="description">Type a name, then switch the language: the field keeps what you typed.</p>
+        <template data-i18n-for="heading" data-i18n-locale="en">Your settings</template>
+        <template data-i18n-for="heading" data-i18n-locale="de">Deine Einstellungen</template>
+        <template data-i18n-for="heading" data-i18n-locale="ar">إعداداتك</template>
+        <template data-i18n-for="description" data-i18n-locale="en">Type a name, then switch the language: the field keeps what you typed.</template>
+        <template data-i18n-for="description" data-i18n-locale="de">Gib einen Namen ein und wechsle dann die Sprache: Das Feld behält deine Eingabe.</template>
+        <template data-i18n-for="description" data-i18n-locale="ar">اكتب اسمًا ثم بدّل اللغة: يحتفظ الحقل بما كتبته.</template>
+      </div>
+      <div class="dialog-body stack gap-4">
+        <div>
+          <label class="label" for="nickname" data-i18n-target="name">Name</label>
+          <input class="input" type="text" id="nickname" placeholder="Your name"
+                 data-i18n-placeholder-en="Your name" data-i18n-placeholder-de="Dein Name" data-i18n-placeholder-ar="اسمك">
+          <template data-i18n-for="name" data-i18n-locale="en">Name</template>
+          <template data-i18n-for="name" data-i18n-locale="de">Name</template>
+          <template data-i18n-for="name" data-i18n-locale="ar">الاسم</template>
+        </div>
+        <div class="toggle-group" role="group" id="settings-locale" data-type="single" data-variant="outline" data-size="sm"
+             aria-label="Language" data-i18n-aria-label-en="Language" data-i18n-aria-label-de="Sprache" data-i18n-aria-label-ar="اللغة">
+          <button class="toggle" aria-pressed="true" value="en" lang="en">English</button>
+          <button class="toggle" aria-pressed="false" value="de" lang="de">Deutsch</button>
+          <button class="toggle" aria-pressed="false" value="ar" lang="ar" dir="rtl">العربية</button>
+        </div>
+      </div>
+      <div class="dialog-footer">
+        <button class="btn" data-variant="default" id="settings-close" data-dialog-close data-i18n-target="done">Done</button>
+        <template data-i18n-for="done" data-i18n-locale="en">Done</template>
+        <template data-i18n-for="done" data-i18n-locale="de">Fertig</template>
+        <template data-i18n-for="done" data-i18n-locale="ar">تم</template>
+      </div>
+    </div>
   </dialog>
+
   <script type="module" src="demo.js"></script>
-</body></html>
+</body>
+</html>

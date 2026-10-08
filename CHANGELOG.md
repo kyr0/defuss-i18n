@@ -10,6 +10,7 @@
 - Toolchain: bun replaces npm (`bun.lock`, `bun run check`, `bun publish`); oxlint joins strict tsc in `lint`; pkgroll builds the npm entries while esbuild keeps the browser bundles.
 - The `defuss-i18n`, `defuss-i18n/core` and `defuss-i18n/global` specifiers are unchanged, but `dist/` now holds bundled entries only: CommonJS moved from `dist/cjs/*.js` to `dist/*.cjs` (`.d.cts` types), and per-module files such as `dist/locale.js` are gone. Deep imports of those paths break; import from the package entries.
 - `BrowserI18n` lists `df$.i18n` members explicitly and as readonly, matching the frozen runtime object; bundled declarations stay valid for consumers with `skipLibCheck: false`.
+- Demo: rebuilt from defuss-shadcn 0.9.7 components (site header, hero, cards, toggle groups, dialog, footer) and loads defuss-shadcn and the released defuss-i18n 0.1.0 from jsDelivr instead of `dist/` and `node_modules/`. The browser test runs it as published and with the checkout's build, and `scripts/verify.mjs` requires exact versions in its CDN URLs.
 - Browser tests fail with an actionable message instead of ENOEXEC when the Linux-x64-only Sparticuz fallback cannot run.
 
 ## 0.1.0 (2026-10-01)
