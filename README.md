@@ -2,6 +2,7 @@
 
 [![CI](https://github.com/kyr0/defuss-i18n/actions/workflows/verify.yml/badge.svg)](https://github.com/kyr0/defuss-i18n/actions/workflows/verify.yml)
 [![License](https://img.shields.io/github/license/kyr0/defuss-i18n)](LICENSE)
+[![npm](https://img.shields.io/npm/v/defuss-i18n)](https://www.npmjs.com/package/defuss-i18n)
 
 HTML-authored localization for pages built on defuss-query and defuss-morph, including defuss-shadcn: locale variants live in your markup, and a language switch patches only the regions a component owns.
 
