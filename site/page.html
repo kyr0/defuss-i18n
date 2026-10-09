@@ -283,7 +283,10 @@
           <p class="mk-section-header-desc" data-i18n-target="desc">{{desc}}</p>
         </div>
       </header>
-      <div class="site-section">
+      <div class="site-section stack gap-10">
+        <div class="site-way">
+        <h3 class="site-way-title">%ICON_FILE_CODE_20%<span data-i18n-target="hand-title">{{hand-title}}</span></h3>
+        <p class="site-way-desc" data-i18n-target="hand-desc">{{hand-desc}}</p>
         <div class="tabs" id="install-tabs">
           <div class="tab-list" role="tablist" {{attr:aria-label:variant}}>
             <button class="tab-trigger" role="tab" aria-selected="true" aria-controls="panel-shadcn" id="tab-shadcn"><span data-i18n-target="tab-shadcn">{{tab-shadcn}}</span></button>
@@ -317,10 +320,76 @@
             </figure>
           </div>
         </div>
+        </div>
+        <hr class="separator site-sep">
+        <div class="site-way" id="vibe-coding">
+          <h3 class="site-way-title">%ICON_BOT%<span data-i18n-target="agent-title">{{agent-title}}</span></h3>
+          <p class="site-way-desc" data-i18n-target="agent-desc">{{agent-desc}}</p>
+          <div class="site-prompt">
+            <div class="mockup-code" data-chrome="mac" data-title="coding agent · ~/your-app" data-wrap id="agent-prompt">
+              <pre data-prefix="&gt;"><code data-i18n-target="prompt-1">{{prompt-1}}</code></pre>
+              <pre data-prefix=""><code data-i18n-target="prompt-2">{{prompt-2}}</code></pre>
+              <pre data-prefix=""><code data-i18n-target="prompt-3">{{prompt-3}}</code></pre>
+              <pre data-prefix=""><code data-i18n-target="prompt-4">{{prompt-4}}</code></pre>
+              <pre data-prefix="" data-tone="muted" data-cursor><code data-i18n-target="prompt-send">{{prompt-send}}</code></pre>
+            </div>
+            <button type="button" class="btn site-prompt-copy" data-variant="secondary" data-size="sm" id="copy-prompt">%ICON_COPY%<span data-i18n-target="copy-prompt">{{copy-prompt}}</span></button>
+            <span class="sr-only" role="status" id="copy-prompt-status"></span>
+          </div>
+          <p class="site-way-desc" data-i18n-target="vae-desc">{{vae-desc}}</p>
+          <div class="tabs" id="vae-tabs">
+            <div class="tab-list" role="tablist" {{attr:aria-label:vae-label}}>
+              <button class="tab-trigger" role="tab" aria-selected="true" aria-controls="panel-skills" id="tab-skills"><span data-i18n-target="tab-skills">{{tab-skills}}</span></button>
+              <button class="tab-trigger" role="tab" aria-selected="false" aria-controls="panel-claude" id="tab-claude" tabindex="-1"><span data-i18n-target="tab-claude">{{tab-claude}}</span></button>
+            </div>
+            <div class="tab-content" role="tabpanel" id="panel-skills" aria-labelledby="tab-skills" tabindex="0">
+              <figure class="mk-code-block" data-variant="inline">
+                <pre><code><span>npx skills add kyr0/defuss-vae --skill '*'</span></code></pre>
+                <button class="mk-code-block-copy" type="button" {{attr:aria-label:copy}}>%ICON_COPY%</button>
+                <span class="mk-code-block-status" role="status"></span>
+              </figure>
+            </div>
+            <div class="tab-content stack gap-3" role="tabpanel" id="panel-claude" aria-labelledby="tab-claude" tabindex="0" hidden>
+              <figure class="mk-code-block" data-variant="inline">
+                <pre><code><span>claude plugin marketplace add kyr0/defuss-vae</span></code></pre>
+                <button class="mk-code-block-copy" type="button" {{attr:aria-label:copy}}>%ICON_COPY%</button>
+                <span class="mk-code-block-status" role="status"></span>
+              </figure>
+              <figure class="mk-code-block" data-variant="inline">
+                <pre><code><span>claude plugin install defuss-vae@defuss-vae</span></code></pre>
+                <button class="mk-code-block-copy" type="button" {{attr:aria-label:copy}}>%ICON_COPY%</button>
+                <span class="mk-code-block-status" role="status"></span>
+              </figure>
+            </div>
+          </div>
+        </div>
       </div>
       {{templates}}
     </section>
     <!--/c:install-->
+
+    <!--c:consult-->
+    <div class="site-section parallax-reveal" data-reveal="zoom" data-i18n-component id="consult">
+      <div class="corner-leaf site-consult">
+        <section class="mk-cta" data-variant="split" aria-labelledby="consult-title">
+          <div class="mk-cta-inner">
+            <div class="mk-cta-copy">
+              <div class="site-cta-head">
+                <div class="aura aura-glow aura-gold site-cta-portrait" style="--shape-round:1.25rem"><img class="shape-squircle" src="assets/aron-homberg.jpg" width="400" height="400" {{attr:alt:portrait}} loading="lazy"></div>
+                <h2 class="mk-cta-title" id="consult-title" data-i18n-target="title">{{title}}</h2>
+              </div>
+              <p class="mk-cta-desc" data-i18n-target="desc">{{desc}}</p>
+            </div>
+            <div class="mk-cta-actions site-consult-actions">
+              <a class="btn" data-size="lg" href="%LINKEDIN%">%ICON_LINKEDIN%<span data-i18n-target="talk">{{talk}}</span></a>
+              <p class="mk-cta-note site-consult-note" data-i18n-target="note">{{note}}</p>
+            </div>
+          </div>
+        </section>
+      </div>
+      {{templates}}
+    </div>
+    <!--/c:consult-->
 
     <!--c:cta-->
     <div class="site-section parallax-reveal" data-i18n-component id="cta">

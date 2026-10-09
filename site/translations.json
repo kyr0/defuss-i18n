@@ -393,6 +393,62 @@
       "copy": {
         "en": "Copy code",
         "de": "Code kopieren"
+      },
+      "hand-title": {
+        "en": "By hand",
+        "de": "Von Hand"
+      },
+      "hand-desc": {
+        "en": "Pick how the page loads its runtime, then copy the snippet.",
+        "de": "Wähle, wie die Seite ihre Runtime lädt, und kopiere das Snippet."
+      },
+      "agent-title": {
+        "en": "Vibe coding",
+        "de": "Vibe Coding"
+      },
+      "agent-desc": {
+        "en": "Paste this prompt into your coding agent. It links the repository, so the agent works from the current README and the authoring contract in <code>documentation/component-skill.md</code>.",
+        "de": "Füge diesen Prompt in deinen Coding-Agenten ein. Er verlinkt das Repository, damit der Agent mit der aktuellen README und dem Authoring-Contract in <code>documentation/component-skill.md</code> arbeitet."
+      },
+      "prompt-1": {
+        "en": "Integrate defuss-i18n into this app: https://github.com/kyr0/defuss-i18n",
+        "de": "Integriere defuss-i18n in diese App: https://github.com/kyr0/defuss-i18n"
+      },
+      "prompt-2": {
+        "en": "Read its README.md and documentation/component-skill.md first. Install it with bun add defuss-i18n defuss-query@^0.1.0 defuss-morph@^0.1.1, or load https://cdn.jsdelivr.net/npm/defuss-i18n@0.1.0/dist/all.min.js after the all.min.js of defuss-shadcn.",
+        "de": "Lies zuerst README.md und documentation/component-skill.md. Installiere es mit bun add defuss-i18n defuss-query@^0.1.0 defuss-morph@^0.1.1 oder lade https://cdn.jsdelivr.net/npm/defuss-i18n@0.1.0/dist/all.min.js nach dem all.min.js von defuss-shadcn."
+      },
+      "prompt-3": {
+        "en": "Mark each translated component with data-i18n-component and the parts that change with data-i18n-target. Put one &lt;template data-i18n-for data-i18n-locale&gt; per language next to each part, never inside it, and translate attributes with data-i18n-{attribute}-{locale}.",
+        "de": "Markiere jede übersetzte Komponente mit data-i18n-component und die veränderlichen Teile mit data-i18n-target. Lege pro Sprache ein &lt;template data-i18n-for data-i18n-locale&gt; neben jeden Teil, nie hinein, und übersetze Attribute mit data-i18n-{attribute}-{locale}."
+      },
+      "prompt-4": {
+        "en": "Create one controller with createI18n({ locale, fallback: ['en'] }), bind() every component, resolve every validateI18n diagnostic, pass dynamic values as text through data-i18n-value slots, and dispose() a binding when its component leaves the page.",
+        "de": "Erzeuge einen Controller mit createI18n({ locale, fallback: ['en'] }), binde jede Komponente mit bind(), behebe jede validateI18n-Diagnose, übergib dynamische Werte als Text über data-i18n-value-Slots und rufe dispose() auf, wenn eine Komponente die Seite verlässt."
+      },
+      "prompt-send": {
+        "en": "⏎ send",
+        "de": "⏎ senden"
+      },
+      "copy-prompt": {
+        "en": "Copy prompt",
+        "de": "Prompt kopieren"
+      },
+      "vae-desc": {
+        "en": "Give your agent the <a href=\"https://github.com/kyr0/defuss-vae\">defuss-vae</a> skills too: it then plans, tests and reviews against a verifier instead of declaring itself done. In Claude Code, the plugin adds the commit and Stop-hook gate. Needs <code>python3</code> ≥ 3.9, <code>git</code> and <code>make</code>.",
+        "de": "Gib deinem Agenten auch die Skills von <a href=\"https://github.com/kyr0/defuss-vae\">defuss-vae</a>: Dann plant, testet und reviewt er gegen einen Verifier, statt sich selbst für fertig zu erklären. In Claude Code ergänzt das Plugin das Commit- und Stop-Hook-Gate. Benötigt <code>python3</code> ≥ 3.9, <code>git</code> und <code>make</code>."
+      },
+      "vae-label": {
+        "en": "Agent",
+        "de": "Agent"
+      },
+      "tab-skills": {
+        "en": "Any agent",
+        "de": "Jeder Agent"
+      },
+      "tab-claude": {
+        "en": "Claude Code plugin",
+        "de": "Claude-Code-Plugin"
       }
     },
     "cta": {
@@ -515,6 +571,28 @@
       "done": {
         "en": "Done",
         "de": "Fertig"
+      }
+    },
+    "consult": {
+      "portrait": {
+        "en": "Portrait of Aron Homberg",
+        "de": "Porträt von Aron Homberg"
+      },
+      "title": {
+        "en": "Stressed with inconsistent results and tiring reviews?",
+        "de": "Gestresst von inkonsistenten Ergebnissen und ermüdenden Reviews?"
+      },
+      "desc": {
+        "en": "Build more consistent agents with <a href=\"https://github.com/kyr0/defuss-vae\"><strong>defuss-vae</strong></a>, Aron Homberg’s <a href=\"https://vae.defuss.org/\"><strong>Verified Agentic Engineering</strong></a> method. Aron is a freelance AI researcher, O’Reilly author (2011), conference speaker, and longtime mentor to software engineering teams.",
+        "de": "Baue konsistentere Agenten mit <a href=\"https://github.com/kyr0/defuss-vae\"><strong>defuss-vae</strong></a>, Aron Hombergs Methode <a href=\"https://vae.defuss.org/\"><strong>Verified Agentic Engineering</strong></a>. Aron ist freiberuflicher KI-Forscher, O’Reilly-Autor (2011), Konferenzsprecher und langjähriger Mentor für Software-Engineering-Teams."
+      },
+      "talk": {
+        "en": "Talk to Aron on LinkedIn",
+        "de": "Mit Aron auf LinkedIn sprechen"
+      },
+      "note": {
+        "en": "…if you’re looking for a remote training or mentoring session for you or your engineering team.",
+        "de": "…wenn du ein Remote-Training oder eine Mentoring-Session für dich oder dein Engineering-Team suchst."
       }
     }
   },

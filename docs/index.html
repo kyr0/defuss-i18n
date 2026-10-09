@@ -446,7 +446,10 @@
           <p class="mk-section-header-desc" data-i18n-target="desc"><code>defuss-i18n</code> works best with <code>defuss-shadcn</code>. From jsDelivr next to <code>defuss-shadcn</code>, from npm for a bundler, or with the two peers on their own.</p>
         </div>
       </header>
-      <div class="site-section">
+      <div class="site-section stack gap-10">
+        <div class="site-way">
+        <h3 class="site-way-title"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 12.5 8 15l2 2.5"/><path d="m14 12.5 2 2.5-2 2.5"/></svg><span data-i18n-target="hand-title">By hand</span></h3>
+        <p class="site-way-desc" data-i18n-target="hand-desc">Pick how the page loads its runtime, then copy the snippet.</p>
         <div class="tabs" id="install-tabs">
           <div class="tab-list" role="tablist" aria-label="Setup" data-i18n-aria-label-en="Setup" data-i18n-aria-label-de="Einrichtung">
             <button class="tab-trigger" role="tab" aria-selected="true" aria-controls="panel-shadcn" id="tab-shadcn"><span data-i18n-target="tab-shadcn">With defuss-shadcn</span></button>
@@ -480,6 +483,49 @@
             </figure>
           </div>
         </div>
+        </div>
+        <hr class="separator site-sep">
+        <div class="site-way" id="vibe-coding">
+          <h3 class="site-way-title"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg><span data-i18n-target="agent-title">Vibe coding</span></h3>
+          <p class="site-way-desc" data-i18n-target="agent-desc">Paste this prompt into your coding agent. It links the repository, so the agent works from the current README and the authoring contract in <code>documentation/component-skill.md</code>.</p>
+          <div class="site-prompt">
+            <div class="mockup-code" data-chrome="mac" data-title="coding agent · ~/your-app" data-wrap id="agent-prompt">
+              <pre data-prefix="&gt;"><code data-i18n-target="prompt-1">Integrate defuss-i18n into this app: https://github.com/kyr0/defuss-i18n</code></pre>
+              <pre data-prefix=""><code data-i18n-target="prompt-2">Read its README.md and documentation/component-skill.md first. Install it with bun add defuss-i18n defuss-query@^0.1.0 defuss-morph@^0.1.1, or load https://cdn.jsdelivr.net/npm/defuss-i18n@0.1.0/dist/all.min.js after the all.min.js of defuss-shadcn.</code></pre>
+              <pre data-prefix=""><code data-i18n-target="prompt-3">Mark each translated component with data-i18n-component and the parts that change with data-i18n-target. Put one &lt;template data-i18n-for data-i18n-locale&gt; per language next to each part, never inside it, and translate attributes with data-i18n-{attribute}-{locale}.</code></pre>
+              <pre data-prefix=""><code data-i18n-target="prompt-4">Create one controller with createI18n({ locale, fallback: ['en'] }), bind() every component, resolve every validateI18n diagnostic, pass dynamic values as text through data-i18n-value slots, and dispose() a binding when its component leaves the page.</code></pre>
+              <pre data-prefix="" data-tone="muted" data-cursor><code data-i18n-target="prompt-send">⏎ send</code></pre>
+            </div>
+            <button type="button" class="btn site-prompt-copy" data-variant="secondary" data-size="sm" id="copy-prompt"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg><span data-i18n-target="copy-prompt">Copy prompt</span></button>
+            <span class="sr-only" role="status" id="copy-prompt-status"></span>
+          </div>
+          <p class="site-way-desc" data-i18n-target="vae-desc">Give your agent the <a href="https://github.com/kyr0/defuss-vae">defuss-vae</a> skills too: it then plans, tests and reviews against a verifier instead of declaring itself done. In Claude Code, the plugin adds the commit and Stop-hook gate. Needs <code>python3</code> ≥ 3.9, <code>git</code> and <code>make</code>.</p>
+          <div class="tabs" id="vae-tabs">
+            <div class="tab-list" role="tablist" aria-label="Agent" data-i18n-aria-label-en="Agent" data-i18n-aria-label-de="Agent">
+              <button class="tab-trigger" role="tab" aria-selected="true" aria-controls="panel-skills" id="tab-skills"><span data-i18n-target="tab-skills">Any agent</span></button>
+              <button class="tab-trigger" role="tab" aria-selected="false" aria-controls="panel-claude" id="tab-claude" tabindex="-1"><span data-i18n-target="tab-claude">Claude Code plugin</span></button>
+            </div>
+            <div class="tab-content" role="tabpanel" id="panel-skills" aria-labelledby="tab-skills" tabindex="0">
+              <figure class="mk-code-block" data-variant="inline">
+                <pre><code><span>npx skills add kyr0/defuss-vae --skill '*'</span></code></pre>
+                <button class="mk-code-block-copy" type="button" aria-label="Copy code" data-i18n-aria-label-en="Copy code" data-i18n-aria-label-de="Code kopieren"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button>
+                <span class="mk-code-block-status" role="status"></span>
+              </figure>
+            </div>
+            <div class="tab-content stack gap-3" role="tabpanel" id="panel-claude" aria-labelledby="tab-claude" tabindex="0" hidden>
+              <figure class="mk-code-block" data-variant="inline">
+                <pre><code><span>claude plugin marketplace add kyr0/defuss-vae</span></code></pre>
+                <button class="mk-code-block-copy" type="button" aria-label="Copy code" data-i18n-aria-label-en="Copy code" data-i18n-aria-label-de="Code kopieren"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button>
+                <span class="mk-code-block-status" role="status"></span>
+              </figure>
+              <figure class="mk-code-block" data-variant="inline">
+                <pre><code><span>claude plugin install defuss-vae@defuss-vae</span></code></pre>
+                <button class="mk-code-block-copy" type="button" aria-label="Copy code" data-i18n-aria-label-en="Copy code" data-i18n-aria-label-de="Code kopieren"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button>
+                <span class="mk-code-block-status" role="status"></span>
+              </figure>
+            </div>
+          </div>
+        </div>
       </div>
       <div hidden>
           <template data-i18n-for="eyebrow" data-i18n-locale="en">Install</template>
@@ -488,12 +534,68 @@
           <template data-i18n-for="title" data-i18n-locale="de">📦 Zu einer Website hinzufügen</template>
           <template data-i18n-for="desc" data-i18n-locale="en"><code>defuss-i18n</code> works best with <code>defuss-shadcn</code>. From jsDelivr next to <code>defuss-shadcn</code>, from npm for a bundler, or with the two peers on their own.</template>
           <template data-i18n-for="desc" data-i18n-locale="de"><code>defuss-i18n</code> funktioniert am besten mit <code>defuss-shadcn</code>. Über jsDelivr neben <code>defuss-shadcn</code>, über npm für einen Bundler oder nur mit den beiden Peers.</template>
+          <template data-i18n-for="hand-title" data-i18n-locale="en">By hand</template>
+          <template data-i18n-for="hand-title" data-i18n-locale="de">Von Hand</template>
+          <template data-i18n-for="hand-desc" data-i18n-locale="en">Pick how the page loads its runtime, then copy the snippet.</template>
+          <template data-i18n-for="hand-desc" data-i18n-locale="de">Wähle, wie die Seite ihre Runtime lädt, und kopiere das Snippet.</template>
           <template data-i18n-for="tab-shadcn" data-i18n-locale="en">With defuss-shadcn</template>
           <template data-i18n-for="tab-shadcn" data-i18n-locale="de">Mit defuss-shadcn</template>
           <template data-i18n-for="tab-peers" data-i18n-locale="en">Without defuss-shadcn</template>
           <template data-i18n-for="tab-peers" data-i18n-locale="de">Ohne defuss-shadcn</template>
+          <template data-i18n-for="agent-title" data-i18n-locale="en">Vibe coding</template>
+          <template data-i18n-for="agent-title" data-i18n-locale="de">Vibe Coding</template>
+          <template data-i18n-for="agent-desc" data-i18n-locale="en">Paste this prompt into your coding agent. It links the repository, so the agent works from the current README and the authoring contract in <code>documentation/component-skill.md</code>.</template>
+          <template data-i18n-for="agent-desc" data-i18n-locale="de">Füge diesen Prompt in deinen Coding-Agenten ein. Er verlinkt das Repository, damit der Agent mit der aktuellen README und dem Authoring-Contract in <code>documentation/component-skill.md</code> arbeitet.</template>
+          <template data-i18n-for="prompt-1" data-i18n-locale="en">Integrate defuss-i18n into this app: https://github.com/kyr0/defuss-i18n</template>
+          <template data-i18n-for="prompt-1" data-i18n-locale="de">Integriere defuss-i18n in diese App: https://github.com/kyr0/defuss-i18n</template>
+          <template data-i18n-for="prompt-2" data-i18n-locale="en">Read its README.md and documentation/component-skill.md first. Install it with bun add defuss-i18n defuss-query@^0.1.0 defuss-morph@^0.1.1, or load https://cdn.jsdelivr.net/npm/defuss-i18n@0.1.0/dist/all.min.js after the all.min.js of defuss-shadcn.</template>
+          <template data-i18n-for="prompt-2" data-i18n-locale="de">Lies zuerst README.md und documentation/component-skill.md. Installiere es mit bun add defuss-i18n defuss-query@^0.1.0 defuss-morph@^0.1.1 oder lade https://cdn.jsdelivr.net/npm/defuss-i18n@0.1.0/dist/all.min.js nach dem all.min.js von defuss-shadcn.</template>
+          <template data-i18n-for="prompt-3" data-i18n-locale="en">Mark each translated component with data-i18n-component and the parts that change with data-i18n-target. Put one &lt;template data-i18n-for data-i18n-locale&gt; per language next to each part, never inside it, and translate attributes with data-i18n-{attribute}-{locale}.</template>
+          <template data-i18n-for="prompt-3" data-i18n-locale="de">Markiere jede übersetzte Komponente mit data-i18n-component und die veränderlichen Teile mit data-i18n-target. Lege pro Sprache ein &lt;template data-i18n-for data-i18n-locale&gt; neben jeden Teil, nie hinein, und übersetze Attribute mit data-i18n-{attribute}-{locale}.</template>
+          <template data-i18n-for="prompt-4" data-i18n-locale="en">Create one controller with createI18n({ locale, fallback: ['en'] }), bind() every component, resolve every validateI18n diagnostic, pass dynamic values as text through data-i18n-value slots, and dispose() a binding when its component leaves the page.</template>
+          <template data-i18n-for="prompt-4" data-i18n-locale="de">Erzeuge einen Controller mit createI18n({ locale, fallback: ['en'] }), binde jede Komponente mit bind(), behebe jede validateI18n-Diagnose, übergib dynamische Werte als Text über data-i18n-value-Slots und rufe dispose() auf, wenn eine Komponente die Seite verlässt.</template>
+          <template data-i18n-for="prompt-send" data-i18n-locale="en">⏎ send</template>
+          <template data-i18n-for="prompt-send" data-i18n-locale="de">⏎ senden</template>
+          <template data-i18n-for="copy-prompt" data-i18n-locale="en">Copy prompt</template>
+          <template data-i18n-for="copy-prompt" data-i18n-locale="de">Prompt kopieren</template>
+          <template data-i18n-for="vae-desc" data-i18n-locale="en">Give your agent the <a href="https://github.com/kyr0/defuss-vae">defuss-vae</a> skills too: it then plans, tests and reviews against a verifier instead of declaring itself done. In Claude Code, the plugin adds the commit and Stop-hook gate. Needs <code>python3</code> ≥ 3.9, <code>git</code> and <code>make</code>.</template>
+          <template data-i18n-for="vae-desc" data-i18n-locale="de">Gib deinem Agenten auch die Skills von <a href="https://github.com/kyr0/defuss-vae">defuss-vae</a>: Dann plant, testet und reviewt er gegen einen Verifier, statt sich selbst für fertig zu erklären. In Claude Code ergänzt das Plugin das Commit- und Stop-Hook-Gate. Benötigt <code>python3</code> ≥ 3.9, <code>git</code> und <code>make</code>.</template>
+          <template data-i18n-for="tab-skills" data-i18n-locale="en">Any agent</template>
+          <template data-i18n-for="tab-skills" data-i18n-locale="de">Jeder Agent</template>
+          <template data-i18n-for="tab-claude" data-i18n-locale="en">Claude Code plugin</template>
+          <template data-i18n-for="tab-claude" data-i18n-locale="de">Claude-Code-Plugin</template>
         </div>
     </section>
+
+    <div class="site-section parallax-reveal" data-reveal="zoom" data-i18n-component id="consult">
+      <div class="corner-leaf site-consult">
+        <section class="mk-cta" data-variant="split" aria-labelledby="consult-title">
+          <div class="mk-cta-inner">
+            <div class="mk-cta-copy">
+              <div class="site-cta-head">
+                <div class="aura aura-glow aura-gold site-cta-portrait" style="--shape-round:1.25rem"><img class="shape-squircle" src="assets/aron-homberg.jpg" width="400" height="400" alt="Portrait of Aron Homberg" data-i18n-alt-en="Portrait of Aron Homberg" data-i18n-alt-de="Porträt von Aron Homberg" loading="lazy"></div>
+                <h2 class="mk-cta-title" id="consult-title" data-i18n-target="title">Stressed with inconsistent results and tiring reviews?</h2>
+              </div>
+              <p class="mk-cta-desc" data-i18n-target="desc">Build more consistent agents with <a href="https://github.com/kyr0/defuss-vae"><strong>defuss-vae</strong></a>, Aron Homberg’s <a href="https://vae.defuss.org/"><strong>Verified Agentic Engineering</strong></a> method. Aron is a freelance AI researcher, O’Reilly author (2011), conference speaker, and longtime mentor to software engineering teams.</p>
+            </div>
+            <div class="mk-cta-actions site-consult-actions">
+              <a class="btn" data-size="lg" href="https://www.linkedin.com/in/aronhomberg/"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg><span data-i18n-target="talk">Talk to Aron on LinkedIn</span></a>
+              <p class="mk-cta-note site-consult-note" data-i18n-target="note">…if you’re looking for a remote training or mentoring session for you or your engineering team.</p>
+            </div>
+          </div>
+        </section>
+      </div>
+      <div hidden>
+          <template data-i18n-for="title" data-i18n-locale="en">Stressed with inconsistent results and tiring reviews?</template>
+          <template data-i18n-for="title" data-i18n-locale="de">Gestresst von inkonsistenten Ergebnissen und ermüdenden Reviews?</template>
+          <template data-i18n-for="desc" data-i18n-locale="en">Build more consistent agents with <a href="https://github.com/kyr0/defuss-vae"><strong>defuss-vae</strong></a>, Aron Homberg’s <a href="https://vae.defuss.org/"><strong>Verified Agentic Engineering</strong></a> method. Aron is a freelance AI researcher, O’Reilly author (2011), conference speaker, and longtime mentor to software engineering teams.</template>
+          <template data-i18n-for="desc" data-i18n-locale="de">Baue konsistentere Agenten mit <a href="https://github.com/kyr0/defuss-vae"><strong>defuss-vae</strong></a>, Aron Hombergs Methode <a href="https://vae.defuss.org/"><strong>Verified Agentic Engineering</strong></a>. Aron ist freiberuflicher KI-Forscher, O’Reilly-Autor (2011), Konferenzsprecher und langjähriger Mentor für Software-Engineering-Teams.</template>
+          <template data-i18n-for="talk" data-i18n-locale="en">Talk to Aron on LinkedIn</template>
+          <template data-i18n-for="talk" data-i18n-locale="de">Mit Aron auf LinkedIn sprechen</template>
+          <template data-i18n-for="note" data-i18n-locale="en">…if you’re looking for a remote training or mentoring session for you or your engineering team.</template>
+          <template data-i18n-for="note" data-i18n-locale="de">…wenn du ein Remote-Training oder eine Mentoring-Session für dich oder dein Engineering-Team suchst.</template>
+        </div>
+    </div>
 
     <div class="site-section parallax-reveal" data-i18n-component id="cta">
       <section class="mk-cta" data-variant="dark" aria-labelledby="cta-title">

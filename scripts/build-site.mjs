@@ -29,6 +29,7 @@ const ICONS = {
   minus: '<path d="M5 12h14"/>',
   plus: '<path d="M5 12h14"/><path d="M12 5v14"/>',
   settings: '<path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/><circle cx="12" cy="12" r="3"/>',
+  bot: '<path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/>',
   'arrow-down': '<path d="M12 5v14"/><path d="m19 12-7 7-7-7"/>',
   github: '<path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/>',
 };
@@ -126,7 +127,7 @@ export async function buildSite() {
     '%ICON_LANG%': svg(ICONS.languages), '%ICON_MENU%': svg(ICONS.menu, 20), '%ICON_X%': svg(ICONS.x, 15),
     '%ICON_COPY%': svg(ICONS.copy, 16), '%ICON_MINUS%': svg(ICONS.minus, 16), '%ICON_PLUS%': svg(ICONS.plus, 16),
     '%ICON_SETTINGS%': svg(ICONS.settings, 16), '%ICON_ARROW_DOWN%': svg(ICONS['arrow-down'], 16), '%ICON_GITHUB%': svg(ICONS.github, 18),
-    '%ICON_FILE_CODE_16%': svg(ICONS['file-code'], 16), '%ICON_LINKEDIN%': LINKEDIN_ICON,
+    '%ICON_FILE_CODE_16%': svg(ICONS['file-code'], 16), '%ICON_FILE_CODE_20%': svg(ICONS['file-code'], 20), '%ICON_BOT%': svg(ICONS.bot, 20), '%ICON_LINKEDIN%': LINKEDIN_ICON,
     '%SW_HEADER%': switcher('locale-switcher', 'sm', 'mk-header-wide'), '%SW_SHEET%': switcher('sheet-locale'),
     '%SW_DEMO%': switcher('demo-locale'), '%SW_SETTINGS%': switcher('settings-locale'),
     '%MOCK_PLAIN%': mock(PLAIN), '%MOCK_DIFF%': mock(DIFF),

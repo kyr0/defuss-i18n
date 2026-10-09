@@ -115,6 +115,17 @@ query(document).on('click', async event => {
   timers.add(timer);
 });
 
+// The coding-agent prompt: copy its lines in the current language; the prompt column and the send hint stay out.
+query('#copy-prompt').on('click', async () => {
+  const lines = [...document.querySelectorAll('#agent-prompt > pre:not([data-tone])')].map(pre => pre.textContent.trim());
+  try { await navigator.clipboard.writeText(lines.join('\n')); } catch { return; }
+  const button = document.getElementById('copy-prompt');
+  query(button).attr('data-variant', 'default');
+  query('#copy-prompt-status').text(copied[locale.locale] ?? copied.en);
+  const timer = setTimeout(() => { timers.delete(timer); query(button).attr('data-variant', 'secondary'); query('#copy-prompt-status').text(''); }, 1500);
+  timers.add(timer);
+});
+
 // Follow later OS colour-scheme changes; the inline <head> script set the first one before paint.
 const dark = matchMedia('(prefers-color-scheme: dark)');
 const followScheme = event => query(document.documentElement).toggleClass('dark', event.matches).css('color-scheme', event.matches ? 'dark' : 'light');

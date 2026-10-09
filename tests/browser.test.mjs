@@ -139,6 +139,18 @@ test('shipped browser artifacts and side-effect-free DOM adapter', async t => {
       await page.waitForFunction(() => document.querySelector('#panel-npm .mk-code-block[data-variant="inline"] .mk-code-block-status').textContent === 'Kopiert');
       assert.equal(await page.evaluate(() => navigator.clipboard.readText()), 'bun add defuss-i18n defuss-query@^0.1.0 defuss-morph@^0.1.1');
 
+      // Vibe coding: the agent prompt copies in the current language; the defuss-vae tabs switch.
+      await page.locator('#copy-prompt').click();
+      await page.waitForFunction(() => document.getElementById('copy-prompt-status').textContent === 'Kopiert');
+      const prompt = await page.evaluate(() => navigator.clipboard.readText());
+      assert.match(prompt, /^Integriere defuss-i18n in diese App: https:\/\/github\.com\/kyr0\/defuss-i18n\n/);
+      assert.equal(prompt.split('\n').length, 4, 'four prompt lines, without the send hint');
+      await page.locator('#tab-claude').click();
+      assert.deepEqual([await page.locator('#panel-claude').isVisible(), await page.locator('#panel-skills').isVisible()], [true, false]);
+      assert.equal(await text(page, '#consult-title'), 'Gestresst von inkonsistenten Ergebnissen und ermüdenden Reviews?');
+      assert.deepEqual(await page.locator('#consult a').evaluateAll(links => links.map(link => link.getAttribute('href'))),
+        ['https://github.com/kyr0/defuss-vae', 'https://vae.defuss.org/', 'https://www.linkedin.com/in/aronhomberg/']);
+
       // Footer: linked copyright line and the consulting column.
       assert.deepEqual(await page.locator('#site-footer .mk-footer-copy a').evaluateAll(links => links.map(link => link.getAttribute('href'))),
         ['https://www.linkedin.com/in/aronhomberg/', 'https://github.com/kyr0/defuss-i18n/blob/main/LICENSE', 'https://shadcn.defuss.org/']);
