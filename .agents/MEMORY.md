@@ -9,3 +9,4 @@
 - VERIFIED[docs/] `bun run check` needs cdn.jsdelivr.net BC the site e2e loads defuss-shadcn and defuss-i18n from jsDelivr; a version bump there needs new SRI hashes (CLI_GIST sri).
 - VERIFIED[defuss-shadcn@0.9.8] .mk-code-block tabs show panels only for value npm|pnpm|bun BC its CSS hard-codes those three; other tabs → Tabs component, one code block per panel.
 - UNKNOWN[peers] defuss-i18n with defuss-query|defuss-morph 0.2.0 untested BC npm latest is 0.2.0 (2026-10-08), outside the ^0.1.x peer ranges; install docs pin the ranges.
+- VERIFIED[docs/] GitHub Pages serves main:/docs at https://i18n.defuss.org BC enabled 2026-10-09 via gh api (legacy build, docs/CNAME, https_enforced); DNS CNAME → kyr0.github.io.

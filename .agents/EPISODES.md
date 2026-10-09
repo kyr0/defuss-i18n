@@ -32,3 +32,5 @@ A lesson recurring ≥2 → test | .agents/VERIFY.py rule | MEMORY line, then de
 2026-10-09T14:21:55Z s=a7b9f95a FINDING site/translations.json (human prose edits) learn=verifier: scripts/verify.mjs now fails when docs/index.html differs from buildSite() (mutation: the hand-edited file fails with 'differs from its source'), so a hand edit
 2026-10-09T14:21:55Z s=a7b9f95a FINDING scripts/build-site.mjs:hlJs learn=none: Cosmetic highlighting; covered by the freshness check against the committed page.
 2026-10-09T14:21:55Z s=a7b9f95a FINDING tests/browser.test.mjs:108,179 learn=none: The site e2e asserts the German heading against the template text.
+2026-10-09T14:25:23Z s=a7b9f95a DONE fp=d6b05fa5c093 cov=100.0% paths=AGENTS.md,ARCH.md,CHANGELOG.md,README.md(+20)
+2026-10-09T14:25:23Z s=a7b9f95a FINDING README.md:22; ARCH.md (Deployment and scaling) learn=memory: MEMORY [docs/] records the Pages setup, which lives in GitHub settings rather than the repository.
