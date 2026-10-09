@@ -100,6 +100,7 @@
     "verify": "node scripts/verify.mjs",
     "check": "bun run build && bun run lint && bun run test && bun run test:package && bun run verify",
     "serve": "node scripts/serve.mjs",
+    "site": "node scripts/build-site.mjs",
     "prepublishOnly": "bun run check"
   }
 }

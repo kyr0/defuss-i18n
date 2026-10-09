@@ -1,0 +1,563 @@
+{
+  "_about": "Every sentence of docs/index.html, per component (data-i18n-component id) and region key. 'en' is also the visible default. Edit here, then run `bun run site`.",
+  "components": {
+    "site-header": {
+      "nav": {
+        "en": "Main",
+        "de": "Hauptnavigation"
+      },
+      "about": {
+        "en": "What it is",
+        "de": "Was es ist"
+      },
+      "how": {
+        "en": "How it works",
+        "de": "So funktioniert’s"
+      },
+      "demo": {
+        "en": "Live demo",
+        "de": "Live-Demo"
+      },
+      "install": {
+        "en": "Install",
+        "de": "Installation"
+      },
+      "sheet-about": {
+        "en": "What it is",
+        "de": "Was es ist"
+      },
+      "sheet-how": {
+        "en": "How it works",
+        "de": "So funktioniert’s"
+      },
+      "sheet-demo": {
+        "en": "Live demo",
+        "de": "Live-Demo"
+      },
+      "sheet-install": {
+        "en": "Install",
+        "de": "Installation"
+      },
+      "language": {
+        "en": "Language",
+        "de": "Sprache"
+      },
+      "github": {
+        "en": "Source code on GitHub",
+        "de": "Quellcode auf GitHub"
+      },
+      "menu": {
+        "en": "Open menu",
+        "de": "Menü öffnen"
+      },
+      "close": {
+        "en": "Close menu",
+        "de": "Menü schließen"
+      }
+    },
+    "welcome": {
+      "pill": {
+        "en": "Runtime module · made for defuss-shadcn",
+        "de": "Runtime-Modul · gemacht für defuss-shadcn"
+      },
+      "heading": {
+        "en": "Translate the page. <span class=\"site-accent\">Keep its state.</span>",
+        "de": "Seite übersetzen. <span class=\"site-accent\">State bleibt erhalten.</span>"
+      },
+      "description": {
+        "en": "<code>defuss-i18n</code> is the localization module of the <code>defuss</code> runtime. Every translation is plain HTML in a <code>&lt;template&gt;</code> beside your markup, and a switch morphs only what a component owns and has rendered before: focus, typed input and state-related rendering like open dialogs stay exactly as they were.",
+        "de": "<code>defuss-i18n</code> ist das Lokalisierungsmodul der <code>defuss</code>-Runtime. Jede Übersetzung ist schlichtes HTML in einem <code>&lt;template&gt;</code> neben deinem Markup, und ein Switch morpht nur, was eine Komponente managed und zuvor gerendert hat: Fokus, Eingaben und Zustand-bedingtes Rendering wie offene Dialoge bleiben genau so erhalten, wie sie zuvor waren."
+      },
+      "try": {
+        "en": "Try the live demo",
+        "de": "Live-Demo ausprobieren"
+      },
+      "install": {
+        "en": "Install",
+        "de": "Installieren"
+      },
+      "code-label": {
+        "en": "Markup comparison",
+        "de": "Markup-Vergleich"
+      },
+      "tab-plain": {
+        "en": "Standard HTML",
+        "de": "Standard-HTML"
+      },
+      "tab-i18n": {
+        "en": "defuss-i18n HTML",
+        "de": "defuss-i18n-HTML"
+      },
+      "code-note": {
+        "en": "The translations live in the markup: one <code>&lt;template&gt;</code> per language, attributes as <code>data-i18n-*</code>. The cursor marks the line that is live right now.",
+        "de": "Die Übersetzungen stehen im Markup: ein <code>&lt;template&gt;</code> pro Sprache, Attribute als <code>data-i18n-*</code>. Der Cursor markiert die Zeile, die gerade gilt."
+      }
+    },
+    "about": {
+      "eyebrow": {
+        "en": "What it is",
+        "de": "Was es ist"
+      },
+      "title": {
+        "en": "🧩 A localization module for the defuss runtime",
+        "de": "🧩 Ein Lokalisierungsmodul für die defuss-Runtime"
+      },
+      "desc": {
+        "en": "<code>defuss-i18n</code> implements the <code>df$.i18n</code> API with no framework dependencies, no build step and no DOM reconciler.",
+        "de": "<code>defuss-i18n</code> implementiert die <code>df$.i18n</code>-API, ohne Framework-Abhängigkeiten, ohne Build-Step und ohne DOM-Reconciler."
+      },
+      "f1-title": {
+        "en": "Plugs into df$",
+        "de": "Steckt in df$"
+      },
+      "f1-desc": {
+        "en": "Load it after defuss-shadcn and call <code>df$.i18n</code>. Without shadcn, defuss-query and defuss-morph provide the same runtime.",
+        "de": "Nach defuss-shadcn laden und <code>df$.i18n</code> aufrufen. Ohne shadcn liefern defuss-query und defuss-morph dieselbe Runtime."
+      },
+      "f2-title": {
+        "en": "HTML is the catalog",
+        "de": "HTML ist der Katalog"
+      },
+      "f2-desc": {
+        "en": "Each language is a <code>&lt;template&gt;</code> next to the default markup. The page reads without JavaScript, and a translation may change structure, not only words.",
+        "de": "Jede Sprache ist ein <code>&lt;template&gt;</code> neben dem Standard-Markup. Die Seite ist ohne JavaScript lesbar, und eine Übersetzung darf auch die Struktur ändern, nicht nur Wörter."
+      },
+      "f3-title": {
+        "en": "State survives a switch",
+        "de": "State überlebt den Switch"
+      },
+      "f3-desc": {
+        "en": "Regions are morphed in place: elements, listeners, focus, text selection, typed input and open dialogs stay.",
+        "de": "Regionen werden in-place gemorpht: Elemente, Listener, Fokus, Textauswahl, Eingaben und offene Dialoge bleiben."
+      },
+      "f4-title": {
+        "en": "Native Intl",
+        "de": "Natives Intl"
+      },
+      "f4-desc": {
+        "en": "BCP 47 fallback chains such as <code>de-AT → de → en</code>, CLDR plural rules, and number and date formats from the browser, with no bundled locale data.",
+        "de": "BCP-47-Fallback-Ketten wie <code>de-AT → de → en</code>, CLDR-Pluralregeln sowie Zahlen- und Datumsformate aus dem Browser, ohne mitgelieferte Locale-Daten."
+      },
+      "f5-title": {
+        "en": "Attributes, too",
+        "de": "Auch Attribute"
+      },
+      "f5-desc": {
+        "en": "Sixteen content attributes, from <code>alt</code> and <code>aria-label</code> to <code>href</code> and <code>src</code>, through <code>data-i18n-{attribute}-{locale}</code>.",
+        "de": "Sechzehn Content-Attribute, von <code>alt</code> und <code>aria-label</code> bis <code>href</code> und <code>src</code>, über <code>data-i18n-{attribute}-{locale}</code>."
+      },
+      "f6-title": {
+        "en": "Checked before it writes",
+        "de": "Geprüft, bevor es schreibt"
+      },
+      "f6-desc": {
+        "en": "<code>validateI18n</code> returns structured diagnostics for missing languages, overlapping regions and broken ID references.",
+        "de": "<code>validateI18n</code> liefert strukturierte Diagnosen zu fehlenden Sprachen, überlappenden Regionen und kaputten ID-Referenzen."
+      },
+      "f7-title": {
+        "en": "Languages on demand",
+        "de": "Sprachen bei Bedarf"
+      },
+      "f7-desc": {
+        "en": "Ship one language and fetch the others with <code>loadLocale</code>. Only the newest request commits; a superseded one resolves as <code>superseded</code>.",
+        "de": "Shippe eine Sprache und lade die anderen mit <code>loadLocale</code> nach. Nur der neueste Request setzt sich durch; ein überholter endet als <code>superseded</code>."
+      },
+      "f8-title": {
+        "en": "Values stay text",
+        "de": "Werte bleiben Text"
+      },
+      "f8-desc": {
+        "en": "Interpolated values are written as text, and value slots inside <code>script</code>, <code>style</code> or <code>iframe</code> are rejected before any write.",
+        "de": "Interpolierte Werte werden als Text geschrieben, und Value-Slots in <code>script</code>, <code>style</code> oder <code>iframe</code> werden vor jedem Schreiben abgelehnt."
+      }
+    },
+    "how": {
+      "eyebrow": {
+        "en": "How it works",
+        "de": "So funktioniert’s"
+      },
+      "title": {
+        "en": "⚙️ One switch, four steps",
+        "de": "⚙️ Ein Switch, vier Schritte"
+      },
+      "desc": {
+        "en": "A language switch is synchronous: when <code>setLocale</code> returns, every bound component shows the new language.",
+        "de": "Ein Sprachwechsel ist synchron: Wenn <code>setLocale</code> zurückkehrt, zeigt jede gebundene Komponente die neue Sprache."
+      },
+      "s1-title": {
+        "en": "Author",
+        "de": "Schreiben"
+      },
+      "s1-desc": {
+        "en": "Write the default language as plain HTML and mark the parts that change with <code>data-i18n-target</code>. Each translation goes into a <code>&lt;template&gt;</code> beside it.",
+        "de": "Schreibe die Standardsprache als schlichtes HTML und markiere die veränderlichen Teile mit <code>data-i18n-target</code>. Jede Übersetzung kommt in ein <code>&lt;template&gt;</code> daneben."
+      },
+      "s2-title": {
+        "en": "Bind",
+        "de": "Binden"
+      },
+      "s2-desc": {
+        "en": "<code>bind(root, locale)</code> captures the templates once and checks ownership: every region belongs to exactly one component.",
+        "de": "<code>bind(root, locale)</code> erfasst die Templates einmal und prüft die Ownership: Jede Region gehört genau einer Komponente."
+      },
+      "s3-title": {
+        "en": "Select",
+        "de": "Auswählen"
+      },
+      "s3-desc": {
+        "en": "<code>setLocale('de')</code> commits a frozen snapshot. Each binding picks one template per region through the fallback chain and plural rules, and fills values and attributes on detached copies.",
+        "de": "<code>setLocale('de')</code> legt einen eingefrorenen Snapshot fest. Jedes Binding wählt pro Region ein Template über Fallback-Kette und Pluralregeln und füllt Werte und Attribute an losgelösten Kopien."
+      },
+      "s4-title": {
+        "en": "Morph",
+        "de": "Morphen"
+      },
+      "s4-desc": {
+        "en": "defuss-morph patches each live region through <code>df$</code>. Matched elements stay, <code>lang</code> and <code>dir</code> follow, and <code>defuss-i18n:change</code> fires.",
+        "de": "defuss-morph patcht jede Live-Region über <code>df$</code>. Gematchte Elemente bleiben, <code>lang</code> und <code>dir</code> ziehen mit, und <code>defuss-i18n:change</code> feuert."
+      }
+    },
+    "demo": {
+      "eyebrow": {
+        "en": "Live demo",
+        "de": "Live-Demo"
+      },
+      "title": {
+        "en": "🔀 Switch the language, watch what stays",
+        "de": "🔀 Sprache wechseln, sehen, was bleibt"
+      },
+      "desc": {
+        "en": "Every sentence on this page comes from a defuss-i18n template. The window below holds what usually breaks: typed input in an open dialog, plural forms, markup rendered from state and translated attributes.",
+        "de": "Jeder Satz auf dieser Seite stammt aus einem defuss-i18n-Template. Das Fenster unten zeigt, was sonst gern bricht: Eingaben in einem offenen Dialog, Pluralformen, Markup aus dem State und übersetzte Attribute."
+      },
+      "language": {
+        "en": "Language",
+        "de": "Sprache"
+      },
+      "language-label": {
+        "en": "Language",
+        "de": "Sprache"
+      },
+      "locale": {
+        "en": "Locale",
+        "de": "Locale"
+      },
+      "revision": {
+        "en": "Revision",
+        "de": "Revision"
+      },
+      "direction": {
+        "en": "Direction",
+        "de": "Richtung"
+      },
+      "chain": {
+        "en": "Fallback",
+        "de": "Fallback"
+      },
+      "log-title": {
+        "en": "Event log",
+        "de": "Event-Log"
+      },
+      "log-note": {
+        "en": "One line per render, written by a <code>defuss-i18n:change</code> listener.",
+        "de": "Eine Zeile pro Render, geschrieben von einem <code>defuss-i18n:change</code>-Listener."
+      }
+    },
+    "cart": {
+      "title": {
+        "en": "Egg carton",
+        "de": "Eierkarton"
+      },
+      "badge": {
+        "en": "Plural rules",
+        "de": "Pluralregeln"
+      },
+      "caption": {
+        "en": "In the carton",
+        "de": "Im Karton"
+      },
+      "hint": {
+        "en": "CLDR picks the plural form, Intl formats the number.",
+        "de": "CLDR wählt die Pluralform, Intl formatiert die Zahl."
+      },
+      "group": {
+        "en": "Eggs",
+        "de": "Eier"
+      },
+      "remove": {
+        "en": "Take an egg out",
+        "de": "Ein Ei herausnehmen"
+      },
+      "add": {
+        "en": "Add an egg",
+        "de": "Ein Ei hinzufügen"
+      }
+    },
+    "settings-card": {
+      "title": {
+        "en": "Your settings",
+        "de": "Deine Einstellungen"
+      },
+      "badge": {
+        "en": "Native state",
+        "de": "Nativer State"
+      },
+      "description": {
+        "en": "Open the dialog, type a name, then switch the language inside it.",
+        "de": "Öffne den Dialog, gib einen Namen ein und wechsle darin die Sprache."
+      },
+      "open": {
+        "en": "Open settings",
+        "de": "Einstellungen öffnen"
+      }
+    },
+    "renderer-card": {
+      "title": {
+        "en": "Application state",
+        "de": "Application-State"
+      },
+      "badge": {
+        "en": "State renderer",
+        "de": "State-Renderer"
+      },
+      "note": {
+        "en": "<code>render()</code> builds this markup from state, so the checkbox keeps its value through every switch.",
+        "de": "<code>render()</code> baut dieses Markup aus dem State, darum behält die Checkbox ihren Wert bei jedem Switch."
+      },
+      "toggle": {
+        "en": "Toggle checked state",
+        "de": "Häkchen umschalten"
+      }
+    },
+    "attributes-card": {
+      "title": {
+        "en": "Attributes",
+        "de": "Attribute"
+      },
+      "image": {
+        "en": "Hello in a speech bubble",
+        "de": "Hallo in einer Sprechblase"
+      },
+      "note": {
+        "en": "The image’s <code>src</code> and <code>alt</code> switch with the language, through <code>data-i18n-src-de</code> and <code>data-i18n-alt-de</code>.",
+        "de": "<code>src</code> und <code>alt</code> des Bildes wechseln mit der Sprache, über <code>data-i18n-src-de</code> und <code>data-i18n-alt-de</code>."
+      }
+    },
+    "stats": {
+      "label": {
+        "en": "defuss-i18n in numbers",
+        "de": "defuss-i18n in Zahlen"
+      },
+      "gzip-label": {
+        "en": "gzip, minified browser build, peers excluded",
+        "de": "gzip, minifizierter Browser-Build, ohne Peers"
+      },
+      "attrs-label": {
+        "en": "translatable content attributes",
+        "de": "übersetzbare Content-Attribute"
+      },
+      "builds-label": {
+        "en": "builds: ESM, CommonJS, browser ESM, classic script",
+        "de": "Builds: ESM, CommonJS, Browser-ESM, klassisches Script"
+      },
+      "deps-label": {
+        "en": "runtime dependencies; defuss-query and defuss-morph are peers",
+        "de": "Runtime-Dependencies; defuss-query und defuss-morph sind Peers"
+      }
+    },
+    "install": {
+      "eyebrow": {
+        "en": "Install",
+        "de": "Installation"
+      },
+      "title": {
+        "en": "📦 Add it to a website",
+        "de": "📦 Zu einer Website hinzufügen"
+      },
+      "desc": {
+        "en": "<code>defuss-i18n</code> works best with <code>defuss-shadcn</code>. From jsDelivr next to <code>defuss-shadcn</code>, from npm for a bundler, or with the two peers on their own.",
+        "de": "<code>defuss-i18n</code> funktioniert am besten mit <code>defuss-shadcn</code>. Über jsDelivr neben <code>defuss-shadcn</code>, über npm für einen Bundler oder nur mit den beiden Peers."
+      },
+      "variant": {
+        "en": "Setup",
+        "de": "Einrichtung"
+      },
+      "tab-shadcn": {
+        "en": "With defuss-shadcn",
+        "de": "Mit defuss-shadcn"
+      },
+      "tab-peers": {
+        "en": "Without defuss-shadcn",
+        "de": "Ohne defuss-shadcn"
+      },
+      "copy": {
+        "en": "Copy code",
+        "de": "Code kopieren"
+      }
+    },
+    "cta": {
+      "title": {
+        "en": "Read the documentation",
+        "de": "Zur Dokumentation"
+      },
+      "desc": {
+        "en": "Guides to state and ownership, lazy loading and the security model, plus the full API and error reference.",
+        "de": "Leitfäden zu State und Ownership, Lazy Loading und Security-Modell sowie die vollständige API- und Fehlerreferenz."
+      },
+      "start": {
+        "en": "Getting started",
+        "de": "Erste Schritte"
+      },
+      "api": {
+        "en": "API reference",
+        "de": "API-Referenz"
+      },
+      "note": {
+        "en": "MIT licensed · Source on GitHub",
+        "de": "MIT-Lizenz · Quellcode auf GitHub"
+      }
+    },
+    "site-footer": {
+      "nav": {
+        "en": "Footer",
+        "de": "Fußzeile"
+      },
+      "project": {
+        "en": "Project",
+        "de": "Projekt"
+      },
+      "source": {
+        "en": "Source code",
+        "de": "Quellcode"
+      },
+      "changelog": {
+        "en": "Changelog",
+        "de": "Changelog"
+      },
+      "docs": {
+        "en": "Documentation",
+        "de": "Dokumentation"
+      },
+      "start": {
+        "en": "Getting started",
+        "de": "Erste Schritte"
+      },
+      "state": {
+        "en": "State and ownership",
+        "de": "State und Ownership"
+      },
+      "lazy": {
+        "en": "Lazy loading",
+        "de": "Lazy Loading"
+      },
+      "security": {
+        "en": "Security model",
+        "de": "Security-Modell"
+      },
+      "api": {
+        "en": "API reference",
+        "de": "API-Referenz"
+      },
+      "runtime": {
+        "en": "Built with",
+        "de": "Gebaut mit"
+      },
+      "consulting": {
+        "en": "Professional consulting services",
+        "de": "Professionelle Beratung"
+      },
+      "ad": {
+        "en": "Consulting by Aron Homberg",
+        "de": "Beratung durch Aron Homberg"
+      },
+      "portrait": {
+        "en": "Portrait of Aron Homberg",
+        "de": "Porträt von Aron Homberg"
+      },
+      "role": {
+        "en": "Freelance expert · independent AI researcher",
+        "de": "Freiberuflicher Experte · unabhängiger KI-Forscher"
+      },
+      "linkedin": {
+        "en": "Connect on LinkedIn",
+        "de": "Auf LinkedIn vernetzen"
+      },
+      "home": {
+        "en": "Back to the top",
+        "de": "Zurück nach oben"
+      },
+      "copy": {
+        "en": "© 2026 <a href=\"https://www.linkedin.com/in/aronhomberg/\">Aron Homberg (kyr0)</a> · <a href=\"https://github.com/kyr0/defuss-i18n/blob/main/LICENSE\">MIT License</a> · built with <a href=\"https://shadcn.defuss.org/\">defuss-shadcn</a> 0.9.8",
+        "de": "© 2026 <a href=\"https://www.linkedin.com/in/aronhomberg/\">Aron Homberg (kyr0)</a> · <a href=\"https://github.com/kyr0/defuss-i18n/blob/main/LICENSE\">MIT-Lizenz</a> · gebaut mit <a href=\"https://shadcn.defuss.org/\">defuss-shadcn</a> 0.9.8"
+      }
+    },
+    "settings": {
+      "heading": {
+        "en": "Your settings",
+        "de": "Deine Einstellungen"
+      },
+      "description": {
+        "en": "Type a name, then switch the language: the field keeps what you typed.",
+        "de": "Gib einen Namen ein und wechsle dann die Sprache: Das Feld behält deine Eingabe."
+      },
+      "name": {
+        "en": "Name",
+        "de": "Name"
+      },
+      "placeholder": {
+        "en": "Your name",
+        "de": "Dein Name"
+      },
+      "language": {
+        "en": "Language",
+        "de": "Sprache"
+      },
+      "done": {
+        "en": "Done",
+        "de": "Fertig"
+      }
+    }
+  },
+  "plurals": {
+    "cart": [
+      {
+        "for": "quantity",
+        "locale": "en",
+        "plural": "one",
+        "html": "<span data-i18n-value=\"label\"></span> egg"
+      },
+      {
+        "for": "quantity",
+        "locale": "en",
+        "plural": "other",
+        "html": "<span data-i18n-value=\"label\"></span> eggs"
+      },
+      {
+        "for": "quantity",
+        "locale": "de",
+        "plural": "one",
+        "html": "<span data-i18n-value=\"label\"></span> Ei"
+      },
+      {
+        "for": "quantity",
+        "locale": "de",
+        "plural": "other",
+        "html": "<span data-i18n-value=\"label\"></span> Eier"
+      }
+    ],
+    "stats": [
+      {
+        "for": "gzip",
+        "locale": "en",
+        "plural": null,
+        "html": "<span data-i18n-value=\"gzip\"></span> kB"
+      },
+      {
+        "for": "gzip",
+        "locale": "de",
+        "plural": null,
+        "html": "<span data-i18n-value=\"gzip\"></span> kB"
+      }
+    ]
+  }
+}

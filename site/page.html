@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>defuss-i18n · HTML-native localization for the defuss runtime</title>
+  <meta name="description" content="defuss-i18n is the localization module for the defuss runtime and defuss-shadcn: every language lives in HTML templates, and a switch morphs only what a component owns, so focus, typed input and open dialogs survive.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23737373' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 8 6 6'/%3E%3Cpath d='m4 14 6-6 2-3'/%3E%3Cpath d='M2 5h12'/%3E%3Cpath d='M7 2h1'/%3E%3Cpath d='m22 22-5-10-5 10'/%3E%3Cpath d='M14 18h6'/%3E%3C/svg%3E">
+  <!-- defuss-shadcn from jsDelivr at an exact release, pinned by Subresource Integrity: tokens + utilities, shapes, every component. -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/defuss-shadcn@0.9.8/dist/components/core.min.css" integrity="sha384-XTkN5+CRRKO70LZ4OcV6O+kj6BY5lxdsRQ02oMz3kDCm9kd4B+16jbojkbgrbL0e" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/defuss-shadcn@0.9.8/dist/theme/utils/shapes.min.css" integrity="sha384-Ql86bF5zW5vFVk35X7GH6sUNZRTsmU93YO1iJBw/sYwgnlr4sgF+hBn1S5vDPI2G" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/defuss-shadcn@0.9.8/dist/components/all.min.css" integrity="sha384-3N21mZZQYTo6BWRxl629QHRrstw0IXVKRonDLdRbrYlODgFskMA/kODfnDX/gNk4" crossorigin="anonymous">
+  <link rel="stylesheet" href="assets/site.css">
+  <script>
+    // Before first paint: follow the OS colour scheme (defuss-shadcn dark mode is class="dark" on <html>).
+    if (matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.documentElement.classList.add('dark');
+      document.documentElement.style.colorScheme = 'dark';
+    }
+  </script>
+</head>
+<body class="site-page">
+  <!--c:site-header-->
+  <header class="mk-header" data-variant="floating" data-i18n-component id="site-header">
+    <div class="mk-header-inner">
+      <a href="#top" class="mk-header-brand">%ICON_LANG%<span class="mk-header-name">defuss-i18n</span></a>
+      <nav class="mk-header-nav" {{attr:aria-label:nav}}>
+        <ul class="nav-menu-list">
+          <li class="nav-menu-item"><a class="nav-menu-link" href="#about" data-i18n-target="about">{{about}}</a></li>
+          <li class="nav-menu-item"><a class="nav-menu-link" href="#how" data-i18n-target="how">{{how}}</a></li>
+          <li class="nav-menu-item"><a class="nav-menu-link" href="#demo" data-i18n-target="demo">{{demo}}</a></li>
+          <li class="nav-menu-item"><a class="nav-menu-link" href="#install" data-i18n-target="install">{{install}}</a></li>
+        </ul>
+      </nav>
+      <div class="mk-header-actions">
+        %SW_HEADER%
+        <a class="btn mk-header-wide" data-variant="ghost" data-size="icon" href="%GH%" {{attr:aria-label:github}}>%ICON_GITHUB%</a>
+        <button type="button" class="btn mk-header-menu" data-variant="ghost" data-size="icon" data-sheet-trigger="site-menu" aria-haspopup="dialog" {{attr:aria-label:menu}}>%ICON_MENU%</button>
+      </div>
+    </div>
+
+    <dialog id="site-menu" class="sheet" data-side="right" role="dialog" aria-modal="true" aria-labelledby="site-menu-title">
+      <div class="sheet-content">
+        <div class="sheet-header">
+          <h2 class="sheet-title" id="site-menu-title">defuss-i18n</h2>
+        </div>
+        <div class="sheet-body stack gap-6">
+          <ul class="mk-header-sheet-nav">
+            <li><a href="#about" data-sheet-close data-i18n-target="sheet-about">{{sheet-about}}</a></li>
+            <li><a href="#how" data-sheet-close data-i18n-target="sheet-how">{{sheet-how}}</a></li>
+            <li><a href="#demo" data-sheet-close data-i18n-target="sheet-demo">{{sheet-demo}}</a></li>
+            <li><a href="#install" data-sheet-close data-i18n-target="sheet-install">{{sheet-install}}</a></li>
+            <li><a href="%GH%" data-sheet-close>GitHub</a></li>
+          </ul>
+          %SW_SHEET%
+        </div>
+      </div>
+      <button class="sheet-close-x" data-sheet-close {{attr:aria-label:close}}>%ICON_X%</button>
+    </dialog>
+    {{templates}}
+  </header>
+  <!--/c:site-header-->
+
+  <main id="top" class="site-main">
+    <section class="parallax site-hero" aria-labelledby="welcome-heading">
+      <div class="parallax-layer" data-depth="far" aria-hidden="true">
+        <div class="pattern-grid site-hero-grid"></div>
+      </div>
+      <div class="parallax-layer site-hero-glow" data-depth="mid" aria-hidden="true">
+        <div class="corner-blob site-blob" data-tone="one"></div>
+        <div class="corner-blob-3 site-blob" data-tone="two"></div>
+      </div>
+      <div class="parallax-content">
+        <!--c:welcome-->
+        <div class="mk-hero" data-variant="split" data-i18n-component id="welcome">
+          <div class="mk-hero-copy">
+            <a class="mk-hero-pill" href="#about"><span class="badge" data-variant="default" data-size="sm">defuss</span><span data-i18n-target="pill">{{pill}}</span></a>
+            <h1 class="mk-hero-title" id="welcome-heading" data-i18n-target="heading">{{heading}}</h1>
+            <p class="mk-hero-desc" data-i18n-target="description">{{description}}</p>
+            <div class="mk-hero-actions">
+              <a class="btn" data-size="lg" href="#demo"><span data-i18n-target="try">{{try}}</span>%ICON_ARROW_DOWN%</a>
+              <a class="btn" data-variant="outline" data-size="lg" href="#install" data-i18n-target="install">{{install}}</a>
+            </div>
+          </div>
+          <div class="site-hero-code stack gap-3">
+            <div class="tabs" id="markup-tabs">
+              <div class="tab-list" role="tablist" {{attr:aria-label:code-label}}>
+                <button class="tab-trigger" role="tab" aria-selected="false" aria-controls="panel-plain" id="tab-plain" tabindex="-1"><span data-i18n-target="tab-plain">{{tab-plain}}</span></button>
+                <button class="tab-trigger" role="tab" aria-selected="true" aria-controls="panel-i18n" id="tab-i18n"><span data-i18n-target="tab-i18n">{{tab-i18n}}</span></button>
+              </div>
+              <div class="tab-content" role="tabpanel" id="panel-plain" aria-labelledby="tab-plain" tabindex="0" hidden>
+                <div class="mockup-code" data-chrome="mac" data-title="index.html" data-numbers data-wrap data-size="sm">
+            %MOCK_PLAIN%
+                </div>
+              </div>
+              <div class="tab-content" role="tabpanel" id="panel-i18n" aria-labelledby="tab-i18n" tabindex="0">
+                <div class="mockup-code" id="markup-diff" data-chrome="mac" data-title="index.html" data-numbers data-wrap data-size="sm" data-animate>
+            %MOCK_DIFF%
+                </div>
+              </div>
+            </div>
+            <p class="site-note" data-i18n-target="code-note">{{code-note}}</p>
+          </div>
+          {{templates}}
+        </div>
+        <!--/c:welcome-->
+      </div>
+    </section>
+
+    <!--c:about-->
+    <section class="mk-features parallax-reveal" id="about" data-i18n-component aria-labelledby="about-title">
+      <div class="mk-features-head">
+        <span class="mk-features-eyebrow" data-i18n-target="eyebrow">{{eyebrow}}</span>
+        <h2 class="mk-features-title" id="about-title" data-i18n-target="title">{{title}}</h2>
+        <p class="mk-features-desc" data-i18n-target="desc">{{desc}}</p>
+      </div>
+      <div class="mk-feature-cards" data-variant="boxed">
+        <article class="mk-feature-card"><h3 class="mk-feature-card-title">%ICON_PLUG%<span data-i18n-target="f1-title">{{f1-title}}</span></h3><p class="mk-feature-card-desc" data-i18n-target="f1-desc">{{f1-desc}}</p></article>
+        <article class="mk-feature-card"><h3 class="mk-feature-card-title">%ICON_FILE_CODE%<span data-i18n-target="f2-title">{{f2-title}}</span></h3><p class="mk-feature-card-desc" data-i18n-target="f2-desc">{{f2-desc}}</p></article>
+        <article class="mk-feature-card"><h3 class="mk-feature-card-title">%ICON_SHIELD_CHECK%<span data-i18n-target="f3-title">{{f3-title}}</span></h3><p class="mk-feature-card-desc" data-i18n-target="f3-desc">{{f3-desc}}</p></article>
+        <article class="mk-feature-card"><h3 class="mk-feature-card-title">%ICON_GLOBE%<span data-i18n-target="f4-title">{{f4-title}}</span></h3><p class="mk-feature-card-desc" data-i18n-target="f4-desc">{{f4-desc}}</p></article>
+        <article class="mk-feature-card"><h3 class="mk-feature-card-title">%ICON_TAGS%<span data-i18n-target="f5-title">{{f5-title}}</span></h3><p class="mk-feature-card-desc" data-i18n-target="f5-desc">{{f5-desc}}</p></article>
+        <article class="mk-feature-card"><h3 class="mk-feature-card-title">%ICON_LIST_CHECKS%<span data-i18n-target="f6-title">{{f6-title}}</span></h3><p class="mk-feature-card-desc" data-i18n-target="f6-desc">{{f6-desc}}</p></article>
+        <article class="mk-feature-card"><h3 class="mk-feature-card-title">%ICON_DOWNLOAD%<span data-i18n-target="f7-title">{{f7-title}}</span></h3><p class="mk-feature-card-desc" data-i18n-target="f7-desc">{{f7-desc}}</p></article>
+        <article class="mk-feature-card"><h3 class="mk-feature-card-title">%ICON_LOCK%<span data-i18n-target="f8-title">{{f8-title}}</span></h3><p class="mk-feature-card-desc" data-i18n-target="f8-desc">{{f8-desc}}</p></article>
+      </div>
+      {{templates}}
+    </section>
+    <!--/c:about-->
+
+    <!--c:how-->
+    <section id="how" class="site-block parallax-reveal" data-i18n-component aria-labelledby="how-title">
+      <header class="mk-section-header" data-align="center">
+        <div class="mk-section-header-copy">
+          <span class="mk-section-header-eyebrow" data-i18n-target="eyebrow">{{eyebrow}}</span>
+          <h2 class="mk-section-header-title" id="how-title" data-i18n-target="title">{{title}}</h2>
+          <p class="mk-section-header-desc" data-i18n-target="desc">{{desc}}</p>
+        </div>
+      </header>
+      <div class="site-section">
+        <div class="site-panel pattern-dots">
+          <ol class="mk-process-steps" data-variant="horizontal">
+            <li class="mk-process-step"><span class="mk-process-step-number" aria-hidden="true">01</span><div class="mk-process-step-body"><h3 class="mk-process-step-title" data-i18n-target="s1-title">{{s1-title}}</h3><p class="mk-process-step-desc" data-i18n-target="s1-desc">{{s1-desc}}</p></div></li>
+            <li class="mk-process-step"><span class="mk-process-step-number" aria-hidden="true">02</span><div class="mk-process-step-body"><h3 class="mk-process-step-title" data-i18n-target="s2-title">{{s2-title}}</h3><p class="mk-process-step-desc" data-i18n-target="s2-desc">{{s2-desc}}</p></div></li>
+            <li class="mk-process-step"><span class="mk-process-step-number" aria-hidden="true">03</span><div class="mk-process-step-body"><h3 class="mk-process-step-title" data-i18n-target="s3-title">{{s3-title}}</h3><p class="mk-process-step-desc" data-i18n-target="s3-desc">{{s3-desc}}</p></div></li>
+            <li class="mk-process-step"><span class="mk-process-step-number" aria-hidden="true">04</span><div class="mk-process-step-body"><h3 class="mk-process-step-title" data-i18n-target="s4-title">{{s4-title}}</h3><p class="mk-process-step-desc" data-i18n-target="s4-desc">{{s4-desc}}</p></div></li>
+          </ol>
+        </div>
+      </div>
+      {{templates}}
+    </section>
+    <!--/c:how-->
+
+    <!--c:demo-->
+    <section id="demo" class="site-block" data-i18n-component aria-labelledby="demo-title">
+      <header class="mk-section-header parallax-reveal" data-align="center">
+        <div class="mk-section-header-copy">
+          <span class="mk-section-header-eyebrow" data-i18n-target="eyebrow">{{eyebrow}}</span>
+          <h2 class="mk-section-header-title" id="demo-title" data-i18n-target="title">{{title}}</h2>
+          <p class="mk-section-header-desc" data-i18n-target="desc">{{desc}}</p>
+        </div>
+      </header>
+      <div class="site-section parallax-reveal" data-reveal="zoom">
+        <div class="frame-window site-window">
+          <div class="site-window-bar">
+            <div class="flex items-center gap-3">
+              <span class="site-label" data-i18n-target="language-label">{{language-label}}</span>
+              %SW_DEMO%
+            </div>
+            <dl class="site-snapshot">
+              <div><dt data-i18n-target="locale">{{locale}}</dt><dd><code id="snapshot-locale">en</code></dd></div>
+              <div><dt data-i18n-target="revision">{{revision}}</dt><dd><code id="snapshot-revision">–</code></dd></div>
+              <div><dt data-i18n-target="direction">{{direction}}</dt><dd><code id="snapshot-direction">ltr</code></dd></div>
+              <div><dt data-i18n-target="chain">{{chain}}</dt><dd><code id="snapshot-chain">en</code></dd></div>
+            </dl>
+          </div>
+          <div class="site-cards">
+            <!--c:cart-->
+            <article class="card" data-i18n-component id="cart">
+              <div class="card-header" style="flex-direction:row;align-items:center;justify-content:space-between;">
+                <h3 class="card-title" data-i18n-target="title">{{title}}</h3>
+                <span class="badge" data-variant="secondary" data-i18n-target="badge">{{badge}}</span>
+              </div>
+              <div class="card-content">
+                <div class="statistic">
+                  <p class="statistic-title" data-i18n-target="caption">{{caption}}</p>
+                  <p class="statistic-value" id="cart-copy" data-i18n-target="quantity" data-i18n-count="count">1 egg</p>
+                  <p class="statistic-description" data-i18n-target="hint">{{hint}}</p>
+                </div>
+              </div>
+              <div class="card-footer">
+                <div class="btn-group" role="group" {{attr:aria-label:group}}>
+                  <button class="btn" data-variant="outline" data-size="icon" id="remove-item" {{attr:aria-label:remove}}>%ICON_MINUS%</button>
+                  <button class="btn" data-variant="outline" data-size="icon" id="add-item" {{attr:aria-label:add}}>%ICON_PLUS%</button>
+                </div>
+              </div>
+              {{templates}}
+            </article>
+            <!--/c:cart-->
+
+            <!--c:settings-card-->
+            <article class="card" data-i18n-component id="settings-card">
+              <div class="card-header" style="flex-direction:row;align-items:center;justify-content:space-between;">
+                <h3 class="card-title" data-i18n-target="title">{{title}}</h3>
+                <span class="badge" data-variant="secondary" data-i18n-target="badge">{{badge}}</span>
+              </div>
+              <div class="card-content">
+                <p data-i18n-target="description">{{description}}</p>
+              </div>
+              <div class="card-footer">
+                <button class="btn" data-variant="default" id="open-settings" data-dialog-trigger="settings" aria-haspopup="dialog">%ICON_SETTINGS%<span data-i18n-target="open">{{open}}</span></button>
+              </div>
+              {{templates}}
+            </article>
+            <!--/c:settings-card-->
+
+            <!--c:renderer-card-->
+            <article class="card" data-i18n-component id="renderer-card">
+              <div class="card-header" style="flex-direction:row;align-items:center;justify-content:space-between;">
+                <h3 class="card-title" data-i18n-target="title">{{title}}</h3>
+                <span class="badge" data-variant="secondary" data-i18n-target="badge">{{badge}}</span>
+              </div>
+              <div class="card-content stack gap-3">
+                <!-- A nested component: its markup comes from render(), so the card's binding never owns it. -->
+                <div id="rendered" data-i18n-component>
+                  <div class="flex items-center gap-2"><input class="checkbox" type="checkbox" id="controlled" checked><label class="label" for="controlled" style="margin:0;">A controlled checkbox</label></div>
+                </div>
+                <p data-i18n-target="note">{{note}}</p>
+              </div>
+              <div class="card-footer">
+                <button class="btn" data-variant="outline" id="toggle-checked" data-i18n-target="toggle">{{toggle}}</button>
+              </div>
+              {{templates}}
+            </article>
+            <!--/c:renderer-card-->
+
+            <!--c:attributes-card-->
+            <article class="card" data-i18n-component id="attributes-card">
+              <figure class="card-media" data-inset>
+                <img src="assets/welcome-en.svg" width="240" height="180" {{attr:alt:image}}
+                     data-i18n-src-en="assets/welcome-en.svg" data-i18n-src-de="assets/welcome-de.svg">
+              </figure>
+              <div class="card-header" style="flex-direction:row;align-items:center;justify-content:space-between;">
+                <h3 class="card-title" data-i18n-target="title">{{title}}</h3>
+                <span class="badge" data-variant="secondary">src · alt</span>
+              </div>
+              <div class="card-content">
+                <p data-i18n-target="note">{{note}}</p>
+              </div>
+              {{templates}}
+            </article>
+            <!--/c:attributes-card-->
+          </div>
+          <div>
+            <p class="site-label" data-i18n-target="log-title">{{log-title}}</p>
+            <div class="mockup-code site-log" id="event-log" data-chrome="none" data-size="sm" role="log" aria-live="polite"></div>
+            <p class="site-note" data-i18n-target="log-note">{{log-note}}</p>
+          </div>
+        </div>
+      </div>
+      {{templates}}
+    </section>
+    <!--/c:demo-->
+
+    <!--c:stats-->
+    <section class="mk-stats parallax-reveal" data-i18n-component id="stats" {{attr:aria-label:label}}>
+      <div class="mk-stats-band">
+        <div class="mk-stat"><span class="mk-stat-value" data-i18n-target="gzip">6.2 kB</span><span class="mk-stat-label" data-i18n-target="gzip-label">{{gzip-label}}</span></div>
+        <div class="mk-stat"><span class="mk-stat-value">16</span><span class="mk-stat-label" data-i18n-target="attrs-label">{{attrs-label}}</span></div>
+        <div class="mk-stat"><span class="mk-stat-value">4</span><span class="mk-stat-label" data-i18n-target="builds-label">{{builds-label}}</span></div>
+        <div class="mk-stat"><span class="mk-stat-value">0</span><span class="mk-stat-label" data-i18n-target="deps-label">{{deps-label}}</span></div>
+      </div>
+      {{templates}}
+    </section>
+    <!--/c:stats-->
+
+    <!--c:install-->
+    <section id="install" class="site-block parallax-reveal" data-i18n-component aria-labelledby="install-title">
+      <header class="mk-section-header" data-align="center">
+        <div class="mk-section-header-copy">
+          <span class="mk-section-header-eyebrow" data-i18n-target="eyebrow">{{eyebrow}}</span>
+          <h2 class="mk-section-header-title" id="install-title" data-i18n-target="title">{{title}}</h2>
+          <p class="mk-section-header-desc" data-i18n-target="desc">{{desc}}</p>
+        </div>
+      </header>
+      <div class="site-section">
+        <div class="tabs" id="install-tabs">
+          <div class="tab-list" role="tablist" {{attr:aria-label:variant}}>
+            <button class="tab-trigger" role="tab" aria-selected="true" aria-controls="panel-shadcn" id="tab-shadcn"><span data-i18n-target="tab-shadcn">{{tab-shadcn}}</span></button>
+            <button class="tab-trigger" role="tab" aria-selected="false" aria-controls="panel-npm" id="tab-npm" tabindex="-1">npm</button>
+            <button class="tab-trigger" role="tab" aria-selected="false" aria-controls="panel-peers" id="tab-peers" tabindex="-1"><span data-i18n-target="tab-peers">{{tab-peers}}</span></button>
+          </div>
+          <div class="tab-content" role="tabpanel" id="panel-shadcn" aria-labelledby="tab-shadcn" tabindex="0">
+            <figure class="mk-code-block" data-variant="file">
+              <div class="mk-code-block-head"><span class="mk-code-block-file">%ICON_FILE_CODE_16%index.html</span><button class="mk-code-block-copy" type="button" {{attr:aria-label:copy}}>%ICON_COPY%</button></div>
+              <pre>%CODE_CDN%</pre>
+              <span class="mk-code-block-status" role="status"></span>
+            </figure>
+          </div>
+          <div class="tab-content stack gap-4" role="tabpanel" id="panel-npm" aria-labelledby="tab-npm" tabindex="0" hidden>
+            <figure class="mk-code-block" data-variant="inline">
+              <pre><code><span>bun add defuss-i18n defuss-query@^0.1.0 defuss-morph@^0.1.1</span></code></pre>
+              <button class="mk-code-block-copy" type="button" {{attr:aria-label:copy}}>%ICON_COPY%</button>
+              <span class="mk-code-block-status" role="status"></span>
+            </figure>
+            <figure class="mk-code-block" data-variant="file">
+              <div class="mk-code-block-head"><span class="mk-code-block-file">%ICON_FILE_CODE_16%app.js</span><button class="mk-code-block-copy" type="button" {{attr:aria-label:copy}}>%ICON_COPY%</button></div>
+              <pre>%CODE_NPM%</pre>
+              <span class="mk-code-block-status" role="status"></span>
+            </figure>
+          </div>
+          <div class="tab-content" role="tabpanel" id="panel-peers" aria-labelledby="tab-peers" tabindex="0" hidden>
+            <figure class="mk-code-block" data-variant="file">
+              <div class="mk-code-block-head"><span class="mk-code-block-file">%ICON_FILE_CODE_16%index.html</span><button class="mk-code-block-copy" type="button" {{attr:aria-label:copy}}>%ICON_COPY%</button></div>
+              <pre>%CODE_PEERS%</pre>
+              <span class="mk-code-block-status" role="status"></span>
+            </figure>
+          </div>
+        </div>
+      </div>
+      {{templates}}
+    </section>
+    <!--/c:install-->
+
+    <!--c:cta-->
+    <div class="site-section parallax-reveal" data-i18n-component id="cta">
+      <section class="mk-cta" data-variant="dark" aria-labelledby="cta-title">
+        <div class="mk-cta-inner">
+          <div class="mk-cta-copy">
+            <h2 class="mk-cta-title" id="cta-title" data-i18n-target="title">{{title}}</h2>
+            <p class="mk-cta-desc" data-i18n-target="desc">{{desc}}</p>
+          </div>
+          <div class="mk-cta-actions">
+            <a class="btn" data-size="lg" href="%DOC%/getting-started.md" data-i18n-target="start">{{start}}</a>
+            <a class="btn" data-variant="outline" data-size="lg" href="%DOC%/api.md" data-i18n-target="api">{{api}}</a>
+          </div>
+          <p class="mk-cta-note" data-i18n-target="note">{{note}}</p>
+        </div>
+      </section>
+      {{templates}}
+    </div>
+    <!--/c:cta-->
+  </main>
+
+  <!--c:site-footer-->
+  <footer class="mk-footer" data-i18n-component id="site-footer">
+    <div class="mk-footer-inner">
+      <nav class="mk-footer-nav site-footer-nav" {{attr:aria-label:nav}}>
+        <div class="mk-footer-col">
+          <h3 class="mk-footer-heading" data-i18n-target="project">{{project}}</h3>
+          <ul class="mk-footer-list">
+            <li><a href="%GH%" data-i18n-target="source">{{source}}</a></li>
+            <li><a href="https://www.npmjs.com/package/defuss-i18n">npm</a></li>
+            <li><a href="https://www.jsdelivr.com/package/npm/defuss-i18n">jsDelivr</a></li>
+            <li><a href="%GH%/blob/main/CHANGELOG.md" data-i18n-target="changelog">{{changelog}}</a></li>
+          </ul>
+        </div>
+        <div class="mk-footer-col">
+          <h3 class="mk-footer-heading" data-i18n-target="docs">{{docs}}</h3>
+          <ul class="mk-footer-list">
+            <li><a href="%DOC%/getting-started.md" data-i18n-target="start">{{start}}</a></li>
+            <li><a href="%DOC%/state-and-ownership.md" data-i18n-target="state">{{state}}</a></li>
+            <li><a href="%DOC%/lazy-loading.md" data-i18n-target="lazy">{{lazy}}</a></li>
+            <li><a href="%DOC%/security.md" data-i18n-target="security">{{security}}</a></li>
+            <li><a href="%DOC%/api.md" data-i18n-target="api">{{api}}</a></li>
+          </ul>
+        </div>
+        <div class="mk-footer-col">
+          <h3 class="mk-footer-heading" data-i18n-target="runtime">{{runtime}}</h3>
+          <ul class="mk-footer-list">
+            <li><a href="https://shadcn.defuss.org/">defuss-shadcn</a></li>
+            <li><a href="https://www.npmjs.com/package/defuss-query">defuss-query</a></li>
+            <li><a href="https://www.npmjs.com/package/defuss-morph">defuss-morph</a></li>
+          </ul>
+        </div>
+        <div class="mk-footer-col">
+          <h3 class="mk-footer-heading" data-i18n-target="consulting">{{consulting}}</h3>
+          <aside class="corner-leaf site-ad" {{attr:aria-label:ad}}>
+            <div class="site-ad-head">
+              <div class="aura aura-glow aura-gold site-ad-portrait" style="--shape-round:1.5rem"><img class="shape-squircle" src="assets/aron-homberg.jpg" width="400" height="400" {{attr:alt:portrait}} loading="lazy"></div>
+              <div>
+                <p class="site-ad-name">Aron Homberg</p>
+                <p class="site-ad-role" data-i18n-target="role">{{role}}</p>
+              </div>
+            </div>
+            <a class="btn" data-size="sm" href="%LINKEDIN%">%ICON_LINKEDIN%<span data-i18n-target="linkedin">{{linkedin}}</span></a>
+          </aside>
+        </div>
+      </nav>
+      <hr class="separator mk-footer-rule" />
+      <div class="mk-footer-bottom">
+        <a href="#top" class="mk-footer-brand" {{attr:aria-label:home}}>%ICON_LANG%<span class="mk-footer-brand-name">defuss-i18n</span></a>
+        <div class="mk-footer-meta">
+          <p class="mk-footer-copy" data-i18n-target="copy">{{copy}}</p>
+        </div>
+      </div>
+    </div>
+    {{templates}}
+  </footer>
+  <!--/c:site-footer-->
+
+  <!--c:settings-->
+  <dialog id="settings" class="dialog" role="dialog" aria-modal="true" aria-labelledby="settings-title" data-i18n-component>
+    <div class="dialog-content">
+      <div class="dialog-header">
+        <h2 class="dialog-title" id="settings-title" data-i18n-target="heading">{{heading}}</h2>
+        <p class="dialog-description" data-i18n-target="description">{{description}}</p>
+      </div>
+      <div class="dialog-body stack gap-4">
+        <div>
+          <label class="label" for="nickname" data-i18n-target="name">{{name}}</label>
+          <input class="input" type="text" id="nickname" {{attr:placeholder:placeholder}}>
+        </div>
+        %SW_SETTINGS%
+      </div>
+      <div class="dialog-footer">
+        <button class="btn" data-variant="default" id="settings-close" data-dialog-close data-i18n-target="done">{{done}}</button>
+      </div>
+    </div>
+    {{templates}}
+  </dialog>
+  <!--/c:settings-->
+
+  <!-- The runtime, in order: defuss-shadcn installs df$ (defuss-query + defuss-morph), defuss-i18n adds df$.i18n,
+       then the page script binds the components. Module scripts run in document order; integrity pins each file. -->
+  <script type="module" src="https://cdn.jsdelivr.net/npm/defuss-shadcn@0.9.8/dist/components/all.min.js" integrity="sha384-Lk87A4KViuU62PT7Hy5Qw2DHzw0iEtvi2huW/2h9963U/cZLBARdRf7LZMCsirTa" crossorigin="anonymous"></script>
+  <script type="module" src="https://cdn.jsdelivr.net/npm/defuss-i18n@0.1.0/dist/all.min.js" integrity="sha384-BFNf8rdln6jdRSqVgl0pVInUBDjKYDu8SMWxDwNhqiplndPSIYKC8q6vMBJGVKVS" crossorigin="anonymous"></script>
+  <script type="module" src="assets/demo.js"></script>
+</body>
+</html>

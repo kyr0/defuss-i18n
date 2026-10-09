@@ -27,6 +27,8 @@ bun run serve
 
 Open <http://127.0.0.1:8080/docs/> and switch languages: every sentence on the page changes, while the open settings dialog keeps its edited name field. The site is built from defuss-shadcn 0.9.8 components and loads defuss-shadcn and the released defuss-i18n 0.1.0 from jsDelivr with Subresource Integrity, so it needs network access but no install or build; any static file server can serve `docs/`.
 
+`docs/index.html` is generated: edit the markup in `site/page.html` and every sentence, English and German side by side, in `site/translations.json`, then run `bun run site`. `scripts/verify.mjs` fails when `docs/index.html` no longer matches its source, so a hand edit cannot be lost on the next build.
+
 Install the package next to its peers, with the peers inside their supported ranges:
 
 ```bash

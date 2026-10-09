@@ -96,7 +96,7 @@
           <div class="mk-hero-copy">
             <a class="mk-hero-pill" href="#about"><span class="badge" data-variant="default" data-size="sm">defuss</span><span data-i18n-target="pill">Runtime module · made for defuss-shadcn</span></a>
             <h1 class="mk-hero-title" id="welcome-heading" data-i18n-target="heading">Translate the page. <span class="site-accent">Keep its state.</span></h1>
-            <p class="mk-hero-desc" data-i18n-target="description">defuss-i18n is the localization module of the defuss runtime. Every language is plain HTML in a <code>&lt;template&gt;</code> beside your markup, and a switch morphs only what a component owns: focus, typed input and open dialogs stay where they are.</p>
+            <p class="mk-hero-desc" data-i18n-target="description"><code>defuss-i18n</code> is the localization module of the <code>defuss</code> runtime. Every translation is plain HTML in a <code>&lt;template&gt;</code> beside your markup, and a switch morphs only what a component owns and has rendered before: focus, typed input and state-related rendering like open dialogs stay exactly as they were.</p>
             <div class="mk-hero-actions">
               <a class="btn" data-size="lg" href="#demo"><span data-i18n-target="try">Try the live demo</span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg></a>
               <a class="btn" data-variant="outline" data-size="lg" href="#install" data-i18n-target="install">Install</a>
@@ -134,11 +134,11 @@
           </div>
           <div hidden>
           <template data-i18n-for="pill" data-i18n-locale="en">Runtime module · made for defuss-shadcn</template>
-          <template data-i18n-for="pill" data-i18n-locale="de">Laufzeitmodul · gemacht für defuss-shadcn</template>
+          <template data-i18n-for="pill" data-i18n-locale="de">Runtime-Modul · gemacht für defuss-shadcn</template>
           <template data-i18n-for="heading" data-i18n-locale="en">Translate the page. <span class="site-accent">Keep its state.</span></template>
-          <template data-i18n-for="heading" data-i18n-locale="de">Seite übersetzen. <span class="site-accent">Zustand behalten.</span></template>
-          <template data-i18n-for="description" data-i18n-locale="en">defuss-i18n is the localization module of the defuss runtime. Every language is plain HTML in a <code>&lt;template&gt;</code> beside your markup, and a switch morphs only what a component owns: focus, typed input and open dialogs stay where they are.</template>
-          <template data-i18n-for="description" data-i18n-locale="de">defuss-i18n ist das Lokalisierungsmodul der defuss-Laufzeit. Jede Sprache ist schlichtes HTML in einem <code>&lt;template&gt;</code> neben deinem Markup, und ein Wechsel morpht nur, was einer Komponente gehört: Fokus, Eingaben und offene Dialoge bleiben, wo sie sind.</template>
+          <template data-i18n-for="heading" data-i18n-locale="de">Seite übersetzen. <span class="site-accent">State bleibt erhalten.</span></template>
+          <template data-i18n-for="description" data-i18n-locale="en"><code>defuss-i18n</code> is the localization module of the <code>defuss</code> runtime. Every translation is plain HTML in a <code>&lt;template&gt;</code> beside your markup, and a switch morphs only what a component owns and has rendered before: focus, typed input and state-related rendering like open dialogs stay exactly as they were.</template>
+          <template data-i18n-for="description" data-i18n-locale="de"><code>defuss-i18n</code> ist das Lokalisierungsmodul der <code>defuss</code>-Runtime. Jede Übersetzung ist schlichtes HTML in einem <code>&lt;template&gt;</code> neben deinem Markup, und ein Switch morpht nur, was eine Komponente managed und zuvor gerendert hat: Fokus, Eingaben und Zustand-bedingtes Rendering wie offene Dialoge bleiben genau so erhalten, wie sie zuvor waren.</template>
           <template data-i18n-for="try" data-i18n-locale="en">Try the live demo</template>
           <template data-i18n-for="try" data-i18n-locale="de">Live-Demo ausprobieren</template>
           <template data-i18n-for="install" data-i18n-locale="en">Install</template>
@@ -158,7 +158,7 @@
       <div class="mk-features-head">
         <span class="mk-features-eyebrow" data-i18n-target="eyebrow">What it is</span>
         <h2 class="mk-features-title" id="about-title" data-i18n-target="title">🧩 A localization module for the defuss runtime</h2>
-        <p class="mk-features-desc" data-i18n-target="desc">defuss-shadcn’s <code>core.js</code> installs <code>df$</code>: defuss-query for DOM work and defuss-morph for reconciliation. defuss-i18n adds <code>df$.i18n</code> on top, with no framework, no build step and no second reconciler.</p>
+        <p class="mk-features-desc" data-i18n-target="desc"><code>defuss-i18n</code> implements the <code>df$.i18n</code> API with no framework dependencies, no build step and no DOM reconciler.</p>
       </div>
       <div class="mk-feature-cards" data-variant="boxed">
         <article class="mk-feature-card"><h3 class="mk-feature-card-title"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22v-5"/><path d="M15 8V2"/><path d="M17 8a1 1 0 0 1 1 1v4a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1z"/><path d="M9 8V2"/></svg><span data-i18n-target="f1-title">Plugs into df$</span></h3><p class="mk-feature-card-desc" data-i18n-target="f1-desc">Load it after defuss-shadcn and call <code>df$.i18n</code>. Without shadcn, defuss-query and defuss-morph provide the same runtime.</p></article>
@@ -174,41 +174,41 @@
           <template data-i18n-for="eyebrow" data-i18n-locale="en">What it is</template>
           <template data-i18n-for="eyebrow" data-i18n-locale="de">Was es ist</template>
           <template data-i18n-for="title" data-i18n-locale="en">🧩 A localization module for the defuss runtime</template>
-          <template data-i18n-for="title" data-i18n-locale="de">🧩 Ein Lokalisierungsmodul für die defuss-Laufzeit</template>
-          <template data-i18n-for="desc" data-i18n-locale="en">defuss-shadcn’s <code>core.js</code> installs <code>df$</code>: defuss-query for DOM work and defuss-morph for reconciliation. defuss-i18n adds <code>df$.i18n</code> on top, with no framework, no build step and no second reconciler.</template>
-          <template data-i18n-for="desc" data-i18n-locale="de"><code>core.js</code> von defuss-shadcn installiert <code>df$</code>: defuss-query für die DOM-Arbeit und defuss-morph für den Abgleich. defuss-i18n ergänzt <code>df$.i18n</code>, ohne Framework, ohne Build-Schritt und ohne zweiten Reconciler.</template>
+          <template data-i18n-for="title" data-i18n-locale="de">🧩 Ein Lokalisierungsmodul für die defuss-Runtime</template>
+          <template data-i18n-for="desc" data-i18n-locale="en"><code>defuss-i18n</code> implements the <code>df$.i18n</code> API with no framework dependencies, no build step and no DOM reconciler.</template>
+          <template data-i18n-for="desc" data-i18n-locale="de"><code>defuss-i18n</code> implementiert die <code>df$.i18n</code>-API, ohne Framework-Abhängigkeiten, ohne Build-Step und ohne DOM-Reconciler.</template>
           <template data-i18n-for="f1-title" data-i18n-locale="en">Plugs into df$</template>
           <template data-i18n-for="f1-title" data-i18n-locale="de">Steckt in df$</template>
           <template data-i18n-for="f1-desc" data-i18n-locale="en">Load it after defuss-shadcn and call <code>df$.i18n</code>. Without shadcn, defuss-query and defuss-morph provide the same runtime.</template>
-          <template data-i18n-for="f1-desc" data-i18n-locale="de">Nach defuss-shadcn laden und <code>df$.i18n</code> aufrufen. Ohne shadcn liefern defuss-query und defuss-morph dieselbe Laufzeit.</template>
+          <template data-i18n-for="f1-desc" data-i18n-locale="de">Nach defuss-shadcn laden und <code>df$.i18n</code> aufrufen. Ohne shadcn liefern defuss-query und defuss-morph dieselbe Runtime.</template>
           <template data-i18n-for="f2-title" data-i18n-locale="en">HTML is the catalog</template>
           <template data-i18n-for="f2-title" data-i18n-locale="de">HTML ist der Katalog</template>
           <template data-i18n-for="f2-desc" data-i18n-locale="en">Each language is a <code>&lt;template&gt;</code> next to the default markup. The page reads without JavaScript, and a translation may change structure, not only words.</template>
           <template data-i18n-for="f2-desc" data-i18n-locale="de">Jede Sprache ist ein <code>&lt;template&gt;</code> neben dem Standard-Markup. Die Seite ist ohne JavaScript lesbar, und eine Übersetzung darf auch die Struktur ändern, nicht nur Wörter.</template>
           <template data-i18n-for="f3-title" data-i18n-locale="en">State survives a switch</template>
-          <template data-i18n-for="f3-title" data-i18n-locale="de">Zustand übersteht den Wechsel</template>
+          <template data-i18n-for="f3-title" data-i18n-locale="de">State überlebt den Switch</template>
           <template data-i18n-for="f3-desc" data-i18n-locale="en">Regions are morphed in place: elements, listeners, focus, text selection, typed input and open dialogs stay.</template>
-          <template data-i18n-for="f3-desc" data-i18n-locale="de">Regionen werden an Ort und Stelle gemorpht: Elemente, Listener, Fokus, Textauswahl, Eingaben und offene Dialoge bleiben.</template>
+          <template data-i18n-for="f3-desc" data-i18n-locale="de">Regionen werden in-place gemorpht: Elemente, Listener, Fokus, Textauswahl, Eingaben und offene Dialoge bleiben.</template>
           <template data-i18n-for="f4-title" data-i18n-locale="en">Native Intl</template>
           <template data-i18n-for="f4-title" data-i18n-locale="de">Natives Intl</template>
           <template data-i18n-for="f4-desc" data-i18n-locale="en">BCP 47 fallback chains such as <code>de-AT → de → en</code>, CLDR plural rules, and number and date formats from the browser, with no bundled locale data.</template>
-          <template data-i18n-for="f4-desc" data-i18n-locale="de">BCP-47-Fallback-Ketten wie <code>de-AT → de → en</code>, CLDR-Pluralregeln sowie Zahlen- und Datumsformate aus dem Browser, ohne mitgelieferte Sprachdaten.</template>
+          <template data-i18n-for="f4-desc" data-i18n-locale="de">BCP-47-Fallback-Ketten wie <code>de-AT → de → en</code>, CLDR-Pluralregeln sowie Zahlen- und Datumsformate aus dem Browser, ohne mitgelieferte Locale-Daten.</template>
           <template data-i18n-for="f5-title" data-i18n-locale="en">Attributes, too</template>
           <template data-i18n-for="f5-title" data-i18n-locale="de">Auch Attribute</template>
           <template data-i18n-for="f5-desc" data-i18n-locale="en">Sixteen content attributes, from <code>alt</code> and <code>aria-label</code> to <code>href</code> and <code>src</code>, through <code>data-i18n-{attribute}-{locale}</code>.</template>
-          <template data-i18n-for="f5-desc" data-i18n-locale="de">Sechzehn Inhaltsattribute, von <code>alt</code> und <code>aria-label</code> bis <code>href</code> und <code>src</code>, über <code>data-i18n-{attribute}-{locale}</code>.</template>
+          <template data-i18n-for="f5-desc" data-i18n-locale="de">Sechzehn Content-Attribute, von <code>alt</code> und <code>aria-label</code> bis <code>href</code> und <code>src</code>, über <code>data-i18n-{attribute}-{locale}</code>.</template>
           <template data-i18n-for="f6-title" data-i18n-locale="en">Checked before it writes</template>
           <template data-i18n-for="f6-title" data-i18n-locale="de">Geprüft, bevor es schreibt</template>
           <template data-i18n-for="f6-desc" data-i18n-locale="en"><code>validateI18n</code> returns structured diagnostics for missing languages, overlapping regions and broken ID references.</template>
-          <template data-i18n-for="f6-desc" data-i18n-locale="de"><code>validateI18n</code> liefert strukturierte Diagnosen zu fehlenden Sprachen, überlappenden Regionen und kaputten ID-Verweisen.</template>
+          <template data-i18n-for="f6-desc" data-i18n-locale="de"><code>validateI18n</code> liefert strukturierte Diagnosen zu fehlenden Sprachen, überlappenden Regionen und kaputten ID-Referenzen.</template>
           <template data-i18n-for="f7-title" data-i18n-locale="en">Languages on demand</template>
           <template data-i18n-for="f7-title" data-i18n-locale="de">Sprachen bei Bedarf</template>
           <template data-i18n-for="f7-desc" data-i18n-locale="en">Ship one language and fetch the others with <code>loadLocale</code>. Only the newest request commits; a superseded one resolves as <code>superseded</code>.</template>
-          <template data-i18n-for="f7-desc" data-i18n-locale="de">Liefere eine Sprache aus und lade die anderen mit <code>loadLocale</code> nach. Nur die neueste Anfrage setzt sich durch; eine überholte endet als <code>superseded</code>.</template>
+          <template data-i18n-for="f7-desc" data-i18n-locale="de">Shippe eine Sprache und lade die anderen mit <code>loadLocale</code> nach. Nur der neueste Request setzt sich durch; ein überholter endet als <code>superseded</code>.</template>
           <template data-i18n-for="f8-title" data-i18n-locale="en">Values stay text</template>
           <template data-i18n-for="f8-title" data-i18n-locale="de">Werte bleiben Text</template>
           <template data-i18n-for="f8-desc" data-i18n-locale="en">Interpolated values are written as text, and value slots inside <code>script</code>, <code>style</code> or <code>iframe</code> are rejected before any write.</template>
-          <template data-i18n-for="f8-desc" data-i18n-locale="de">Eingesetzte Werte werden als Text geschrieben, und Wert-Slots in <code>script</code>, <code>style</code> oder <code>iframe</code> werden vor jedem Schreiben abgelehnt.</template>
+          <template data-i18n-for="f8-desc" data-i18n-locale="de">Interpolierte Werte werden als Text geschrieben, und Value-Slots in <code>script</code>, <code>style</code> oder <code>iframe</code> werden vor jedem Schreiben abgelehnt.</template>
         </div>
     </section>
 
@@ -234,7 +234,7 @@
           <template data-i18n-for="eyebrow" data-i18n-locale="en">How it works</template>
           <template data-i18n-for="eyebrow" data-i18n-locale="de">So funktioniert’s</template>
           <template data-i18n-for="title" data-i18n-locale="en">⚙️ One switch, four steps</template>
-          <template data-i18n-for="title" data-i18n-locale="de">⚙️ Ein Wechsel, vier Schritte</template>
+          <template data-i18n-for="title" data-i18n-locale="de">⚙️ Ein Switch, vier Schritte</template>
           <template data-i18n-for="desc" data-i18n-locale="en">A language switch is synchronous: when <code>setLocale</code> returns, every bound component shows the new language.</template>
           <template data-i18n-for="desc" data-i18n-locale="de">Ein Sprachwechsel ist synchron: Wenn <code>setLocale</code> zurückkehrt, zeigt jede gebundene Komponente die neue Sprache.</template>
           <template data-i18n-for="s1-title" data-i18n-locale="en">Author</template>
@@ -244,15 +244,15 @@
           <template data-i18n-for="s2-title" data-i18n-locale="en">Bind</template>
           <template data-i18n-for="s2-title" data-i18n-locale="de">Binden</template>
           <template data-i18n-for="s2-desc" data-i18n-locale="en"><code>bind(root, locale)</code> captures the templates once and checks ownership: every region belongs to exactly one component.</template>
-          <template data-i18n-for="s2-desc" data-i18n-locale="de"><code>bind(root, locale)</code> erfasst die Templates einmal und prüft die Zuständigkeit: Jede Region gehört genau einer Komponente.</template>
+          <template data-i18n-for="s2-desc" data-i18n-locale="de"><code>bind(root, locale)</code> erfasst die Templates einmal und prüft die Ownership: Jede Region gehört genau einer Komponente.</template>
           <template data-i18n-for="s3-title" data-i18n-locale="en">Select</template>
           <template data-i18n-for="s3-title" data-i18n-locale="de">Auswählen</template>
           <template data-i18n-for="s3-desc" data-i18n-locale="en"><code>setLocale('de')</code> commits a frozen snapshot. Each binding picks one template per region through the fallback chain and plural rules, and fills values and attributes on detached copies.</template>
-          <template data-i18n-for="s3-desc" data-i18n-locale="de"><code>setLocale('de')</code> legt einen eingefrorenen Snapshot fest. Jede Bindung wählt pro Region ein Template über Fallback-Kette und Pluralregeln und füllt Werte und Attribute an losgelösten Kopien.</template>
+          <template data-i18n-for="s3-desc" data-i18n-locale="de"><code>setLocale('de')</code> legt einen eingefrorenen Snapshot fest. Jedes Binding wählt pro Region ein Template über Fallback-Kette und Pluralregeln und füllt Werte und Attribute an losgelösten Kopien.</template>
           <template data-i18n-for="s4-title" data-i18n-locale="en">Morph</template>
           <template data-i18n-for="s4-title" data-i18n-locale="de">Morphen</template>
           <template data-i18n-for="s4-desc" data-i18n-locale="en">defuss-morph patches each live region through <code>df$</code>. Matched elements stay, <code>lang</code> and <code>dir</code> follow, and <code>defuss-i18n:change</code> fires.</template>
-          <template data-i18n-for="s4-desc" data-i18n-locale="de">defuss-morph gleicht jede Live-Region über <code>df$</code> ab. Passende Elemente bleiben, <code>lang</code> und <code>dir</code> ziehen mit, und <code>defuss-i18n:change</code> wird ausgelöst.</template>
+          <template data-i18n-for="s4-desc" data-i18n-locale="de">defuss-morph patcht jede Live-Region über <code>df$</code>. Gematchte Elemente bleiben, <code>lang</code> und <code>dir</code> ziehen mit, und <code>defuss-i18n:change</code> feuert.</template>
         </div>
     </section>
 
@@ -331,7 +331,7 @@
           <template data-i18n-for="title" data-i18n-locale="en">Your settings</template>
           <template data-i18n-for="title" data-i18n-locale="de">Deine Einstellungen</template>
           <template data-i18n-for="badge" data-i18n-locale="en">Native state</template>
-          <template data-i18n-for="badge" data-i18n-locale="de">Nativer Zustand</template>
+          <template data-i18n-for="badge" data-i18n-locale="de">Nativer State</template>
           <template data-i18n-for="description" data-i18n-locale="en">Open the dialog, type a name, then switch the language inside it.</template>
           <template data-i18n-for="description" data-i18n-locale="de">Öffne den Dialog, gib einen Namen ein und wechsle darin die Sprache.</template>
           <template data-i18n-for="open" data-i18n-locale="en">Open settings</template>
@@ -356,11 +356,11 @@
               </div>
               <div hidden>
           <template data-i18n-for="title" data-i18n-locale="en">Application state</template>
-          <template data-i18n-for="title" data-i18n-locale="de">Anwendungszustand</template>
+          <template data-i18n-for="title" data-i18n-locale="de">Application-State</template>
           <template data-i18n-for="badge" data-i18n-locale="en">State renderer</template>
-          <template data-i18n-for="badge" data-i18n-locale="de">Zustands-Renderer</template>
+          <template data-i18n-for="badge" data-i18n-locale="de">State-Renderer</template>
           <template data-i18n-for="note" data-i18n-locale="en"><code>render()</code> builds this markup from state, so the checkbox keeps its value through every switch.</template>
-          <template data-i18n-for="note" data-i18n-locale="de"><code>render()</code> baut dieses Markup aus dem Zustand, darum behält die Checkbox ihren Wert bei jedem Wechsel.</template>
+          <template data-i18n-for="note" data-i18n-locale="de"><code>render()</code> baut dieses Markup aus dem State, darum behält die Checkbox ihren Wert bei jedem Switch.</template>
           <template data-i18n-for="toggle" data-i18n-locale="en">Toggle checked state</template>
           <template data-i18n-for="toggle" data-i18n-locale="de">Häkchen umschalten</template>
         </div>
@@ -399,11 +399,11 @@
           <template data-i18n-for="title" data-i18n-locale="en">🔀 Switch the language, watch what stays</template>
           <template data-i18n-for="title" data-i18n-locale="de">🔀 Sprache wechseln, sehen, was bleibt</template>
           <template data-i18n-for="desc" data-i18n-locale="en">Every sentence on this page comes from a defuss-i18n template. The window below holds what usually breaks: typed input in an open dialog, plural forms, markup rendered from state and translated attributes.</template>
-          <template data-i18n-for="desc" data-i18n-locale="de">Jeder Satz auf dieser Seite stammt aus einem defuss-i18n-Template. Das Fenster unten zeigt, was sonst gern bricht: Eingaben in einem offenen Dialog, Pluralformen, Markup aus dem Zustand und übersetzte Attribute.</template>
+          <template data-i18n-for="desc" data-i18n-locale="de">Jeder Satz auf dieser Seite stammt aus einem defuss-i18n-Template. Das Fenster unten zeigt, was sonst gern bricht: Eingaben in einem offenen Dialog, Pluralformen, Markup aus dem State und übersetzte Attribute.</template>
           <template data-i18n-for="language-label" data-i18n-locale="en">Language</template>
           <template data-i18n-for="language-label" data-i18n-locale="de">Sprache</template>
           <template data-i18n-for="locale" data-i18n-locale="en">Locale</template>
-          <template data-i18n-for="locale" data-i18n-locale="de">Sprache</template>
+          <template data-i18n-for="locale" data-i18n-locale="de">Locale</template>
           <template data-i18n-for="revision" data-i18n-locale="en">Revision</template>
           <template data-i18n-for="revision" data-i18n-locale="de">Revision</template>
           <template data-i18n-for="direction" data-i18n-locale="en">Direction</template>
@@ -411,9 +411,9 @@
           <template data-i18n-for="chain" data-i18n-locale="en">Fallback</template>
           <template data-i18n-for="chain" data-i18n-locale="de">Fallback</template>
           <template data-i18n-for="log-title" data-i18n-locale="en">Event log</template>
-          <template data-i18n-for="log-title" data-i18n-locale="de">Ereignisprotokoll</template>
+          <template data-i18n-for="log-title" data-i18n-locale="de">Event-Log</template>
           <template data-i18n-for="log-note" data-i18n-locale="en">One line per render, written by a <code>defuss-i18n:change</code> listener.</template>
-          <template data-i18n-for="log-note" data-i18n-locale="de">Eine Zeile pro Rendern, geschrieben von einem <code>defuss-i18n:change</code>-Listener.</template>
+          <template data-i18n-for="log-note" data-i18n-locale="de">Eine Zeile pro Render, geschrieben von einem <code>defuss-i18n:change</code>-Listener.</template>
         </div>
     </section>
 
@@ -428,11 +428,11 @@
           <template data-i18n-for="gzip-label" data-i18n-locale="en">gzip, minified browser build, peers excluded</template>
           <template data-i18n-for="gzip-label" data-i18n-locale="de">gzip, minifizierter Browser-Build, ohne Peers</template>
           <template data-i18n-for="attrs-label" data-i18n-locale="en">translatable content attributes</template>
-          <template data-i18n-for="attrs-label" data-i18n-locale="de">übersetzbare Inhaltsattribute</template>
+          <template data-i18n-for="attrs-label" data-i18n-locale="de">übersetzbare Content-Attribute</template>
           <template data-i18n-for="builds-label" data-i18n-locale="en">builds: ESM, CommonJS, browser ESM, classic script</template>
-          <template data-i18n-for="builds-label" data-i18n-locale="de">Builds: ESM, CommonJS, Browser-ESM, klassisches Skript</template>
+          <template data-i18n-for="builds-label" data-i18n-locale="de">Builds: ESM, CommonJS, Browser-ESM, klassisches Script</template>
           <template data-i18n-for="deps-label" data-i18n-locale="en">runtime dependencies; defuss-query and defuss-morph are peers</template>
-          <template data-i18n-for="deps-label" data-i18n-locale="de">Laufzeitabhängigkeiten; defuss-query und defuss-morph sind Peers</template>
+          <template data-i18n-for="deps-label" data-i18n-locale="de">Runtime-Dependencies; defuss-query und defuss-morph sind Peers</template>
           <template data-i18n-for="gzip" data-i18n-locale="en"><span data-i18n-value="gzip"></span> kB</template>
           <template data-i18n-for="gzip" data-i18n-locale="de"><span data-i18n-value="gzip"></span> kB</template>
         </div>
@@ -442,8 +442,8 @@
       <header class="mk-section-header" data-align="center">
         <div class="mk-section-header-copy">
           <span class="mk-section-header-eyebrow" data-i18n-target="eyebrow">Install</span>
-          <h2 class="mk-section-header-title" id="install-title" data-i18n-target="title">📦 Add it to a page</h2>
-          <p class="mk-section-header-desc" data-i18n-target="desc">From jsDelivr next to defuss-shadcn, from npm for a bundler, or with the two peers on their own.</p>
+          <h2 class="mk-section-header-title" id="install-title" data-i18n-target="title">📦 Add it to a website</h2>
+          <p class="mk-section-header-desc" data-i18n-target="desc"><code>defuss-i18n</code> works best with <code>defuss-shadcn</code>. From jsDelivr next to <code>defuss-shadcn</code>, from npm for a bundler, or with the two peers on their own.</p>
         </div>
       </header>
       <div class="site-section">
@@ -451,7 +451,7 @@
           <div class="tab-list" role="tablist" aria-label="Setup" data-i18n-aria-label-en="Setup" data-i18n-aria-label-de="Einrichtung">
             <button class="tab-trigger" role="tab" aria-selected="true" aria-controls="panel-shadcn" id="tab-shadcn"><span data-i18n-target="tab-shadcn">With defuss-shadcn</span></button>
             <button class="tab-trigger" role="tab" aria-selected="false" aria-controls="panel-npm" id="tab-npm" tabindex="-1">npm</button>
-            <button class="tab-trigger" role="tab" aria-selected="false" aria-controls="panel-peers" id="tab-peers" tabindex="-1"><span data-i18n-target="tab-peers">Without shadcn</span></button>
+            <button class="tab-trigger" role="tab" aria-selected="false" aria-controls="panel-peers" id="tab-peers" tabindex="-1"><span data-i18n-target="tab-peers">Without defuss-shadcn</span></button>
           </div>
           <div class="tab-content" role="tabpanel" id="panel-shadcn" aria-labelledby="tab-shadcn" tabindex="0">
             <figure class="mk-code-block" data-variant="file">
@@ -475,7 +475,7 @@
           <div class="tab-content" role="tabpanel" id="panel-peers" aria-labelledby="tab-peers" tabindex="0" hidden>
             <figure class="mk-code-block" data-variant="file">
               <div class="mk-code-block-head"><span class="mk-code-block-file"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 12.5 8 15l2 2.5"/><path d="m14 12.5 2 2.5-2 2.5"/></svg>index.html</span><button class="mk-code-block-copy" type="button" aria-label="Copy code" data-i18n-aria-label-en="Copy code" data-i18n-aria-label-de="Code kopieren"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button></div>
-              <pre><code><span><span class="mk-code-block-k">&lt;script</span> type=<span class="mk-code-block-s">"module"</span><span class="mk-code-block-k">&gt;</span></span><span>  <span class="mk-code-block-k">await</span> <span class="mk-code-block-k">import</span>('https:<span class="mk-code-block-c">//cdn.jsdelivr.net/npm/defuss-morph@0.1.1/dist/all.min.js');</span></span><span>  <span class="mk-code-block-k">await</span> <span class="mk-code-block-k">import</span>('https:<span class="mk-code-block-c">//cdn.jsdelivr.net/npm/defuss-query@0.1.0/dist/all.min.js');</span></span><span>  <span class="mk-code-block-k">await</span> <span class="mk-code-block-k">import</span>('https:<span class="mk-code-block-c">//cdn.jsdelivr.net/npm/defuss-i18n@0.1.0/dist/all.min.js');</span></span><span><span class="mk-code-block-k">&lt;/script</span><span class="mk-code-block-k">&gt;</span></span></code></pre>
+              <pre><code><span><span class="mk-code-block-k">&lt;script</span> type=<span class="mk-code-block-s">"module"</span><span class="mk-code-block-k">&gt;</span></span><span>  <span class="mk-code-block-k">await</span> <span class="mk-code-block-k">import</span>(<span class="mk-code-block-s">'https://cdn.jsdelivr.net/npm/defuss-morph@0.1.1/dist/all.min.js'</span>);</span><span>  <span class="mk-code-block-k">await</span> <span class="mk-code-block-k">import</span>(<span class="mk-code-block-s">'https://cdn.jsdelivr.net/npm/defuss-query@0.1.0/dist/all.min.js'</span>);</span><span>  <span class="mk-code-block-k">await</span> <span class="mk-code-block-k">import</span>(<span class="mk-code-block-s">'https://cdn.jsdelivr.net/npm/defuss-i18n@0.1.0/dist/all.min.js'</span>);</span><span><span class="mk-code-block-k">&lt;/script</span><span class="mk-code-block-k">&gt;</span></span></code></pre>
               <span class="mk-code-block-status" role="status"></span>
             </figure>
           </div>
@@ -484,14 +484,14 @@
       <div hidden>
           <template data-i18n-for="eyebrow" data-i18n-locale="en">Install</template>
           <template data-i18n-for="eyebrow" data-i18n-locale="de">Installation</template>
-          <template data-i18n-for="title" data-i18n-locale="en">📦 Add it to a page</template>
-          <template data-i18n-for="title" data-i18n-locale="de">📦 Auf eine Seite bringen</template>
-          <template data-i18n-for="desc" data-i18n-locale="en">From jsDelivr next to defuss-shadcn, from npm for a bundler, or with the two peers on their own.</template>
-          <template data-i18n-for="desc" data-i18n-locale="de">Über jsDelivr neben defuss-shadcn, über npm für einen Bundler oder nur mit den beiden Peers.</template>
+          <template data-i18n-for="title" data-i18n-locale="en">📦 Add it to a website</template>
+          <template data-i18n-for="title" data-i18n-locale="de">📦 Zu einer Website hinzufügen</template>
+          <template data-i18n-for="desc" data-i18n-locale="en"><code>defuss-i18n</code> works best with <code>defuss-shadcn</code>. From jsDelivr next to <code>defuss-shadcn</code>, from npm for a bundler, or with the two peers on their own.</template>
+          <template data-i18n-for="desc" data-i18n-locale="de"><code>defuss-i18n</code> funktioniert am besten mit <code>defuss-shadcn</code>. Über jsDelivr neben <code>defuss-shadcn</code>, über npm für einen Bundler oder nur mit den beiden Peers.</template>
           <template data-i18n-for="tab-shadcn" data-i18n-locale="en">With defuss-shadcn</template>
           <template data-i18n-for="tab-shadcn" data-i18n-locale="de">Mit defuss-shadcn</template>
-          <template data-i18n-for="tab-peers" data-i18n-locale="en">Without shadcn</template>
-          <template data-i18n-for="tab-peers" data-i18n-locale="de">Ohne shadcn</template>
+          <template data-i18n-for="tab-peers" data-i18n-locale="en">Without defuss-shadcn</template>
+          <template data-i18n-for="tab-peers" data-i18n-locale="de">Ohne defuss-shadcn</template>
         </div>
     </section>
 
@@ -513,7 +513,7 @@
           <template data-i18n-for="title" data-i18n-locale="en">Read the documentation</template>
           <template data-i18n-for="title" data-i18n-locale="de">Zur Dokumentation</template>
           <template data-i18n-for="desc" data-i18n-locale="en">Guides to state and ownership, lazy loading and the security model, plus the full API and error reference.</template>
-          <template data-i18n-for="desc" data-i18n-locale="de">Leitfäden zu Zustand und Zuständigkeit, Nachladen und Sicherheitsmodell sowie die vollständige API- und Fehlerreferenz.</template>
+          <template data-i18n-for="desc" data-i18n-locale="de">Leitfäden zu State und Ownership, Lazy Loading und Security-Modell sowie die vollständige API- und Fehlerreferenz.</template>
           <template data-i18n-for="start" data-i18n-locale="en">Getting started</template>
           <template data-i18n-for="start" data-i18n-locale="de">Erste Schritte</template>
           <template data-i18n-for="api" data-i18n-locale="en">API reference</template>
@@ -582,17 +582,17 @@
           <template data-i18n-for="source" data-i18n-locale="en">Source code</template>
           <template data-i18n-for="source" data-i18n-locale="de">Quellcode</template>
           <template data-i18n-for="changelog" data-i18n-locale="en">Changelog</template>
-          <template data-i18n-for="changelog" data-i18n-locale="de">Änderungsprotokoll</template>
+          <template data-i18n-for="changelog" data-i18n-locale="de">Changelog</template>
           <template data-i18n-for="docs" data-i18n-locale="en">Documentation</template>
           <template data-i18n-for="docs" data-i18n-locale="de">Dokumentation</template>
           <template data-i18n-for="start" data-i18n-locale="en">Getting started</template>
           <template data-i18n-for="start" data-i18n-locale="de">Erste Schritte</template>
           <template data-i18n-for="state" data-i18n-locale="en">State and ownership</template>
-          <template data-i18n-for="state" data-i18n-locale="de">Zustand und Zuständigkeit</template>
+          <template data-i18n-for="state" data-i18n-locale="de">State und Ownership</template>
           <template data-i18n-for="lazy" data-i18n-locale="en">Lazy loading</template>
-          <template data-i18n-for="lazy" data-i18n-locale="de">Nachladen</template>
+          <template data-i18n-for="lazy" data-i18n-locale="de">Lazy Loading</template>
           <template data-i18n-for="security" data-i18n-locale="en">Security model</template>
-          <template data-i18n-for="security" data-i18n-locale="de">Sicherheitsmodell</template>
+          <template data-i18n-for="security" data-i18n-locale="de">Security-Modell</template>
           <template data-i18n-for="api" data-i18n-locale="en">API reference</template>
           <template data-i18n-for="api" data-i18n-locale="de">API-Referenz</template>
           <template data-i18n-for="runtime" data-i18n-locale="en">Built with</template>

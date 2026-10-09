@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { gzipSync, brotliCompressSync } from 'node:zlib';
+import { buildSite } from './build-site.mjs';
 const pkg = JSON.parse(await readFile('package.json', 'utf8'));
 const stats = JSON.parse(await readFile('dist/stats.json', 'utf8'));
 assert.equal(stats.version, pkg.version);
@@ -28,10 +29,12 @@ for (const path of ['docs/index.html', 'docs/assets/demo.js']) {
   assert(!/(?:\.\.\/|["'`]\/)(?:node_modules|dist)\//.test(text), `${path} loads a local build; the site uses released files from jsDelivr`);
   for (const [url] of text.matchAll(/https:\/\/cdn\.jsdelivr\.net\/[^"'`\s)&]+/g)) assert.match(url, /@\d+\.\d+\.\d+\//, `${path}: ${url} must pin an exact version`);
 }
+// docs/index.html is built from site/page.html and site/translations.json; a hand edit there would be lost on the next build.
+assert.equal(await readFile('docs/index.html', 'utf8'), await buildSite(), 'docs/index.html differs from its source: edit site/page.html or site/translations.json, then run bun run site');
 // Every CDN file the site loads carries Subresource Integrity, so a changed file is blocked instead of run.
 for (const [tag] of (await readFile('docs/index.html', 'utf8')).matchAll(/<(?:script|link)\b[^>]*(?:src|href)="https:\/\/cdn\.jsdelivr\.net\/[^"]+"[^>]*>/g)) {
   assert.match(tag, /integrity="sha384-[A-Za-z0-9+/=]+"/, `docs/index.html: ${tag} needs an integrity hash`);
 }
 const version = (await readFile('src/locale.ts', 'utf8')).match(/I18N_VERSION = '([^']+)'/)[1];
 assert.equal(version, pkg.version);
-console.log('Verified source freshness, version agreement, browser budgets, maps, peer exclusion, pinned and integrity-checked site runtime and release artifacts.');
+console.log('Verified source freshness, version agreement, browser budgets, maps, peer exclusion, a site built from site/ with a pinned, integrity-checked runtime, and release artifacts.');

@@ -105,7 +105,7 @@ test('shipped browser artifacts and side-effect-free DOM adapter', async t => {
       assert.equal(await page.locator('#code-line-en').getAttribute('data-cursor'), '', 'the cursor marks the live template line');
 
       await page.locator('#locale-switcher .toggle[value="de"]').click();
-      assert.equal(await text(page, '#welcome-heading'), 'Seite übersetzen. Zustand behalten.');
+      assert.equal(await text(page, '#welcome-heading'), 'Seite übersetzen. State bleibt erhalten.');
       assert(await heading.evaluate(element => element === document.getElementById('welcome-heading')), 'the heading keeps its identity');
       assert.deepEqual([await page.locator('#code-line-de').getAttribute('data-cursor'), await page.locator('#code-line-en').getAttribute('data-cursor')], ['', null]);
       assert.match(await lastLog(), /^setLocale\('de'\) · revision 1 · \d+ components morphed$/);
@@ -176,7 +176,7 @@ test('shipped browser artifacts and side-effect-free DOM adapter', async t => {
     await t.test('project site opens in the visitor’s language', async () => {
       const context = await browser.newContext({ locale: 'de-DE' }); const page = await context.newPage(); const problems = watch(page);
       await page.goto(site); await ready(page, problems);
-      assert.deepEqual([await text(page, '#welcome-heading'), await text(page, '#snapshot-locale'), await page.locator('html').getAttribute('lang')], ['Seite übersetzen. Zustand behalten.', 'de', 'de']);
+      assert.deepEqual([await text(page, '#welcome-heading'), await text(page, '#snapshot-locale'), await page.locator('html').getAttribute('lang')], ['Seite übersetzen. State bleibt erhalten.', 'de', 'de']);
       assert.deepEqual(problems, []); await context.close();
     });
     await t.test('project site without JavaScript shows the English templates', async () => {
