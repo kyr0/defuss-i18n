@@ -35,6 +35,17 @@ assert.equal(await readFile('docs/index.html', 'utf8'), await buildSite(), 'docs
 for (const [tag] of (await readFile('docs/index.html', 'utf8')).matchAll(/<(?:script|link)\b[^>]*(?:src|href)="https:\/\/cdn\.jsdelivr\.net\/[^"]+"[^>]*>/g)) {
   assert.match(tag, /integrity="sha384-[A-Za-z0-9+/=]+"/, `docs/index.html: ${tag} needs an integrity hash`);
 }
+// VERIFIED: the README's size table is prose, so nothing else would notice when a build changes the numbers;
+// each row must state the built file's size and gzip size in kB with one decimal.
+const readme = await readFile('README.md', 'utf8');
+const table = readme.match(/<!-- bundle-size:start -->([\s\S]*?)<!-- bundle-size:end -->/)?.[1] ?? '';
+const kb = bytes => `${(bytes / 1000).toFixed(1)} kB`;
+for (const name of ['index.js', 'index.cjs', 'core.js', 'core.cjs', 'all.js', 'all.min.js', 'global.min.js']) {
+  const bytes = await readFile(`dist/${name}`);
+  const row = table.match(new RegExp(`^\\| \`${name.replace('.', '\\.')}\` \\| ([^|]+) \\| ([^|]+) \\|`, 'm'));
+  assert(row, `README.md size table lacks a row for ${name}`);
+  assert.deepEqual([row[1].trim(), row[2].replace(/\*/g, '').trim()], [kb(bytes.length), kb(gzipSync(bytes).length)], `README.md size table is stale for ${name}`);
+}
 const version = (await readFile('src/locale.ts', 'utf8')).match(/I18N_VERSION = '([^']+)'/)[1];
 assert.equal(version, pkg.version);
 console.log('Verified source freshness, version agreement, browser budgets, maps, peer exclusion, a site built from site/ with a pinned, integrity-checked runtime, and release artifacts.');
