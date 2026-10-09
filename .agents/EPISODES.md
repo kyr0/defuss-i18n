@@ -40,3 +40,5 @@ A lesson recurring ≥2 → test | .agents/VERIFY.py rule | MEMORY line, then de
 2026-10-09T14:54:16Z s=a7b9f95a DONE fp=04c6c980fa45 cov=100.0% paths=AGENTS.md,ARCH.md,CHANGELOG.md,README.md(+20)
 2026-10-09T14:54:16Z s=a7b9f95a FINDING README.md (rewrite) learn=test: tests/docs.test.mjs keeps README links and the API/error names in sync; the site stays the authoritative text.
 2026-10-09T14:54:16Z s=a7b9f95a FINDING scripts/verify.mjs (README size table) learn=verifier: scripts/verify.mjs runs in bun run check, make verify, CI and prepublishOnly.
+2026-10-09T15:03:26Z s=a7b9f95a DONE fp=f9da5ec737c4 cov=100.0% paths=AGENTS.md,ARCH.md,CHANGELOG.md,README.md(+20)
+2026-10-09T15:03:26Z s=a7b9f95a FINDING README.md (Citation) learn=none: A doc addition; the version field is bumped with the CDN pins at release.
