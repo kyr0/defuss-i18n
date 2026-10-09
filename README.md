@@ -318,6 +318,22 @@ make setup && make verify
 
 `make verify` runs oxlint and strict TypeScript, the unit and docs tests with coverage, the browser suite against all four shipped builds in real Chromium, the project site as published and with the checkout's build, a packed-consumer check and release verification. Development reads a gitignored `.env` (see `.env.example`): `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` points the browser tests at a Chromium (the bundled fallback runs only on Linux x64), `I18N_REPORT_DIR` is where the browser report and screenshots land, `PORT` is the port of `bun run serve`. `bun publish` runs `prepublishOnly`, which is `bun run check`.
 
+## Citation
+
+If you use defuss-i18n in research or want to reference it, cite it as:
+
+```bibtex
+@misc{homberg2026defussi18n,
+  author       = {Homberg, Aron},
+  affiliation  = {Independent Researcher},
+  title        = {defuss-i18n: HTML-authored localization with component-owned DOM morphing},
+  year         = {2026},
+  version      = {0.1.0},
+  howpublished = {\url{https://github.com/kyr0/defuss-i18n}},
+  note         = {Localization module of the defuss runtime, MIT License}
+}
+```
+
 ## License
 
 [MIT](LICENSE)
