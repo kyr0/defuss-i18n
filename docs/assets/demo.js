@@ -2,12 +2,39 @@
 // pinned by Subresource Integrity, so this module only wires the page; serve the docs/ folder statically.
 const query = globalThis.df$;
 const { createI18n, bind, validateI18n, resolveLocale, localeChain } = query.i18n;
-const locales = ['en', 'de', 'ar'];
+const locales = ['en', 'de'];
 
 // Open in the visitor's language when the page has it; the static HTML stays English without JavaScript.
 const preferred = navigator.languages?.length ? navigator.languages : [navigator.language];
 const initial = preferred.map(tag => { try { return resolveLocale(locales, tag, []); } catch { return undefined; } }).find(Boolean) ?? 'en';
 const locale = createI18n({ locale: initial, fallback: ['en'] });
+
+// Live event log: every binding dispatches defuss-i18n:change after its writes. Renders run synchronously inside
+// bind, setLocale and refresh, so one microtask later the batch is complete and becomes one line.
+const log = document.getElementById('event-log');
+let pending = [];
+let logged = { revision: locale.snapshot.revision, booted: false };
+const logLine = (text, tone) => {
+  const pre = document.createElement('pre');
+  const code = document.createElement('code');
+  code.textContent = text;
+  pre.append(code);
+  query(pre).attr('data-prefix', '›').attr('data-tone', tone);
+  query(log).append(pre);
+  while (log.children.length > 6) query(log.firstElementChild).remove();
+};
+const flush = () => {
+  const roots = pending; pending = [];
+  const { locale: tag, revision } = locale.snapshot;
+  if (!logged.booted) logLine(`bind() · ${roots.length} components · ${tag}`, 'success');
+  else if (revision !== logged.revision) logLine(`setLocale('${tag}') · revision ${revision} · ${roots.length} components morphed`, 'info');
+  else logLine(`refresh() · #${roots.join(', #')}`, 'muted');
+  logged = { revision, booted: true };
+};
+query(document).on('defuss-i18n:change', event => {
+  pending.push(event.detail.root.id || event.detail.root.localName);
+  if (pending.length === 1) queueMicrotask(flush);
+});
 
 const bindings = [];
 const validated = root => {
@@ -23,7 +50,7 @@ for (const root of document.querySelectorAll('[data-i18n-component]:not(#cart, #
 const decimal = (value, snapshot) => new Intl.NumberFormat(snapshot.locale, { minimumFractionDigits: 1, maximumFractionDigits: 1 }).format(value);
 bindings.push(bind(validated(document.getElementById('stats')), locale, { values: (_, snapshot) => ({ gzip: decimal(6.2, snapshot) }) }));
 
-// Plural templates: the count picks the CLDR category, the label is formatted by native Intl.
+// Plural templates: the count picks the CLDR category (one egg / two eggs, ein Ei / zwei Eier), Intl formats it.
 let cart = Object.freeze({ count: 1 });
 const cartBinding = bind(validated(document.getElementById('cart')), locale, {
   getState: () => cart,
@@ -35,7 +62,7 @@ query('#add-item').on('click', () => setCount(cart.count + 1));
 query('#remove-item').on('click', () => setCount(Math.max(0, cart.count - 1)));
 
 // Explicit state renderer: markup from render(), the checked property from application state.
-const copy = { en: 'A controlled checkbox', de: 'Eine kontrollierte Checkbox', ar: 'مربع اختيار تتحكم فيه الحالة' };
+const copy = { en: 'A controlled checkbox', de: 'Eine kontrollierte Checkbox' };
 let settings = Object.freeze({ checked: true });
 const rendered = bind(document.getElementById('rendered'), locale, {
   getState: () => settings,
@@ -46,12 +73,13 @@ bindings.push(rendered);
 query('#toggle-checked').on('click', () => { settings = Object.freeze({ checked: !settings.checked }); rendered.refresh(); });
 query('#rendered').on('change', event => { settings = Object.freeze({ checked: event.target.checked }); });
 
-// The controller owns the current locale; switchers, the snapshot table and <html lang dir> only display it.
+// The controller owns the current locale; switchers, the snapshot, the markup cursor and <html lang dir> display it.
 // VERIFIED: a single-select toggle group clears the pressed item on a second click, and toggle-group.js listens on the
 // group element. The document listener always runs after it and rewrites every switcher from the snapshot.
 const switchers = '#locale-switcher .toggle, #sheet-locale .toggle, #demo-locale .toggle, #settings-locale .toggle';
 const showLocale = snapshot => {
   for (const toggle of document.querySelectorAll(switchers)) query(toggle).attr('aria-pressed', String(toggle.value === snapshot.locale));
+  for (const tag of locales) query(`#code-line-${tag}`).attr('data-cursor', tag === snapshot.locale ? '' : null);
   query('#snapshot-locale').text(snapshot.locale);
   query('#snapshot-revision').text(String(snapshot.revision));
   query('#snapshot-direction').text(snapshot.direction);
@@ -67,8 +95,12 @@ query(document).on('click', event => {
 const unsubscribe = locale.subscribe(showLocale);
 showLocale(locale.snapshot);
 
-// Code blocks: tabs are CSS-only radios; copying the visible tab is the one script the component leaves to the page.
-const copied = { en: 'Copied', de: 'Kopiert', ar: 'تم النسخ' };
+// The markup diff plays when it renders; opening its tab again replays it (Code Mockup: set data-animate again).
+const diff = document.getElementById('markup-diff');
+query('#tab-i18n').on('click', () => { query(diff).attr('data-animate', null); void diff.offsetWidth; query(diff).attr('data-animate', ''); });
+
+// Code blocks: copying the visible block is the one script the component leaves to the page.
+const copied = { en: 'Copied', de: 'Kopiert' };
 const timers = new Set();
 query(document).on('click', async event => {
   const button = event.target.closest('.mk-code-block-copy');

@@ -6,12 +6,11 @@
   <title>defuss-i18n · HTML-native localization for the defuss runtime</title>
   <meta name="description" content="defuss-i18n is the localization module for the defuss runtime and defuss-shadcn: every language lives in HTML templates, and a switch morphs only what a component owns, so focus, typed input and open dialogs survive.">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23737373' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 8 6 6'/%3E%3Cpath d='m4 14 6-6 2-3'/%3E%3Cpath d='M2 5h12'/%3E%3Cpath d='M7 2h1'/%3E%3Cpath d='m22 22-5-10-5 10'/%3E%3Cpath d='M14 18h6'/%3E%3C/svg%3E">
-  <!-- defuss-shadcn from jsDelivr at an exact release, pinned by Subresource Integrity: tokens + utilities, then every component. -->
+  <!-- defuss-shadcn from jsDelivr at an exact release, pinned by Subresource Integrity: tokens + utilities, shapes, every component. -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/defuss-shadcn@0.9.8/dist/components/core.min.css" integrity="sha384-XTkN5+CRRKO70LZ4OcV6O+kj6BY5lxdsRQ02oMz3kDCm9kd4B+16jbojkbgrbL0e" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/defuss-shadcn@0.9.8/dist/theme/utils/shapes.min.css" integrity="sha384-Ql86bF5zW5vFVk35X7GH6sUNZRTsmU93YO1iJBw/sYwgnlr4sgF+hBn1S5vDPI2G" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/defuss-shadcn@0.9.8/dist/components/all.min.css" integrity="sha384-3N21mZZQYTo6BWRxl629QHRrstw0IXVKRonDLdRbrYlODgFskMA/kODfnDX/gNk4" crossorigin="anonymous">
-  <!-- The components carry no page base: border-box sizing (blocks such as .mk-hero pair width:100% with padding)
-       and a body that reads only theme tokens, as the defuss-shadcn scaffolds do. -->
-  <style>*,::before,::after{box-sizing:border-box}@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}body{margin:0;background:var(--background);color:var(--foreground);font-family:var(--font-sans)}</style>
+  <link rel="stylesheet" href="assets/site.css">
   <script>
     // Before first paint: follow the OS colour scheme (defuss-shadcn dark mode is class="dark" on <html>).
     if (matchMedia('(prefers-color-scheme: dark)').matches) {
@@ -20,26 +19,25 @@
     }
   </script>
 </head>
-<body>
-  <header class="mk-header" data-i18n-component id="site-header">
+<body class="site-page">
+  <header class="mk-header" data-variant="floating" data-i18n-component id="site-header">
     <div class="mk-header-inner">
       <a href="#top" class="mk-header-brand"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/></svg><span class="mk-header-name">defuss-i18n</span></a>
-      <nav class="mk-header-nav" aria-label="Main" data-i18n-aria-label-en="Main" data-i18n-aria-label-de="Hauptnavigation" data-i18n-aria-label-ar="التنقل الرئيسي">
+      <nav class="mk-header-nav" aria-label="Main" data-i18n-aria-label-en="Main" data-i18n-aria-label-de="Hauptnavigation">
         <ul class="nav-menu-list">
           <li class="nav-menu-item"><a class="nav-menu-link" href="#about" data-i18n-target="about">What it is</a></li>
           <li class="nav-menu-item"><a class="nav-menu-link" href="#how" data-i18n-target="how">How it works</a></li>
           <li class="nav-menu-item"><a class="nav-menu-link" href="#demo" data-i18n-target="demo">Live demo</a></li>
           <li class="nav-menu-item"><a class="nav-menu-link" href="#install" data-i18n-target="install">Install</a></li>
-          <li class="nav-menu-item"><a class="nav-menu-link" href="https://github.com/kyr0/defuss-i18n">GitHub</a></li>
         </ul>
       </nav>
       <div class="mk-header-actions">
-        <div class="toggle-group mk-header-wide" role="group" id="locale-switcher" data-type="single" data-variant="outline" data-size="sm" aria-label="Language" data-i18n-aria-label-en="Language" data-i18n-aria-label-de="Sprache" data-i18n-aria-label-ar="اللغة">
+        <div class="toggle-group mk-header-wide" role="group" id="locale-switcher" data-type="single" data-variant="outline" data-size="sm" aria-label="Language" data-i18n-aria-label-en="Language" data-i18n-aria-label-de="Sprache">
           <button class="toggle" aria-pressed="true" value="en" lang="en">English</button>
           <button class="toggle" aria-pressed="false" value="de" lang="de">Deutsch</button>
-          <button class="toggle" aria-pressed="false" value="ar" lang="ar" dir="rtl">العربية</button>
         </div>
-        <button type="button" class="btn mk-header-menu" data-variant="ghost" data-size="icon" data-sheet-trigger="site-menu" aria-haspopup="dialog" aria-label="Open menu" data-i18n-aria-label-en="Open menu" data-i18n-aria-label-de="Menü öffnen" data-i18n-aria-label-ar="فتح القائمة"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/></svg></button>
+        <a class="btn mk-header-wide" data-variant="ghost" data-size="icon" href="https://github.com/kyr0/defuss-i18n" aria-label="Source code on GitHub" data-i18n-aria-label-en="Source code on GitHub" data-i18n-aria-label-de="Quellcode auf GitHub"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg></a>
+        <button type="button" class="btn mk-header-menu" data-variant="ghost" data-size="icon" data-sheet-trigger="site-menu" aria-haspopup="dialog" aria-label="Open menu" data-i18n-aria-label-en="Open menu" data-i18n-aria-label-de="Menü öffnen"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/></svg></button>
       </div>
     </div>
 
@@ -56,88 +54,117 @@
             <li><a href="#install" data-sheet-close data-i18n-target="sheet-install">Install</a></li>
             <li><a href="https://github.com/kyr0/defuss-i18n" data-sheet-close>GitHub</a></li>
           </ul>
-          <div class="toggle-group" role="group" id="sheet-locale" data-type="single" data-variant="outline" data-size="sm" aria-label="Language" data-i18n-aria-label-en="Language" data-i18n-aria-label-de="Sprache" data-i18n-aria-label-ar="اللغة">
+          <div class="toggle-group" role="group" id="sheet-locale" data-type="single" data-variant="outline" data-size="sm" aria-label="Language" data-i18n-aria-label-en="Language" data-i18n-aria-label-de="Sprache">
           <button class="toggle" aria-pressed="true" value="en" lang="en">English</button>
           <button class="toggle" aria-pressed="false" value="de" lang="de">Deutsch</button>
-          <button class="toggle" aria-pressed="false" value="ar" lang="ar" dir="rtl">العربية</button>
         </div>
         </div>
       </div>
-      <button class="sheet-close-x" data-sheet-close aria-label="Close menu" data-i18n-aria-label-en="Close menu" data-i18n-aria-label-de="Menü schließen" data-i18n-aria-label-ar="إغلاق القائمة"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+      <button class="sheet-close-x" data-sheet-close aria-label="Close menu" data-i18n-aria-label-en="Close menu" data-i18n-aria-label-de="Menü schließen"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
     </dialog>
     <div hidden>
           <template data-i18n-for="about" data-i18n-locale="en">What it is</template>
           <template data-i18n-for="about" data-i18n-locale="de">Was es ist</template>
-          <template data-i18n-for="about" data-i18n-locale="ar">ما هو</template>
           <template data-i18n-for="how" data-i18n-locale="en">How it works</template>
           <template data-i18n-for="how" data-i18n-locale="de">So funktioniert’s</template>
-          <template data-i18n-for="how" data-i18n-locale="ar">كيف يعمل</template>
           <template data-i18n-for="demo" data-i18n-locale="en">Live demo</template>
           <template data-i18n-for="demo" data-i18n-locale="de">Live-Demo</template>
-          <template data-i18n-for="demo" data-i18n-locale="ar">عرض حي</template>
           <template data-i18n-for="install" data-i18n-locale="en">Install</template>
           <template data-i18n-for="install" data-i18n-locale="de">Installation</template>
-          <template data-i18n-for="install" data-i18n-locale="ar">التثبيت</template>
           <template data-i18n-for="sheet-about" data-i18n-locale="en">What it is</template>
           <template data-i18n-for="sheet-about" data-i18n-locale="de">Was es ist</template>
-          <template data-i18n-for="sheet-about" data-i18n-locale="ar">ما هو</template>
           <template data-i18n-for="sheet-how" data-i18n-locale="en">How it works</template>
           <template data-i18n-for="sheet-how" data-i18n-locale="de">So funktioniert’s</template>
-          <template data-i18n-for="sheet-how" data-i18n-locale="ar">كيف يعمل</template>
           <template data-i18n-for="sheet-demo" data-i18n-locale="en">Live demo</template>
           <template data-i18n-for="sheet-demo" data-i18n-locale="de">Live-Demo</template>
-          <template data-i18n-for="sheet-demo" data-i18n-locale="ar">عرض حي</template>
           <template data-i18n-for="sheet-install" data-i18n-locale="en">Install</template>
           <template data-i18n-for="sheet-install" data-i18n-locale="de">Installation</template>
-          <template data-i18n-for="sheet-install" data-i18n-locale="ar">التثبيت</template>
         </div>
   </header>
 
-  <main id="top" class="stack gap-24 pb-24">
-    <section class="mk-hero" data-variant="split" data-i18n-component id="welcome">
-      <div class="mk-hero-copy">
-        <a class="mk-hero-pill" href="#about"><span class="badge" data-variant="default" data-size="sm">defuss</span><span data-i18n-target="pill">Runtime module · made for defuss-shadcn</span></a>
-        <h1 class="mk-hero-title" id="welcome-heading" data-i18n-target="heading">Translate the page. Keep its state.</h1>
-        <p class="mk-hero-desc" data-i18n-target="description">defuss-i18n is the localization module of the defuss runtime. Every language is plain HTML in a <code>&lt;template&gt;</code> beside your markup, and a switch morphs only what a component owns: focus, typed input and open dialogs stay where they are.</p>
-        <div class="mk-hero-actions">
-          <a class="btn" data-size="lg" href="#demo" data-i18n-target="try">Try the live demo</a>
-          <a class="btn" data-variant="outline" data-size="lg" href="#install" data-i18n-target="install">Install</a>
-        </div>
+  <main id="top" class="site-main">
+    <section class="parallax site-hero" aria-labelledby="welcome-heading">
+      <div class="parallax-layer" data-depth="far" aria-hidden="true">
+        <div class="pattern-grid site-hero-grid"></div>
       </div>
-      <figure class="mk-hero-media">
-        <img src="assets/welcome-en.svg" width="240" height="180" alt="Hello in a speech bubble" data-i18n-alt-en="Hello in a speech bubble" data-i18n-alt-de="Hallo in einer Sprechblase" data-i18n-alt-ar="مرحبًا في فقاعة كلام"
-             data-i18n-src-en="assets/welcome-en.svg" data-i18n-src-de="assets/welcome-de.svg" data-i18n-src-ar="assets/welcome-ar.svg">
-      </figure>
-      <div hidden>
+      <div class="parallax-layer site-hero-glow" data-depth="mid" aria-hidden="true">
+        <div class="corner-blob site-blob" data-tone="one"></div>
+        <div class="corner-blob-3 site-blob" data-tone="two"></div>
+      </div>
+      <div class="parallax-content">
+        <div class="mk-hero" data-variant="split" data-i18n-component id="welcome">
+          <div class="mk-hero-copy">
+            <a class="mk-hero-pill" href="#about"><span class="badge" data-variant="default" data-size="sm">defuss</span><span data-i18n-target="pill">Runtime module · made for defuss-shadcn</span></a>
+            <h1 class="mk-hero-title" id="welcome-heading" data-i18n-target="heading">Translate the page. <span class="site-accent">Keep its state.</span></h1>
+            <p class="mk-hero-desc" data-i18n-target="description">defuss-i18n is the localization module of the defuss runtime. Every language is plain HTML in a <code>&lt;template&gt;</code> beside your markup, and a switch morphs only what a component owns: focus, typed input and open dialogs stay where they are.</p>
+            <div class="mk-hero-actions">
+              <a class="btn" data-size="lg" href="#demo"><span data-i18n-target="try">Try the live demo</span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg></a>
+              <a class="btn" data-variant="outline" data-size="lg" href="#install" data-i18n-target="install">Install</a>
+            </div>
+          </div>
+          <div class="site-hero-code stack gap-3">
+            <div class="tabs" id="markup-tabs">
+              <div class="tab-list" role="tablist" aria-label="Markup comparison" data-i18n-aria-label-en="Markup comparison" data-i18n-aria-label-de="Markup-Vergleich">
+                <button class="tab-trigger" role="tab" aria-selected="false" aria-controls="panel-plain" id="tab-plain" tabindex="-1"><span data-i18n-target="tab-plain">Standard HTML</span></button>
+                <button class="tab-trigger" role="tab" aria-selected="true" aria-controls="panel-i18n" id="tab-i18n"><span data-i18n-target="tab-i18n">defuss-i18n HTML</span></button>
+              </div>
+              <div class="tab-content" role="tabpanel" id="panel-plain" aria-labelledby="tab-plain" tabindex="0" hidden>
+                <div class="mockup-code" data-chrome="mac" data-title="index.html" data-numbers data-wrap data-size="sm">
+            <pre><code>&lt;section id="welcome"&gt;</code></pre>
+            <pre><code>  &lt;h1&gt;Translate the page.&lt;/h1&gt;</code></pre>
+            <pre><code>  &lt;button aria-label="Close"&gt;×&lt;/button&gt;</code></pre>
+            <pre><code>&lt;/section&gt;</code></pre>
+                </div>
+              </div>
+              <div class="tab-content" role="tabpanel" id="panel-i18n" aria-labelledby="tab-i18n" tabindex="0">
+                <div class="mockup-code" id="markup-diff" data-chrome="mac" data-title="index.html" data-numbers data-wrap data-size="sm" data-animate>
+            <pre data-diff="remove"><code>&lt;section id="welcome"&gt;</code></pre>
+            <pre data-diff="add"><code>&lt;section id="welcome" <ins>data-i18n-component</ins>&gt;</code></pre>
+            <pre data-diff="remove"><code>  &lt;h1&gt;Translate the page.&lt;/h1&gt;</code></pre>
+            <pre data-diff="add"><code>  &lt;h1 <ins>data-i18n-target="title"</ins>&gt;Translate the page.&lt;/h1&gt;</code></pre>
+            <pre data-diff="add" id="code-line-en"><code>  &lt;template data-i18n-for="title" data-i18n-locale="en"&gt;Translate the page.&lt;/template&gt;</code></pre>
+            <pre data-diff="add" id="code-line-de"><code>  &lt;template data-i18n-for="title" data-i18n-locale="de"&gt;Seite übersetzen.&lt;/template&gt;</code></pre>
+            <pre data-diff="remove"><code>  &lt;button aria-label="Close"&gt;×&lt;/button&gt;</code></pre>
+            <pre data-diff="add"><code>  &lt;button aria-label="Close" <ins>data-i18n-aria-label-de="Schließen"</ins>&gt;×&lt;/button&gt;</code></pre>
+            <pre><code>&lt;/section&gt;</code></pre>
+                </div>
+              </div>
+            </div>
+            <p class="site-note" data-i18n-target="code-note">The translations live in the markup: one <code>&lt;template&gt;</code> per language, attributes as <code>data-i18n-*</code>. The cursor marks the line that is live right now.</p>
+          </div>
+          <div hidden>
           <template data-i18n-for="pill" data-i18n-locale="en">Runtime module · made for defuss-shadcn</template>
           <template data-i18n-for="pill" data-i18n-locale="de">Laufzeitmodul · gemacht für defuss-shadcn</template>
-          <template data-i18n-for="pill" data-i18n-locale="ar">وحدة لبيئة التشغيل · مصمّمة لـ defuss-shadcn</template>
-          <template data-i18n-for="heading" data-i18n-locale="en">Translate the page. Keep its state.</template>
-          <template data-i18n-for="heading" data-i18n-locale="de">Seite übersetzen. Zustand behalten.</template>
-          <template data-i18n-for="heading" data-i18n-locale="ar">ترجم الصفحة واحتفظ بحالتها.</template>
+          <template data-i18n-for="heading" data-i18n-locale="en">Translate the page. <span class="site-accent">Keep its state.</span></template>
+          <template data-i18n-for="heading" data-i18n-locale="de">Seite übersetzen. <span class="site-accent">Zustand behalten.</span></template>
           <template data-i18n-for="description" data-i18n-locale="en">defuss-i18n is the localization module of the defuss runtime. Every language is plain HTML in a <code>&lt;template&gt;</code> beside your markup, and a switch morphs only what a component owns: focus, typed input and open dialogs stay where they are.</template>
           <template data-i18n-for="description" data-i18n-locale="de">defuss-i18n ist das Lokalisierungsmodul der defuss-Laufzeit. Jede Sprache ist schlichtes HTML in einem <code>&lt;template&gt;</code> neben deinem Markup, und ein Wechsel morpht nur, was einer Komponente gehört: Fokus, Eingaben und offene Dialoge bleiben, wo sie sind.</template>
-          <template data-i18n-for="description" data-i18n-locale="ar">defuss-i18n هي وحدة الترجمة في بيئة تشغيل defuss. كل لغة هي HTML عادي داخل <code>&lt;template&gt;</code> بجوار الترميز، والتبديل لا يعدّل إلا ما يملكه المكوّن: يبقى التركيز والنص المكتوب والنوافذ المفتوحة في مكانها.</template>
           <template data-i18n-for="try" data-i18n-locale="en">Try the live demo</template>
           <template data-i18n-for="try" data-i18n-locale="de">Live-Demo ausprobieren</template>
-          <template data-i18n-for="try" data-i18n-locale="ar">جرّب العرض الحي</template>
           <template data-i18n-for="install" data-i18n-locale="en">Install</template>
           <template data-i18n-for="install" data-i18n-locale="de">Installieren</template>
-          <template data-i18n-for="install" data-i18n-locale="ar">ثبّتها</template>
+          <template data-i18n-for="tab-plain" data-i18n-locale="en">Standard HTML</template>
+          <template data-i18n-for="tab-plain" data-i18n-locale="de">Standard-HTML</template>
+          <template data-i18n-for="tab-i18n" data-i18n-locale="en">defuss-i18n HTML</template>
+          <template data-i18n-for="tab-i18n" data-i18n-locale="de">defuss-i18n-HTML</template>
+          <template data-i18n-for="code-note" data-i18n-locale="en">The translations live in the markup: one <code>&lt;template&gt;</code> per language, attributes as <code>data-i18n-*</code>. The cursor marks the line that is live right now.</template>
+          <template data-i18n-for="code-note" data-i18n-locale="de">Die Übersetzungen stehen im Markup: ein <code>&lt;template&gt;</code> pro Sprache, Attribute als <code>data-i18n-*</code>. Der Cursor markiert die Zeile, die gerade gilt.</template>
         </div>
+        </div>
+      </div>
     </section>
 
-    <section class="mk-features" style="width:100%" id="about" data-i18n-component aria-labelledby="about-title">
+    <section class="mk-features parallax-reveal" id="about" data-i18n-component aria-labelledby="about-title">
       <div class="mk-features-head">
         <span class="mk-features-eyebrow" data-i18n-target="eyebrow">What it is</span>
-        <h2 class="mk-features-title" id="about-title" data-i18n-target="title">A localization module for the defuss runtime</h2>
+        <h2 class="mk-features-title" id="about-title" data-i18n-target="title">🧩 A localization module for the defuss runtime</h2>
         <p class="mk-features-desc" data-i18n-target="desc">defuss-shadcn’s <code>core.js</code> installs <code>df$</code>: defuss-query for DOM work and defuss-morph for reconciliation. defuss-i18n adds <code>df$.i18n</code> on top, with no framework, no build step and no second reconciler.</p>
       </div>
       <div class="mk-feature-cards" data-variant="boxed">
         <article class="mk-feature-card"><h3 class="mk-feature-card-title"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22v-5"/><path d="M15 8V2"/><path d="M17 8a1 1 0 0 1 1 1v4a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1z"/><path d="M9 8V2"/></svg><span data-i18n-target="f1-title">Plugs into df$</span></h3><p class="mk-feature-card-desc" data-i18n-target="f1-desc">Load it after defuss-shadcn and call <code>df$.i18n</code>. Without shadcn, defuss-query and defuss-morph provide the same runtime.</p></article>
         <article class="mk-feature-card"><h3 class="mk-feature-card-title"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 12.5 8 15l2 2.5"/><path d="m14 12.5 2 2.5-2 2.5"/></svg><span data-i18n-target="f2-title">HTML is the catalog</span></h3><p class="mk-feature-card-desc" data-i18n-target="f2-desc">Each language is a <code>&lt;template&gt;</code> next to the default markup. The page reads without JavaScript, and a translation may change structure, not only words.</p></article>
         <article class="mk-feature-card"><h3 class="mk-feature-card-title"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg><span data-i18n-target="f3-title">State survives a switch</span></h3><p class="mk-feature-card-desc" data-i18n-target="f3-desc">Regions are morphed in place: elements, listeners, focus, text selection, typed input and open dialogs stay.</p></article>
-        <article class="mk-feature-card"><h3 class="mk-feature-card-title"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg><span data-i18n-target="f4-title">Native Intl</span></h3><p class="mk-feature-card-desc" data-i18n-target="f4-desc">BCP 47 fallback chains such as <code dir="ltr">de-AT → de → en</code>, CLDR plural rules, and number and date formats from the browser, with no bundled locale data.</p></article>
+        <article class="mk-feature-card"><h3 class="mk-feature-card-title"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg><span data-i18n-target="f4-title">Native Intl</span></h3><p class="mk-feature-card-desc" data-i18n-target="f4-desc">BCP 47 fallback chains such as <code>de-AT → de → en</code>, CLDR plural rules, and number and date formats from the browser, with no bundled locale data.</p></article>
         <article class="mk-feature-card"><h3 class="mk-feature-card-title"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13.172 2a2 2 0 0 1 1.414.586l6.71 6.71a2.4 2.4 0 0 1 0 3.408l-4.592 4.592a2.4 2.4 0 0 1-3.408 0l-6.71-6.71A2 2 0 0 1 6 9.172V3a1 1 0 0 1 1-1z"/><path d="M2 7v6.172a2 2 0 0 0 .586 1.414l6.71 6.71a2.4 2.4 0 0 0 3.191.193"/><circle cx="10.5" cy="6.5" r=".5" fill="currentColor"/></svg><span data-i18n-target="f5-title">Attributes, too</span></h3><p class="mk-feature-card-desc" data-i18n-target="f5-desc">Sixteen content attributes, from <code>alt</code> and <code>aria-label</code> to <code>href</code> and <code>src</code>, through <code>data-i18n-{attribute}-{locale}</code>.</p></article>
         <article class="mk-feature-card"><h3 class="mk-feature-card-title"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 5h8"/><path d="M13 12h8"/><path d="M13 19h8"/><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/></svg><span data-i18n-target="f6-title">Checked before it writes</span></h3><p class="mk-feature-card-desc" data-i18n-target="f6-desc"><code>validateI18n</code> returns structured diagnostics for missing languages, overlapping regions and broken ID references.</p></article>
         <article class="mk-feature-card"><h3 class="mk-feature-card-title"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg><span data-i18n-target="f7-title">Languages on demand</span></h3><p class="mk-feature-card-desc" data-i18n-target="f7-desc">Ship one language and fetch the others with <code>loadLocale</code>. Only the newest request commits; a superseded one resolves as <code>superseded</code>.</p></article>
@@ -146,323 +173,251 @@
       <div hidden>
           <template data-i18n-for="eyebrow" data-i18n-locale="en">What it is</template>
           <template data-i18n-for="eyebrow" data-i18n-locale="de">Was es ist</template>
-          <template data-i18n-for="eyebrow" data-i18n-locale="ar">ما هو</template>
-          <template data-i18n-for="title" data-i18n-locale="en">A localization module for the defuss runtime</template>
-          <template data-i18n-for="title" data-i18n-locale="de">Ein Lokalisierungsmodul für die defuss-Laufzeit</template>
-          <template data-i18n-for="title" data-i18n-locale="ar">وحدة ترجمة لبيئة تشغيل defuss</template>
+          <template data-i18n-for="title" data-i18n-locale="en">🧩 A localization module for the defuss runtime</template>
+          <template data-i18n-for="title" data-i18n-locale="de">🧩 Ein Lokalisierungsmodul für die defuss-Laufzeit</template>
           <template data-i18n-for="desc" data-i18n-locale="en">defuss-shadcn’s <code>core.js</code> installs <code>df$</code>: defuss-query for DOM work and defuss-morph for reconciliation. defuss-i18n adds <code>df$.i18n</code> on top, with no framework, no build step and no second reconciler.</template>
           <template data-i18n-for="desc" data-i18n-locale="de"><code>core.js</code> von defuss-shadcn installiert <code>df$</code>: defuss-query für die DOM-Arbeit und defuss-morph für den Abgleich. defuss-i18n ergänzt <code>df$.i18n</code>, ohne Framework, ohne Build-Schritt und ohne zweiten Reconciler.</template>
-          <template data-i18n-for="desc" data-i18n-locale="ar">يثبّت <code>core.js</code> من defuss-shadcn الكائن <code>df$</code>: ‏defuss-query للعمل على DOM و defuss-morph للمطابقة. وتضيف defuss-i18n فوقه <code>df$.i18n</code> بلا إطار عمل ولا خطوة بناء ولا مُطابِق ثانٍ.</template>
           <template data-i18n-for="f1-title" data-i18n-locale="en">Plugs into df$</template>
           <template data-i18n-for="f1-title" data-i18n-locale="de">Steckt in df$</template>
-          <template data-i18n-for="f1-title" data-i18n-locale="ar">تعمل داخل df$</template>
           <template data-i18n-for="f1-desc" data-i18n-locale="en">Load it after defuss-shadcn and call <code>df$.i18n</code>. Without shadcn, defuss-query and defuss-morph provide the same runtime.</template>
           <template data-i18n-for="f1-desc" data-i18n-locale="de">Nach defuss-shadcn laden und <code>df$.i18n</code> aufrufen. Ohne shadcn liefern defuss-query und defuss-morph dieselbe Laufzeit.</template>
-          <template data-i18n-for="f1-desc" data-i18n-locale="ar">حمّلها بعد defuss-shadcn واستدعِ <code>df$.i18n</code>. ومن دون shadcn يوفّر defuss-query و defuss-morph بيئة التشغيل نفسها.</template>
           <template data-i18n-for="f2-title" data-i18n-locale="en">HTML is the catalog</template>
           <template data-i18n-for="f2-title" data-i18n-locale="de">HTML ist der Katalog</template>
-          <template data-i18n-for="f2-title" data-i18n-locale="ar">HTML هو الفهرس</template>
           <template data-i18n-for="f2-desc" data-i18n-locale="en">Each language is a <code>&lt;template&gt;</code> next to the default markup. The page reads without JavaScript, and a translation may change structure, not only words.</template>
           <template data-i18n-for="f2-desc" data-i18n-locale="de">Jede Sprache ist ein <code>&lt;template&gt;</code> neben dem Standard-Markup. Die Seite ist ohne JavaScript lesbar, und eine Übersetzung darf auch die Struktur ändern, nicht nur Wörter.</template>
-          <template data-i18n-for="f2-desc" data-i18n-locale="ar">كل لغة عبارة عن <code>&lt;template&gt;</code> بجوار الترميز الافتراضي. تُقرأ الصفحة دون JavaScript، ويمكن للترجمة أن تغيّر البنية لا الكلمات فقط.</template>
           <template data-i18n-for="f3-title" data-i18n-locale="en">State survives a switch</template>
           <template data-i18n-for="f3-title" data-i18n-locale="de">Zustand übersteht den Wechsel</template>
-          <template data-i18n-for="f3-title" data-i18n-locale="ar">الحالة تصمد أمام التبديل</template>
           <template data-i18n-for="f3-desc" data-i18n-locale="en">Regions are morphed in place: elements, listeners, focus, text selection, typed input and open dialogs stay.</template>
           <template data-i18n-for="f3-desc" data-i18n-locale="de">Regionen werden an Ort und Stelle gemorpht: Elemente, Listener, Fokus, Textauswahl, Eingaben und offene Dialoge bleiben.</template>
-          <template data-i18n-for="f3-desc" data-i18n-locale="ar">تُعدَّل المناطق في مكانها: تبقى العناصر والمستمعات والتركيز وتحديد النص والمدخلات والنوافذ المفتوحة.</template>
           <template data-i18n-for="f4-title" data-i18n-locale="en">Native Intl</template>
           <template data-i18n-for="f4-title" data-i18n-locale="de">Natives Intl</template>
-          <template data-i18n-for="f4-title" data-i18n-locale="ar">Intl الأصلية</template>
-          <template data-i18n-for="f4-desc" data-i18n-locale="en">BCP 47 fallback chains such as <code dir="ltr">de-AT → de → en</code>, CLDR plural rules, and number and date formats from the browser, with no bundled locale data.</template>
-          <template data-i18n-for="f4-desc" data-i18n-locale="de">BCP-47-Fallback-Ketten wie <code dir="ltr">de-AT → de → en</code>, CLDR-Pluralregeln sowie Zahlen- und Datumsformate aus dem Browser, ohne mitgelieferte Sprachdaten.</template>
-          <template data-i18n-for="f4-desc" data-i18n-locale="ar">سلاسل رجوع BCP 47 مثل <code dir="ltr">de-AT → de → en</code>، وقواعد الجمع من CLDR، وتنسيقات الأرقام والتواريخ من المتصفح، دون بيانات لغات مضمّنة.</template>
+          <template data-i18n-for="f4-desc" data-i18n-locale="en">BCP 47 fallback chains such as <code>de-AT → de → en</code>, CLDR plural rules, and number and date formats from the browser, with no bundled locale data.</template>
+          <template data-i18n-for="f4-desc" data-i18n-locale="de">BCP-47-Fallback-Ketten wie <code>de-AT → de → en</code>, CLDR-Pluralregeln sowie Zahlen- und Datumsformate aus dem Browser, ohne mitgelieferte Sprachdaten.</template>
           <template data-i18n-for="f5-title" data-i18n-locale="en">Attributes, too</template>
           <template data-i18n-for="f5-title" data-i18n-locale="de">Auch Attribute</template>
-          <template data-i18n-for="f5-title" data-i18n-locale="ar">والسمات أيضًا</template>
           <template data-i18n-for="f5-desc" data-i18n-locale="en">Sixteen content attributes, from <code>alt</code> and <code>aria-label</code> to <code>href</code> and <code>src</code>, through <code>data-i18n-{attribute}-{locale}</code>.</template>
           <template data-i18n-for="f5-desc" data-i18n-locale="de">Sechzehn Inhaltsattribute, von <code>alt</code> und <code>aria-label</code> bis <code>href</code> und <code>src</code>, über <code>data-i18n-{attribute}-{locale}</code>.</template>
-          <template data-i18n-for="f5-desc" data-i18n-locale="ar">ست عشرة سمة محتوى، من <code>alt</code> و<code>aria-label</code> إلى <code>href</code> و<code>src</code>، عبر <code>data-i18n-{attribute}-{locale}</code>.</template>
           <template data-i18n-for="f6-title" data-i18n-locale="en">Checked before it writes</template>
           <template data-i18n-for="f6-title" data-i18n-locale="de">Geprüft, bevor es schreibt</template>
-          <template data-i18n-for="f6-title" data-i18n-locale="ar">يتحقق قبل أن يكتب</template>
           <template data-i18n-for="f6-desc" data-i18n-locale="en"><code>validateI18n</code> returns structured diagnostics for missing languages, overlapping regions and broken ID references.</template>
           <template data-i18n-for="f6-desc" data-i18n-locale="de"><code>validateI18n</code> liefert strukturierte Diagnosen zu fehlenden Sprachen, überlappenden Regionen und kaputten ID-Verweisen.</template>
-          <template data-i18n-for="f6-desc" data-i18n-locale="ar">تُعيد <code>validateI18n</code> تشخيصات منظّمة عن اللغات الناقصة والمناطق المتداخلة ومراجع المعرّفات المكسورة.</template>
           <template data-i18n-for="f7-title" data-i18n-locale="en">Languages on demand</template>
           <template data-i18n-for="f7-title" data-i18n-locale="de">Sprachen bei Bedarf</template>
-          <template data-i18n-for="f7-title" data-i18n-locale="ar">لغات عند الطلب</template>
           <template data-i18n-for="f7-desc" data-i18n-locale="en">Ship one language and fetch the others with <code>loadLocale</code>. Only the newest request commits; a superseded one resolves as <code>superseded</code>.</template>
           <template data-i18n-for="f7-desc" data-i18n-locale="de">Liefere eine Sprache aus und lade die anderen mit <code>loadLocale</code> nach. Nur die neueste Anfrage setzt sich durch; eine überholte endet als <code>superseded</code>.</template>
-          <template data-i18n-for="f7-desc" data-i18n-locale="ar">وفّر لغة واحدة واجلب البقية بـ <code>loadLocale</code>. لا يُعتمد إلا أحدث طلب، والطلب الذي سبقه غيره ينتهي بالحالة <code>superseded</code>.</template>
           <template data-i18n-for="f8-title" data-i18n-locale="en">Values stay text</template>
           <template data-i18n-for="f8-title" data-i18n-locale="de">Werte bleiben Text</template>
-          <template data-i18n-for="f8-title" data-i18n-locale="ar">القيم تبقى نصًا</template>
           <template data-i18n-for="f8-desc" data-i18n-locale="en">Interpolated values are written as text, and value slots inside <code>script</code>, <code>style</code> or <code>iframe</code> are rejected before any write.</template>
           <template data-i18n-for="f8-desc" data-i18n-locale="de">Eingesetzte Werte werden als Text geschrieben, und Wert-Slots in <code>script</code>, <code>style</code> oder <code>iframe</code> werden vor jedem Schreiben abgelehnt.</template>
-          <template data-i18n-for="f8-desc" data-i18n-locale="ar">تُكتب القيم المُدرجة كنص، وتُرفض خانات القيم داخل <code>script</code> أو <code>style</code> أو <code>iframe</code> قبل أي كتابة.</template>
         </div>
     </section>
 
-    <section id="how" class="stack gap-10" data-i18n-component aria-labelledby="how-title">
-      <header class="mk-section-header">
+    <section id="how" class="site-block parallax-reveal" data-i18n-component aria-labelledby="how-title">
+      <header class="mk-section-header" data-align="center">
         <div class="mk-section-header-copy">
           <span class="mk-section-header-eyebrow" data-i18n-target="eyebrow">How it works</span>
-          <h2 class="mk-section-header-title" id="how-title" data-i18n-target="title">One switch, four steps</h2>
+          <h2 class="mk-section-header-title" id="how-title" data-i18n-target="title">⚙️ One switch, four steps</h2>
           <p class="mk-section-header-desc" data-i18n-target="desc">A language switch is synchronous: when <code>setLocale</code> returns, every bound component shows the new language.</p>
         </div>
       </header>
-      <div class="container grid grid-cols-auto gap-10" style="--layout-gutter:1.25rem;--layout-min:20rem;">
-        <ol class="mk-process-steps">
-          <li class="mk-process-step">
-            <span class="mk-process-step-number" aria-hidden="true">01</span>
-            <div class="mk-process-step-body">
-              <h3 class="mk-process-step-title" data-i18n-target="s1-title">Author</h3>
-              <p class="mk-process-step-desc" data-i18n-target="s1-desc">Write the default language as plain HTML and mark the parts that change with <code>data-i18n-target</code>. Each translation goes into a <code>&lt;template&gt;</code> beside it.</p>
-            </div>
-          </li>
-          <li class="mk-process-step">
-            <span class="mk-process-step-number" aria-hidden="true">02</span>
-            <div class="mk-process-step-body">
-              <h3 class="mk-process-step-title" data-i18n-target="s2-title">Bind</h3>
-              <p class="mk-process-step-desc" data-i18n-target="s2-desc"><code>bind(root, locale)</code> captures the templates once and checks ownership: every region belongs to exactly one component.</p>
-            </div>
-          </li>
-          <li class="mk-process-step">
-            <span class="mk-process-step-number" aria-hidden="true">03</span>
-            <div class="mk-process-step-body">
-              <h3 class="mk-process-step-title" data-i18n-target="s3-title">Select</h3>
-              <p class="mk-process-step-desc" data-i18n-target="s3-desc"><code>setLocale('de')</code> commits a frozen snapshot. Each binding picks one template per region through the fallback chain and plural rules, and fills values and attributes on detached copies.</p>
-            </div>
-          </li>
-          <li class="mk-process-step">
-            <span class="mk-process-step-number" aria-hidden="true">04</span>
-            <div class="mk-process-step-body">
-              <h3 class="mk-process-step-title" data-i18n-target="s4-title">Morph</h3>
-              <p class="mk-process-step-desc" data-i18n-target="s4-desc">defuss-morph patches each live region through <code>df$</code>. Matched elements stay, <code>lang</code> and <code>dir</code> follow, and <code>defuss-i18n:change</code> fires.</p>
-            </div>
-          </li>
-        </ol>
-        <div class="stack gap-4" dir="ltr">
-          <figure class="mk-code-block" data-variant="file" id="how-html">
-            <div class="mk-code-block-head"><span class="mk-code-block-file"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 12.5 8 15l2 2.5"/><path d="m14 12.5 2 2.5-2 2.5"/></svg>index.html</span><button class="mk-code-block-copy" type="button" aria-label="Copy code" data-i18n-aria-label-en="Copy code" data-i18n-aria-label-de="Code kopieren" data-i18n-aria-label-ar="نسخ الشيفرة"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button></div>
-            <pre><code><span><span class="mk-code-block-k">&lt;section</span> id=<span class="mk-code-block-s">"welcome"</span> data-i18n-component<span class="mk-code-block-k">&gt;</span></span><span>  <span class="mk-code-block-k">&lt;h2</span> data-i18n-target=<span class="mk-code-block-s">"title"</span><span class="mk-code-block-k">&gt;</span>Welcome<span class="mk-code-block-k">&lt;/h2</span><span class="mk-code-block-k">&gt;</span></span><span>  <span class="mk-code-block-k">&lt;template</span> data-i18n-for=<span class="mk-code-block-s">"title"</span> data-i18n-locale=<span class="mk-code-block-s">"en"</span><span class="mk-code-block-k">&gt;</span>Welcome<span class="mk-code-block-k">&lt;/template</span><span class="mk-code-block-k">&gt;</span></span><span>  <span class="mk-code-block-k">&lt;template</span> data-i18n-for=<span class="mk-code-block-s">"title"</span> data-i18n-locale=<span class="mk-code-block-s">"de"</span><span class="mk-code-block-k">&gt;</span>Willkommen<span class="mk-code-block-k">&lt;/template</span><span class="mk-code-block-k">&gt;</span></span><span>  <span class="mk-code-block-k">&lt;button</span> aria-label=<span class="mk-code-block-s">"Close"</span></span><span>          data-i18n-aria-label-en=<span class="mk-code-block-s">"Close"</span></span><span>          data-i18n-aria-label-de=<span class="mk-code-block-s">"Schließen"</span><span class="mk-code-block-k">&gt;</span>×<span class="mk-code-block-k">&lt;/button</span><span class="mk-code-block-k">&gt;</span></span><span><span class="mk-code-block-k">&lt;/section</span><span class="mk-code-block-k">&gt;</span></span></code></pre>
-            <span class="mk-code-block-status" role="status"></span>
-          </figure>
-          <figure class="mk-code-block" data-variant="file" id="how-js">
-            <div class="mk-code-block-head"><span class="mk-code-block-file"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 12.5 8 15l2 2.5"/><path d="m14 12.5 2 2.5-2 2.5"/></svg>app.js</span><button class="mk-code-block-copy" type="button" aria-label="Copy code" data-i18n-aria-label-en="Copy code" data-i18n-aria-label-de="Code kopieren" data-i18n-aria-label-ar="نسخ الشيفرة"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button></div>
-            <pre><code><span><span class="mk-code-block-k">const</span> { createI18n, bind } = df$.i18n;</span><span><span class="mk-code-block-k">const</span> locale = createI18n({ locale: <span class="mk-code-block-s">'en'</span>, fallback: [<span class="mk-code-block-s">'en'</span>] });</span><span><span class="mk-code-block-k">const</span> welcome = bind(document.getElementById(<span class="mk-code-block-s">'welcome'</span>), locale);</span><span> </span><span>locale.setLocale(<span class="mk-code-block-s">'de'</span>); <span class="mk-code-block-c">// the same &lt;h2&gt; now reads Willkommen</span></span><span>welcome.dispose();      <span class="mk-code-block-c">// when the component leaves the page</span></span></code></pre>
-            <span class="mk-code-block-status" role="status"></span>
-          </figure>
+      <div class="site-section">
+        <div class="site-panel pattern-dots">
+          <ol class="mk-process-steps" data-variant="horizontal">
+            <li class="mk-process-step"><span class="mk-process-step-number" aria-hidden="true">01</span><div class="mk-process-step-body"><h3 class="mk-process-step-title" data-i18n-target="s1-title">Author</h3><p class="mk-process-step-desc" data-i18n-target="s1-desc">Write the default language as plain HTML and mark the parts that change with <code>data-i18n-target</code>. Each translation goes into a <code>&lt;template&gt;</code> beside it.</p></div></li>
+            <li class="mk-process-step"><span class="mk-process-step-number" aria-hidden="true">02</span><div class="mk-process-step-body"><h3 class="mk-process-step-title" data-i18n-target="s2-title">Bind</h3><p class="mk-process-step-desc" data-i18n-target="s2-desc"><code>bind(root, locale)</code> captures the templates once and checks ownership: every region belongs to exactly one component.</p></div></li>
+            <li class="mk-process-step"><span class="mk-process-step-number" aria-hidden="true">03</span><div class="mk-process-step-body"><h3 class="mk-process-step-title" data-i18n-target="s3-title">Select</h3><p class="mk-process-step-desc" data-i18n-target="s3-desc"><code>setLocale('de')</code> commits a frozen snapshot. Each binding picks one template per region through the fallback chain and plural rules, and fills values and attributes on detached copies.</p></div></li>
+            <li class="mk-process-step"><span class="mk-process-step-number" aria-hidden="true">04</span><div class="mk-process-step-body"><h3 class="mk-process-step-title" data-i18n-target="s4-title">Morph</h3><p class="mk-process-step-desc" data-i18n-target="s4-desc">defuss-morph patches each live region through <code>df$</code>. Matched elements stay, <code>lang</code> and <code>dir</code> follow, and <code>defuss-i18n:change</code> fires.</p></div></li>
+          </ol>
         </div>
       </div>
       <div hidden>
           <template data-i18n-for="eyebrow" data-i18n-locale="en">How it works</template>
           <template data-i18n-for="eyebrow" data-i18n-locale="de">So funktioniert’s</template>
-          <template data-i18n-for="eyebrow" data-i18n-locale="ar">كيف يعمل</template>
-          <template data-i18n-for="title" data-i18n-locale="en">One switch, four steps</template>
-          <template data-i18n-for="title" data-i18n-locale="de">Ein Wechsel, vier Schritte</template>
-          <template data-i18n-for="title" data-i18n-locale="ar">تبديل واحد، أربع خطوات</template>
+          <template data-i18n-for="title" data-i18n-locale="en">⚙️ One switch, four steps</template>
+          <template data-i18n-for="title" data-i18n-locale="de">⚙️ Ein Wechsel, vier Schritte</template>
           <template data-i18n-for="desc" data-i18n-locale="en">A language switch is synchronous: when <code>setLocale</code> returns, every bound component shows the new language.</template>
           <template data-i18n-for="desc" data-i18n-locale="de">Ein Sprachwechsel ist synchron: Wenn <code>setLocale</code> zurückkehrt, zeigt jede gebundene Komponente die neue Sprache.</template>
-          <template data-i18n-for="desc" data-i18n-locale="ar">تبديل اللغة متزامن: عندما تعود <code>setLocale</code> تكون كل المكوّنات المرتبطة قد عرضت اللغة الجديدة.</template>
           <template data-i18n-for="s1-title" data-i18n-locale="en">Author</template>
           <template data-i18n-for="s1-title" data-i18n-locale="de">Schreiben</template>
-          <template data-i18n-for="s1-title" data-i18n-locale="ar">اكتب</template>
           <template data-i18n-for="s1-desc" data-i18n-locale="en">Write the default language as plain HTML and mark the parts that change with <code>data-i18n-target</code>. Each translation goes into a <code>&lt;template&gt;</code> beside it.</template>
           <template data-i18n-for="s1-desc" data-i18n-locale="de">Schreibe die Standardsprache als schlichtes HTML und markiere die veränderlichen Teile mit <code>data-i18n-target</code>. Jede Übersetzung kommt in ein <code>&lt;template&gt;</code> daneben.</template>
-          <template data-i18n-for="s1-desc" data-i18n-locale="ar">اكتب اللغة الافتراضية بـ HTML عادي وعلّم الأجزاء المتغيّرة بـ <code>data-i18n-target</code>. وتوضع كل ترجمة في <code>&lt;template&gt;</code> بجوارها.</template>
           <template data-i18n-for="s2-title" data-i18n-locale="en">Bind</template>
           <template data-i18n-for="s2-title" data-i18n-locale="de">Binden</template>
-          <template data-i18n-for="s2-title" data-i18n-locale="ar">اربط</template>
           <template data-i18n-for="s2-desc" data-i18n-locale="en"><code>bind(root, locale)</code> captures the templates once and checks ownership: every region belongs to exactly one component.</template>
           <template data-i18n-for="s2-desc" data-i18n-locale="de"><code>bind(root, locale)</code> erfasst die Templates einmal und prüft die Zuständigkeit: Jede Region gehört genau einer Komponente.</template>
-          <template data-i18n-for="s2-desc" data-i18n-locale="ar">تلتقط <code>bind(root, locale)</code> القوالب مرة واحدة وتتحقق من الملكية: كل منطقة تنتمي إلى مكوّن واحد فقط.</template>
           <template data-i18n-for="s3-title" data-i18n-locale="en">Select</template>
           <template data-i18n-for="s3-title" data-i18n-locale="de">Auswählen</template>
-          <template data-i18n-for="s3-title" data-i18n-locale="ar">اختر</template>
           <template data-i18n-for="s3-desc" data-i18n-locale="en"><code>setLocale('de')</code> commits a frozen snapshot. Each binding picks one template per region through the fallback chain and plural rules, and fills values and attributes on detached copies.</template>
           <template data-i18n-for="s3-desc" data-i18n-locale="de"><code>setLocale('de')</code> legt einen eingefrorenen Snapshot fest. Jede Bindung wählt pro Region ein Template über Fallback-Kette und Pluralregeln und füllt Werte und Attribute an losgelösten Kopien.</template>
-          <template data-i18n-for="s3-desc" data-i18n-locale="ar">تعتمد <code>setLocale('de')</code> لقطة مجمّدة. ويختار كل ربط قالبًا واحدًا لكل منطقة عبر سلسلة الرجوع وقواعد الجمع، ويملأ القيم والسمات في نسخ منفصلة.</template>
           <template data-i18n-for="s4-title" data-i18n-locale="en">Morph</template>
           <template data-i18n-for="s4-title" data-i18n-locale="de">Morphen</template>
-          <template data-i18n-for="s4-title" data-i18n-locale="ar">عدّل</template>
           <template data-i18n-for="s4-desc" data-i18n-locale="en">defuss-morph patches each live region through <code>df$</code>. Matched elements stay, <code>lang</code> and <code>dir</code> follow, and <code>defuss-i18n:change</code> fires.</template>
           <template data-i18n-for="s4-desc" data-i18n-locale="de">defuss-morph gleicht jede Live-Region über <code>df$</code> ab. Passende Elemente bleiben, <code>lang</code> und <code>dir</code> ziehen mit, und <code>defuss-i18n:change</code> wird ausgelöst.</template>
-          <template data-i18n-for="s4-desc" data-i18n-locale="ar">يرقّع defuss-morph كل منطقة حيّة عبر <code>df$</code>. تبقى العناصر المتطابقة، ويتبعها <code>lang</code> و<code>dir</code>، ويُطلق الحدث <code>defuss-i18n:change</code>.</template>
         </div>
     </section>
 
-    <section id="demo" class="stack gap-10" data-i18n-component aria-labelledby="demo-title">
-      <header class="mk-section-header" data-variant="split">
+    <section id="demo" class="site-block" data-i18n-component aria-labelledby="demo-title">
+      <header class="mk-section-header parallax-reveal" data-align="center">
         <div class="mk-section-header-copy">
           <span class="mk-section-header-eyebrow" data-i18n-target="eyebrow">Live demo</span>
-          <h2 class="mk-section-header-title" id="demo-title" data-i18n-target="title">Switch the language, watch what stays</h2>
-          <p class="mk-section-header-desc" data-i18n-target="desc">Every sentence on this page comes from a defuss-i18n template. The cards show what usually breaks: typed input in an open dialog, plural forms, and markup rendered from application state.</p>
-        </div>
-        <div class="mk-section-header-actions">
-          <div class="toggle-group" role="group" id="demo-locale" data-type="single" data-variant="outline" data-size="md" aria-label="Language" data-i18n-aria-label-en="Language" data-i18n-aria-label-de="Sprache" data-i18n-aria-label-ar="اللغة">
-          <button class="toggle" aria-pressed="true" value="en" lang="en">English</button>
-          <button class="toggle" aria-pressed="false" value="de" lang="de">Deutsch</button>
-          <button class="toggle" aria-pressed="false" value="ar" lang="ar" dir="rtl">العربية</button>
-        </div>
+          <h2 class="mk-section-header-title" id="demo-title" data-i18n-target="title">🔀 Switch the language, watch what stays</h2>
+          <p class="mk-section-header-desc" data-i18n-target="desc">Every sentence on this page comes from a defuss-i18n template. The window below holds what usually breaks: typed input in an open dialog, plural forms, markup rendered from state and translated attributes.</p>
         </div>
       </header>
-      <div class="container grid grid-cols-auto gap-4" style="--layout-gutter:1.25rem;--layout-min:17rem;">
-        <article class="card" data-i18n-component id="cart">
-          <div class="card-header" style="flex-direction:row;align-items:center;justify-content:space-between;">
-            <h3 class="card-title" data-i18n-target="title">Shopping cart</h3>
-            <span class="badge" data-variant="secondary" data-i18n-target="badge">Plural rules</span>
-          </div>
-          <div class="card-content">
-            <div class="statistic">
-              <p class="statistic-title" data-i18n-target="caption">In your cart</p>
-              <p class="statistic-value" id="cart-copy" data-i18n-target="quantity" data-i18n-count="count">1 item</p>
-              <p class="statistic-description" data-i18n-target="hint">CLDR picks the plural form, Intl formats the number.</p>
+      <div class="site-section parallax-reveal" data-reveal="zoom">
+        <div class="frame-window site-window">
+          <div class="site-window-bar">
+            <div class="flex items-center gap-3">
+              <span class="site-label" data-i18n-target="language-label">Language</span>
+              <div class="toggle-group" role="group" id="demo-locale" data-type="single" data-variant="outline" data-size="sm" aria-label="Language" data-i18n-aria-label-en="Language" data-i18n-aria-label-de="Sprache">
+          <button class="toggle" aria-pressed="true" value="en" lang="en">English</button>
+          <button class="toggle" aria-pressed="false" value="de" lang="de">Deutsch</button>
+        </div>
             </div>
+            <dl class="site-snapshot">
+              <div><dt data-i18n-target="locale">Locale</dt><dd><code id="snapshot-locale">en</code></dd></div>
+              <div><dt data-i18n-target="revision">Revision</dt><dd><code id="snapshot-revision">–</code></dd></div>
+              <div><dt data-i18n-target="direction">Direction</dt><dd><code id="snapshot-direction">ltr</code></dd></div>
+              <div><dt data-i18n-target="chain">Fallback</dt><dd><code id="snapshot-chain">en</code></dd></div>
+            </dl>
           </div>
-          <div class="card-footer">
-            <div class="btn-group" role="group" aria-label="Quantity" data-i18n-aria-label-en="Quantity" data-i18n-aria-label-de="Menge" data-i18n-aria-label-ar="الكمية">
-              <button class="btn" data-variant="outline" data-size="icon" id="remove-item" aria-label="Remove item" data-i18n-aria-label-en="Remove item" data-i18n-aria-label-de="Artikel entfernen" data-i18n-aria-label-ar="إزالة عنصر"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/></svg></button>
-              <button class="btn" data-variant="outline" data-size="icon" id="add-item" aria-label="Add item" data-i18n-aria-label-en="Add item" data-i18n-aria-label-de="Artikel hinzufügen" data-i18n-aria-label-ar="إضافة عنصر"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg></button>
-            </div>
-          </div>
-          <div hidden>
-          <template data-i18n-for="title" data-i18n-locale="en">Shopping cart</template>
-          <template data-i18n-for="title" data-i18n-locale="de">Warenkorb</template>
-          <template data-i18n-for="title" data-i18n-locale="ar">سلة التسوق</template>
+          <div class="site-cards">
+            <article class="card" data-i18n-component id="cart">
+              <div class="card-header" style="flex-direction:row;align-items:center;justify-content:space-between;">
+                <h3 class="card-title" data-i18n-target="title">Egg carton</h3>
+                <span class="badge" data-variant="secondary" data-i18n-target="badge">Plural rules</span>
+              </div>
+              <div class="card-content">
+                <div class="statistic">
+                  <p class="statistic-title" data-i18n-target="caption">In the carton</p>
+                  <p class="statistic-value" id="cart-copy" data-i18n-target="quantity" data-i18n-count="count">1 egg</p>
+                  <p class="statistic-description" data-i18n-target="hint">CLDR picks the plural form, Intl formats the number.</p>
+                </div>
+              </div>
+              <div class="card-footer">
+                <div class="btn-group" role="group" aria-label="Eggs" data-i18n-aria-label-en="Eggs" data-i18n-aria-label-de="Eier">
+                  <button class="btn" data-variant="outline" data-size="icon" id="remove-item" aria-label="Take an egg out" data-i18n-aria-label-en="Take an egg out" data-i18n-aria-label-de="Ein Ei herausnehmen"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/></svg></button>
+                  <button class="btn" data-variant="outline" data-size="icon" id="add-item" aria-label="Add an egg" data-i18n-aria-label-en="Add an egg" data-i18n-aria-label-de="Ein Ei hinzufügen"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg></button>
+                </div>
+              </div>
+              <div hidden>
+          <template data-i18n-for="title" data-i18n-locale="en">Egg carton</template>
+          <template data-i18n-for="title" data-i18n-locale="de">Eierkarton</template>
           <template data-i18n-for="badge" data-i18n-locale="en">Plural rules</template>
           <template data-i18n-for="badge" data-i18n-locale="de">Pluralregeln</template>
-          <template data-i18n-for="badge" data-i18n-locale="ar">قواعد الجمع</template>
-          <template data-i18n-for="caption" data-i18n-locale="en">In your cart</template>
-          <template data-i18n-for="caption" data-i18n-locale="de">Im Warenkorb</template>
-          <template data-i18n-for="caption" data-i18n-locale="ar">في سلتك</template>
+          <template data-i18n-for="caption" data-i18n-locale="en">In the carton</template>
+          <template data-i18n-for="caption" data-i18n-locale="de">Im Karton</template>
           <template data-i18n-for="hint" data-i18n-locale="en">CLDR picks the plural form, Intl formats the number.</template>
           <template data-i18n-for="hint" data-i18n-locale="de">CLDR wählt die Pluralform, Intl formatiert die Zahl.</template>
-          <template data-i18n-for="hint" data-i18n-locale="ar">تختار CLDR صيغة الجمع وتنسّق Intl الرقم.</template>
-          <template data-i18n-for="quantity" data-i18n-locale="en" data-i18n-plural="one"><span data-i18n-value="label"></span> item</template>
-          <template data-i18n-for="quantity" data-i18n-locale="en" data-i18n-plural="other"><span data-i18n-value="label"></span> items</template>
-          <template data-i18n-for="quantity" data-i18n-locale="de" data-i18n-plural="one"><span data-i18n-value="label"></span> Artikel</template>
-          <template data-i18n-for="quantity" data-i18n-locale="de" data-i18n-plural="other"><span data-i18n-value="label"></span> Artikel</template>
-          <template data-i18n-for="quantity" data-i18n-locale="ar" data-i18n-plural="other"><span data-i18n-value="label"></span> عنصر</template>
+          <template data-i18n-for="quantity" data-i18n-locale="en" data-i18n-plural="one"><span data-i18n-value="label"></span> egg</template>
+          <template data-i18n-for="quantity" data-i18n-locale="en" data-i18n-plural="other"><span data-i18n-value="label"></span> eggs</template>
+          <template data-i18n-for="quantity" data-i18n-locale="de" data-i18n-plural="one"><span data-i18n-value="label"></span> Ei</template>
+          <template data-i18n-for="quantity" data-i18n-locale="de" data-i18n-plural="other"><span data-i18n-value="label"></span> Eier</template>
         </div>
-        </article>
+            </article>
 
-        <article class="card" data-i18n-component id="settings-card">
-          <div class="card-header" style="flex-direction:row;align-items:center;justify-content:space-between;">
-            <h3 class="card-title" data-i18n-target="title">Your settings</h3>
-            <span class="badge" data-variant="secondary" data-i18n-target="badge">Native state</span>
-          </div>
-          <div class="card-content">
-            <p data-i18n-target="description">Open the dialog, type a name, then switch the language inside it.</p>
-          </div>
-          <div class="card-footer">
-            <button class="btn" data-variant="default" id="open-settings" data-dialog-trigger="settings" aria-haspopup="dialog"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/><circle cx="12" cy="12" r="3"/></svg><span data-i18n-target="open">Open settings</span></button>
-          </div>
-          <div hidden>
+            <article class="card" data-i18n-component id="settings-card">
+              <div class="card-header" style="flex-direction:row;align-items:center;justify-content:space-between;">
+                <h3 class="card-title" data-i18n-target="title">Your settings</h3>
+                <span class="badge" data-variant="secondary" data-i18n-target="badge">Native state</span>
+              </div>
+              <div class="card-content">
+                <p data-i18n-target="description">Open the dialog, type a name, then switch the language inside it.</p>
+              </div>
+              <div class="card-footer">
+                <button class="btn" data-variant="default" id="open-settings" data-dialog-trigger="settings" aria-haspopup="dialog"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/><circle cx="12" cy="12" r="3"/></svg><span data-i18n-target="open">Open settings</span></button>
+              </div>
+              <div hidden>
           <template data-i18n-for="title" data-i18n-locale="en">Your settings</template>
           <template data-i18n-for="title" data-i18n-locale="de">Deine Einstellungen</template>
-          <template data-i18n-for="title" data-i18n-locale="ar">إعداداتك</template>
           <template data-i18n-for="badge" data-i18n-locale="en">Native state</template>
           <template data-i18n-for="badge" data-i18n-locale="de">Nativer Zustand</template>
-          <template data-i18n-for="badge" data-i18n-locale="ar">الحالة الأصلية</template>
           <template data-i18n-for="description" data-i18n-locale="en">Open the dialog, type a name, then switch the language inside it.</template>
           <template data-i18n-for="description" data-i18n-locale="de">Öffne den Dialog, gib einen Namen ein und wechsle darin die Sprache.</template>
-          <template data-i18n-for="description" data-i18n-locale="ar">افتح النافذة، اكتب اسمًا، ثم بدّل اللغة من داخلها.</template>
           <template data-i18n-for="open" data-i18n-locale="en">Open settings</template>
           <template data-i18n-for="open" data-i18n-locale="de">Einstellungen öffnen</template>
-          <template data-i18n-for="open" data-i18n-locale="ar">فتح الإعدادات</template>
         </div>
-        </article>
+            </article>
 
-        <article class="card" data-i18n-component id="renderer-card">
-          <div class="card-header" style="flex-direction:row;align-items:center;justify-content:space-between;">
-            <h3 class="card-title" data-i18n-target="title">Application state</h3>
-            <span class="badge" data-variant="secondary" data-i18n-target="badge">State renderer</span>
-          </div>
-          <div class="card-content stack gap-3">
-            <!-- A nested component: its markup comes from render(), so the card's binding never owns it. -->
-            <div id="rendered" data-i18n-component>
-              <div class="flex items-center gap-2"><input class="checkbox" type="checkbox" id="controlled" checked><label class="label" for="controlled" style="margin:0;">A controlled checkbox</label></div>
-            </div>
-            <p data-i18n-target="note"><code>render()</code> builds this markup from state, so the checkbox keeps its value through every switch.</p>
-          </div>
-          <div class="card-footer">
-            <button class="btn" data-variant="outline" id="toggle-checked" data-i18n-target="toggle">Toggle checked state</button>
-          </div>
-          <div hidden>
+            <article class="card" data-i18n-component id="renderer-card">
+              <div class="card-header" style="flex-direction:row;align-items:center;justify-content:space-between;">
+                <h3 class="card-title" data-i18n-target="title">Application state</h3>
+                <span class="badge" data-variant="secondary" data-i18n-target="badge">State renderer</span>
+              </div>
+              <div class="card-content stack gap-3">
+                <!-- A nested component: its markup comes from render(), so the card's binding never owns it. -->
+                <div id="rendered" data-i18n-component>
+                  <div class="flex items-center gap-2"><input class="checkbox" type="checkbox" id="controlled" checked><label class="label" for="controlled" style="margin:0;">A controlled checkbox</label></div>
+                </div>
+                <p data-i18n-target="note"><code>render()</code> builds this markup from state, so the checkbox keeps its value through every switch.</p>
+              </div>
+              <div class="card-footer">
+                <button class="btn" data-variant="outline" id="toggle-checked" data-i18n-target="toggle">Toggle checked state</button>
+              </div>
+              <div hidden>
           <template data-i18n-for="title" data-i18n-locale="en">Application state</template>
           <template data-i18n-for="title" data-i18n-locale="de">Anwendungszustand</template>
-          <template data-i18n-for="title" data-i18n-locale="ar">حالة التطبيق</template>
           <template data-i18n-for="badge" data-i18n-locale="en">State renderer</template>
           <template data-i18n-for="badge" data-i18n-locale="de">Zustands-Renderer</template>
-          <template data-i18n-for="badge" data-i18n-locale="ar">عارض الحالة</template>
           <template data-i18n-for="note" data-i18n-locale="en"><code>render()</code> builds this markup from state, so the checkbox keeps its value through every switch.</template>
           <template data-i18n-for="note" data-i18n-locale="de"><code>render()</code> baut dieses Markup aus dem Zustand, darum behält die Checkbox ihren Wert bei jedem Wechsel.</template>
-          <template data-i18n-for="note" data-i18n-locale="ar">تبني <code>render()</code> هذا الترميز من الحالة، لذا يحتفظ مربع الاختيار بقيمته في كل تبديل.</template>
           <template data-i18n-for="toggle" data-i18n-locale="en">Toggle checked state</template>
           <template data-i18n-for="toggle" data-i18n-locale="de">Häkchen umschalten</template>
-          <template data-i18n-for="toggle" data-i18n-locale="ar">تبديل حالة التحديد</template>
         </div>
-        </article>
+            </article>
 
-        <article class="card" data-i18n-component id="snapshot-card">
-          <div class="card-header" style="flex-direction:row;align-items:center;justify-content:space-between;">
-            <h3 class="card-title" data-i18n-target="title">Locale snapshot</h3>
-            <span class="badge" data-variant="secondary" data-i18n-target="badge">Live</span>
-          </div>
-          <div class="card-content">
-            <div class="table-container">
-              <table class="table">
-                <caption class="table-caption" data-i18n-target="caption">Read from <code>locale.snapshot</code> on every <code>subscribe()</code> call.</caption>
-                <tbody>
-                  <tr class="table-row"><th class="table-head" scope="row" data-i18n-target="locale">Locale</th><td class="table-cell"><code id="snapshot-locale">en</code></td></tr>
-                  <tr class="table-row"><th class="table-head" scope="row" data-i18n-target="revision">Revision</th><td class="table-cell"><code id="snapshot-revision">–</code></td></tr>
-                  <tr class="table-row"><th class="table-head" scope="row" data-i18n-target="direction">Direction</th><td class="table-cell"><code id="snapshot-direction">ltr</code></td></tr>
-                  <tr class="table-row"><th class="table-head" scope="row" data-i18n-target="chain">Fallback chain</th><td class="table-cell"><code id="snapshot-chain" dir="ltr">en</code></td></tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-          <div hidden>
-          <template data-i18n-for="title" data-i18n-locale="en">Locale snapshot</template>
-          <template data-i18n-for="title" data-i18n-locale="de">Sprach-Snapshot</template>
-          <template data-i18n-for="title" data-i18n-locale="ar">لقطة اللغة</template>
-          <template data-i18n-for="badge" data-i18n-locale="en">Live</template>
-          <template data-i18n-for="badge" data-i18n-locale="de">Live</template>
-          <template data-i18n-for="badge" data-i18n-locale="ar">مباشر</template>
-          <template data-i18n-for="caption" data-i18n-locale="en">Read from <code>locale.snapshot</code> on every <code>subscribe()</code> call.</template>
-          <template data-i18n-for="caption" data-i18n-locale="de">Gelesen aus <code>locale.snapshot</code> bei jedem <code>subscribe()</code>-Aufruf.</template>
-          <template data-i18n-for="caption" data-i18n-locale="ar">تُقرأ من <code>locale.snapshot</code> عند كل استدعاء لـ <code>subscribe()</code>.</template>
-          <template data-i18n-for="locale" data-i18n-locale="en">Locale</template>
-          <template data-i18n-for="locale" data-i18n-locale="de">Sprache</template>
-          <template data-i18n-for="locale" data-i18n-locale="ar">اللغة</template>
-          <template data-i18n-for="revision" data-i18n-locale="en">Revision</template>
-          <template data-i18n-for="revision" data-i18n-locale="de">Revision</template>
-          <template data-i18n-for="revision" data-i18n-locale="ar">المراجعة</template>
-          <template data-i18n-for="direction" data-i18n-locale="en">Direction</template>
-          <template data-i18n-for="direction" data-i18n-locale="de">Schreibrichtung</template>
-          <template data-i18n-for="direction" data-i18n-locale="ar">الاتجاه</template>
-          <template data-i18n-for="chain" data-i18n-locale="en">Fallback chain</template>
-          <template data-i18n-for="chain" data-i18n-locale="de">Fallback-Kette</template>
-          <template data-i18n-for="chain" data-i18n-locale="ar">سلسلة الرجوع</template>
+            <article class="card" data-i18n-component id="attributes-card">
+              <figure class="card-media" data-inset>
+                <img src="assets/welcome-en.svg" width="240" height="180" alt="Hello in a speech bubble" data-i18n-alt-en="Hello in a speech bubble" data-i18n-alt-de="Hallo in einer Sprechblase"
+                     data-i18n-src-en="assets/welcome-en.svg" data-i18n-src-de="assets/welcome-de.svg">
+              </figure>
+              <div class="card-header" style="flex-direction:row;align-items:center;justify-content:space-between;">
+                <h3 class="card-title" data-i18n-target="title">Attributes</h3>
+                <span class="badge" data-variant="secondary">src · alt</span>
+              </div>
+              <div class="card-content">
+                <p data-i18n-target="note">The image’s <code>src</code> and <code>alt</code> switch with the language, through <code>data-i18n-src-de</code> and <code>data-i18n-alt-de</code>.</p>
+              </div>
+              <div hidden>
+          <template data-i18n-for="title" data-i18n-locale="en">Attributes</template>
+          <template data-i18n-for="title" data-i18n-locale="de">Attribute</template>
+          <template data-i18n-for="note" data-i18n-locale="en">The image’s <code>src</code> and <code>alt</code> switch with the language, through <code>data-i18n-src-de</code> and <code>data-i18n-alt-de</code>.</template>
+          <template data-i18n-for="note" data-i18n-locale="de"><code>src</code> und <code>alt</code> des Bildes wechseln mit der Sprache, über <code>data-i18n-src-de</code> und <code>data-i18n-alt-de</code>.</template>
         </div>
-        </article>
+            </article>
+          </div>
+          <div>
+            <p class="site-label" data-i18n-target="log-title">Event log</p>
+            <div class="mockup-code site-log" id="event-log" data-chrome="none" data-size="sm" role="log" aria-live="polite"></div>
+            <p class="site-note" data-i18n-target="log-note">One line per render, written by a <code>defuss-i18n:change</code> listener.</p>
+          </div>
+        </div>
       </div>
       <div hidden>
           <template data-i18n-for="eyebrow" data-i18n-locale="en">Live demo</template>
           <template data-i18n-for="eyebrow" data-i18n-locale="de">Live-Demo</template>
-          <template data-i18n-for="eyebrow" data-i18n-locale="ar">عرض حي</template>
-          <template data-i18n-for="title" data-i18n-locale="en">Switch the language, watch what stays</template>
-          <template data-i18n-for="title" data-i18n-locale="de">Sprache wechseln, sehen, was bleibt</template>
-          <template data-i18n-for="title" data-i18n-locale="ar">بدّل اللغة وشاهد ما يبقى</template>
-          <template data-i18n-for="desc" data-i18n-locale="en">Every sentence on this page comes from a defuss-i18n template. The cards show what usually breaks: typed input in an open dialog, plural forms, and markup rendered from application state.</template>
-          <template data-i18n-for="desc" data-i18n-locale="de">Jeder Satz auf dieser Seite stammt aus einem defuss-i18n-Template. Die Karten zeigen, was sonst gern bricht: Eingaben in einem offenen Dialog, Pluralformen und Markup aus dem Anwendungszustand.</template>
-          <template data-i18n-for="desc" data-i18n-locale="ar">كل جملة في هذه الصفحة تأتي من قالب defuss-i18n. تعرض البطاقات ما ينكسر عادة: الكتابة في نافذة مفتوحة، وصيغ الجمع، والترميز المبني من حالة التطبيق.</template>
+          <template data-i18n-for="title" data-i18n-locale="en">🔀 Switch the language, watch what stays</template>
+          <template data-i18n-for="title" data-i18n-locale="de">🔀 Sprache wechseln, sehen, was bleibt</template>
+          <template data-i18n-for="desc" data-i18n-locale="en">Every sentence on this page comes from a defuss-i18n template. The window below holds what usually breaks: typed input in an open dialog, plural forms, markup rendered from state and translated attributes.</template>
+          <template data-i18n-for="desc" data-i18n-locale="de">Jeder Satz auf dieser Seite stammt aus einem defuss-i18n-Template. Das Fenster unten zeigt, was sonst gern bricht: Eingaben in einem offenen Dialog, Pluralformen, Markup aus dem Zustand und übersetzte Attribute.</template>
+          <template data-i18n-for="language-label" data-i18n-locale="en">Language</template>
+          <template data-i18n-for="language-label" data-i18n-locale="de">Sprache</template>
+          <template data-i18n-for="locale" data-i18n-locale="en">Locale</template>
+          <template data-i18n-for="locale" data-i18n-locale="de">Sprache</template>
+          <template data-i18n-for="revision" data-i18n-locale="en">Revision</template>
+          <template data-i18n-for="revision" data-i18n-locale="de">Revision</template>
+          <template data-i18n-for="direction" data-i18n-locale="en">Direction</template>
+          <template data-i18n-for="direction" data-i18n-locale="de">Richtung</template>
+          <template data-i18n-for="chain" data-i18n-locale="en">Fallback</template>
+          <template data-i18n-for="chain" data-i18n-locale="de">Fallback</template>
+          <template data-i18n-for="log-title" data-i18n-locale="en">Event log</template>
+          <template data-i18n-for="log-title" data-i18n-locale="de">Ereignisprotokoll</template>
+          <template data-i18n-for="log-note" data-i18n-locale="en">One line per render, written by a <code>defuss-i18n:change</code> listener.</template>
+          <template data-i18n-for="log-note" data-i18n-locale="de">Eine Zeile pro Rendern, geschrieben von einem <code>defuss-i18n:change</code>-Listener.</template>
         </div>
     </section>
 
-    <section class="mk-stats" style="width:100%" data-i18n-component id="stats" aria-label="defuss-i18n in numbers" data-i18n-aria-label-en="defuss-i18n in numbers" data-i18n-aria-label-de="defuss-i18n in Zahlen" data-i18n-aria-label-ar="defuss-i18n بالأرقام">
+    <section class="mk-stats parallax-reveal" data-i18n-component id="stats" aria-label="defuss-i18n in numbers" data-i18n-aria-label-en="defuss-i18n in numbers" data-i18n-aria-label-de="defuss-i18n in Zahlen">
       <div class="mk-stats-band">
         <div class="mk-stat"><span class="mk-stat-value" data-i18n-target="gzip">6.2 kB</span><span class="mk-stat-label" data-i18n-target="gzip-label">gzip, minified browser build, peers excluded</span></div>
         <div class="mk-stat"><span class="mk-stat-value">16</span><span class="mk-stat-label" data-i18n-target="attrs-label">translatable content attributes</span></div>
@@ -472,59 +427,54 @@
       <div hidden>
           <template data-i18n-for="gzip-label" data-i18n-locale="en">gzip, minified browser build, peers excluded</template>
           <template data-i18n-for="gzip-label" data-i18n-locale="de">gzip, minifizierter Browser-Build, ohne Peers</template>
-          <template data-i18n-for="gzip-label" data-i18n-locale="ar">gzip، بناء المتصفح المصغّر، دون الحزم النظيرة</template>
           <template data-i18n-for="attrs-label" data-i18n-locale="en">translatable content attributes</template>
           <template data-i18n-for="attrs-label" data-i18n-locale="de">übersetzbare Inhaltsattribute</template>
-          <template data-i18n-for="attrs-label" data-i18n-locale="ar">سمة محتوى قابلة للترجمة</template>
           <template data-i18n-for="builds-label" data-i18n-locale="en">builds: ESM, CommonJS, browser ESM, classic script</template>
           <template data-i18n-for="builds-label" data-i18n-locale="de">Builds: ESM, CommonJS, Browser-ESM, klassisches Skript</template>
-          <template data-i18n-for="builds-label" data-i18n-locale="ar">إصدارات: ESM و CommonJS و ESM للمتصفح وسكربت كلاسيكي</template>
           <template data-i18n-for="deps-label" data-i18n-locale="en">runtime dependencies; defuss-query and defuss-morph are peers</template>
           <template data-i18n-for="deps-label" data-i18n-locale="de">Laufzeitabhängigkeiten; defuss-query und defuss-morph sind Peers</template>
-          <template data-i18n-for="deps-label" data-i18n-locale="ar">اعتماديات تشغيل؛ defuss-query و defuss-morph حزم نظيرة</template>
           <template data-i18n-for="gzip" data-i18n-locale="en"><span data-i18n-value="gzip"></span> kB</template>
           <template data-i18n-for="gzip" data-i18n-locale="de"><span data-i18n-value="gzip"></span> kB</template>
-          <template data-i18n-for="gzip" data-i18n-locale="ar"><span data-i18n-value="gzip"></span> kB</template>
         </div>
     </section>
 
-    <section id="install" class="stack gap-10" data-i18n-component aria-labelledby="install-title">
-      <header class="mk-section-header">
+    <section id="install" class="site-block parallax-reveal" data-i18n-component aria-labelledby="install-title">
+      <header class="mk-section-header" data-align="center">
         <div class="mk-section-header-copy">
           <span class="mk-section-header-eyebrow" data-i18n-target="eyebrow">Install</span>
-          <h2 class="mk-section-header-title" id="install-title" data-i18n-target="title">Add it to a page</h2>
+          <h2 class="mk-section-header-title" id="install-title" data-i18n-target="title">📦 Add it to a page</h2>
           <p class="mk-section-header-desc" data-i18n-target="desc">From jsDelivr next to defuss-shadcn, from npm for a bundler, or with the two peers on their own.</p>
         </div>
       </header>
-      <div class="container" style="--layout-gutter:1.25rem;">
+      <div class="site-section">
         <div class="tabs" id="install-tabs">
-          <div class="tab-list" role="tablist" aria-label="Setup" data-i18n-aria-label-en="Setup" data-i18n-aria-label-de="Einrichtung" data-i18n-aria-label-ar="طريقة الإعداد">
+          <div class="tab-list" role="tablist" aria-label="Setup" data-i18n-aria-label-en="Setup" data-i18n-aria-label-de="Einrichtung">
             <button class="tab-trigger" role="tab" aria-selected="true" aria-controls="panel-shadcn" id="tab-shadcn"><span data-i18n-target="tab-shadcn">With defuss-shadcn</span></button>
             <button class="tab-trigger" role="tab" aria-selected="false" aria-controls="panel-npm" id="tab-npm" tabindex="-1">npm</button>
             <button class="tab-trigger" role="tab" aria-selected="false" aria-controls="panel-peers" id="tab-peers" tabindex="-1"><span data-i18n-target="tab-peers">Without shadcn</span></button>
           </div>
-          <div class="tab-content" role="tabpanel" id="panel-shadcn" aria-labelledby="tab-shadcn" tabindex="0" dir="ltr">
+          <div class="tab-content" role="tabpanel" id="panel-shadcn" aria-labelledby="tab-shadcn" tabindex="0">
             <figure class="mk-code-block" data-variant="file">
-              <div class="mk-code-block-head"><span class="mk-code-block-file"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 12.5 8 15l2 2.5"/><path d="m14 12.5 2 2.5-2 2.5"/></svg>index.html</span><button class="mk-code-block-copy" type="button" aria-label="Copy code" data-i18n-aria-label-en="Copy code" data-i18n-aria-label-de="Code kopieren" data-i18n-aria-label-ar="نسخ الشيفرة"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button></div>
-              <pre><code><span><span class="mk-code-block-k">&lt;link</span> rel=<span class="mk-code-block-s">"stylesheet"</span> href=<span class="mk-code-block-s">"https://cdn.jsdelivr.net/npm/defuss-shadcn@0.9.8/dist/components/core.min.css"</span><span class="mk-code-block-k">&gt;</span></span><span><span class="mk-code-block-k">&lt;link</span> rel=<span class="mk-code-block-s">"stylesheet"</span> href=<span class="mk-code-block-s">"https://cdn.jsdelivr.net/npm/defuss-shadcn@0.9.8/dist/components/all.min.css"</span><span class="mk-code-block-k">&gt;</span></span><span><span class="mk-code-block-k">&lt;script</span> type=<span class="mk-code-block-s">"module"</span> src=<span class="mk-code-block-s">"https://cdn.jsdelivr.net/npm/defuss-shadcn@0.9.8/dist/components/all.min.js"</span><span class="mk-code-block-k">&gt;</span><span class="mk-code-block-k">&lt;/script</span><span class="mk-code-block-k">&gt;</span></span><span><span class="mk-code-block-k">&lt;script</span> type=<span class="mk-code-block-s">"module"</span> src=<span class="mk-code-block-s">"https://cdn.jsdelivr.net/npm/defuss-i18n@0.1.0/dist/all.min.js"</span><span class="mk-code-block-k">&gt;</span><span class="mk-code-block-k">&lt;/script</span><span class="mk-code-block-k">&gt;</span></span><span><span class="mk-code-block-k">&lt;script</span> type=<span class="mk-code-block-s">"module"</span><span class="mk-code-block-k">&gt;</span></span><span>  const locale = df$.i18n.createI18n({ locale: 'en', fallback: ['en'] });</span><span>  for (const root of document.querySelectorAll('[data-i18n-component]')) df$.i18n.bind(root, locale);</span><span><span class="mk-code-block-k">&lt;/script</span><span class="mk-code-block-k">&gt;</span></span></code></pre>
+              <div class="mk-code-block-head"><span class="mk-code-block-file"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 12.5 8 15l2 2.5"/><path d="m14 12.5 2 2.5-2 2.5"/></svg>index.html</span><button class="mk-code-block-copy" type="button" aria-label="Copy code" data-i18n-aria-label-en="Copy code" data-i18n-aria-label-de="Code kopieren"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button></div>
+              <pre><code><span><span class="mk-code-block-k">&lt;link</span> rel=<span class="mk-code-block-s">"stylesheet"</span> href=<span class="mk-code-block-s">"https://cdn.jsdelivr.net/npm/defuss-shadcn@0.9.8/dist/components/core.min.css"</span><span class="mk-code-block-k">&gt;</span></span><span><span class="mk-code-block-k">&lt;link</span> rel=<span class="mk-code-block-s">"stylesheet"</span> href=<span class="mk-code-block-s">"https://cdn.jsdelivr.net/npm/defuss-shadcn@0.9.8/dist/components/all.min.css"</span><span class="mk-code-block-k">&gt;</span></span><span><span class="mk-code-block-k">&lt;script</span> type=<span class="mk-code-block-s">"module"</span> src=<span class="mk-code-block-s">"https://cdn.jsdelivr.net/npm/defuss-shadcn@0.9.8/dist/components/all.min.js"</span><span class="mk-code-block-k">&gt;</span><span class="mk-code-block-k">&lt;/script</span><span class="mk-code-block-k">&gt;</span></span><span><span class="mk-code-block-k">&lt;script</span> type=<span class="mk-code-block-s">"module"</span> src=<span class="mk-code-block-s">"https://cdn.jsdelivr.net/npm/defuss-i18n@0.1.0/dist/all.min.js"</span><span class="mk-code-block-k">&gt;</span><span class="mk-code-block-k">&lt;/script</span><span class="mk-code-block-k">&gt;</span></span><span><span class="mk-code-block-k">&lt;script</span> type=<span class="mk-code-block-s">"module"</span><span class="mk-code-block-k">&gt;</span></span><span>  <span class="mk-code-block-k">const</span> locale = df$.i18n.createI18n({ locale: <span class="mk-code-block-s">'en'</span>, fallback: [<span class="mk-code-block-s">'en'</span>] });</span><span>  <span class="mk-code-block-k">for</span> (<span class="mk-code-block-k">const</span> root <span class="mk-code-block-k">of</span> document.querySelectorAll(<span class="mk-code-block-s">'[data-i18n-component]'</span>)) df$.i18n.bind(root, locale);</span><span>  locale.setLocale(<span class="mk-code-block-s">'de'</span>); <span class="mk-code-block-c">// every bound component now shows German</span></span><span><span class="mk-code-block-k">&lt;/script</span><span class="mk-code-block-k">&gt;</span></span></code></pre>
               <span class="mk-code-block-status" role="status"></span>
             </figure>
           </div>
-          <div class="tab-content stack gap-4" role="tabpanel" id="panel-npm" aria-labelledby="tab-npm" tabindex="0" dir="ltr" hidden>
+          <div class="tab-content stack gap-4" role="tabpanel" id="panel-npm" aria-labelledby="tab-npm" tabindex="0" hidden>
             <figure class="mk-code-block" data-variant="inline">
               <pre><code><span>bun add defuss-i18n defuss-query@^0.1.0 defuss-morph@^0.1.1</span></code></pre>
-              <button class="mk-code-block-copy" type="button" aria-label="Copy code" data-i18n-aria-label-en="Copy code" data-i18n-aria-label-de="Code kopieren" data-i18n-aria-label-ar="نسخ الشيفرة"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button>
+              <button class="mk-code-block-copy" type="button" aria-label="Copy code" data-i18n-aria-label-en="Copy code" data-i18n-aria-label-de="Code kopieren"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button>
               <span class="mk-code-block-status" role="status"></span>
             </figure>
             <figure class="mk-code-block" data-variant="file">
-              <div class="mk-code-block-head"><span class="mk-code-block-file"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 12.5 8 15l2 2.5"/><path d="m14 12.5 2 2.5-2 2.5"/></svg>app.js</span><button class="mk-code-block-copy" type="button" aria-label="Copy code" data-i18n-aria-label-en="Copy code" data-i18n-aria-label-de="Code kopieren" data-i18n-aria-label-ar="نسخ الشيفرة"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button></div>
-              <pre><code><span><span class="mk-code-block-k">import</span> { createI18n, bindI18n } <span class="mk-code-block-k">from</span> <span class="mk-code-block-s">'defuss-i18n'</span>;</span><span> </span><span><span class="mk-code-block-k">const</span> locale = createI18n({ locale: <span class="mk-code-block-s">'de-DE'</span>, fallback: [<span class="mk-code-block-s">'en'</span>] });</span><span>bindI18n(document.getElementById(<span class="mk-code-block-s">'welcome'</span>), locale);</span></code></pre>
+              <div class="mk-code-block-head"><span class="mk-code-block-file"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 12.5 8 15l2 2.5"/><path d="m14 12.5 2 2.5-2 2.5"/></svg>app.js</span><button class="mk-code-block-copy" type="button" aria-label="Copy code" data-i18n-aria-label-en="Copy code" data-i18n-aria-label-de="Code kopieren"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button></div>
+              <pre><code><span><span class="mk-code-block-k">import</span> { createI18n, bindI18n } <span class="mk-code-block-k">from</span> <span class="mk-code-block-s">'defuss-i18n'</span>;</span><span> </span><span><span class="mk-code-block-k">const</span> locale = createI18n({ locale: <span class="mk-code-block-s">'de-DE'</span>, fallback: [<span class="mk-code-block-s">'en'</span>] });</span><span><span class="mk-code-block-k">const</span> welcome = bindI18n(document.getElementById(<span class="mk-code-block-s">'welcome'</span>), locale);</span><span>welcome.dispose(); <span class="mk-code-block-c">// when the component leaves the page</span></span></code></pre>
               <span class="mk-code-block-status" role="status"></span>
             </figure>
           </div>
-          <div class="tab-content" role="tabpanel" id="panel-peers" aria-labelledby="tab-peers" tabindex="0" dir="ltr" hidden>
+          <div class="tab-content" role="tabpanel" id="panel-peers" aria-labelledby="tab-peers" tabindex="0" hidden>
             <figure class="mk-code-block" data-variant="file">
-              <div class="mk-code-block-head"><span class="mk-code-block-file"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 12.5 8 15l2 2.5"/><path d="m14 12.5 2 2.5-2 2.5"/></svg>index.html</span><button class="mk-code-block-copy" type="button" aria-label="Copy code" data-i18n-aria-label-en="Copy code" data-i18n-aria-label-de="Code kopieren" data-i18n-aria-label-ar="نسخ الشيفرة"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button></div>
+              <div class="mk-code-block-head"><span class="mk-code-block-file"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 12.5 8 15l2 2.5"/><path d="m14 12.5 2 2.5-2 2.5"/></svg>index.html</span><button class="mk-code-block-copy" type="button" aria-label="Copy code" data-i18n-aria-label-en="Copy code" data-i18n-aria-label-de="Code kopieren"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button></div>
               <pre><code><span><span class="mk-code-block-k">&lt;script</span> type=<span class="mk-code-block-s">"module"</span><span class="mk-code-block-k">&gt;</span></span><span>  <span class="mk-code-block-k">await</span> <span class="mk-code-block-k">import</span>('https:<span class="mk-code-block-c">//cdn.jsdelivr.net/npm/defuss-morph@0.1.1/dist/all.min.js');</span></span><span>  <span class="mk-code-block-k">await</span> <span class="mk-code-block-k">import</span>('https:<span class="mk-code-block-c">//cdn.jsdelivr.net/npm/defuss-query@0.1.0/dist/all.min.js');</span></span><span>  <span class="mk-code-block-k">await</span> <span class="mk-code-block-k">import</span>('https:<span class="mk-code-block-c">//cdn.jsdelivr.net/npm/defuss-i18n@0.1.0/dist/all.min.js');</span></span><span><span class="mk-code-block-k">&lt;/script</span><span class="mk-code-block-k">&gt;</span></span></code></pre>
               <span class="mk-code-block-status" role="status"></span>
             </figure>
@@ -534,23 +484,18 @@
       <div hidden>
           <template data-i18n-for="eyebrow" data-i18n-locale="en">Install</template>
           <template data-i18n-for="eyebrow" data-i18n-locale="de">Installation</template>
-          <template data-i18n-for="eyebrow" data-i18n-locale="ar">التثبيت</template>
-          <template data-i18n-for="title" data-i18n-locale="en">Add it to a page</template>
-          <template data-i18n-for="title" data-i18n-locale="de">Auf eine Seite bringen</template>
-          <template data-i18n-for="title" data-i18n-locale="ar">أضِفها إلى صفحتك</template>
+          <template data-i18n-for="title" data-i18n-locale="en">📦 Add it to a page</template>
+          <template data-i18n-for="title" data-i18n-locale="de">📦 Auf eine Seite bringen</template>
           <template data-i18n-for="desc" data-i18n-locale="en">From jsDelivr next to defuss-shadcn, from npm for a bundler, or with the two peers on their own.</template>
           <template data-i18n-for="desc" data-i18n-locale="de">Über jsDelivr neben defuss-shadcn, über npm für einen Bundler oder nur mit den beiden Peers.</template>
-          <template data-i18n-for="desc" data-i18n-locale="ar">من jsDelivr بجانب defuss-shadcn، أو من npm مع أداة تجميع، أو مع الحزمتين النظيرتين وحدهما.</template>
           <template data-i18n-for="tab-shadcn" data-i18n-locale="en">With defuss-shadcn</template>
           <template data-i18n-for="tab-shadcn" data-i18n-locale="de">Mit defuss-shadcn</template>
-          <template data-i18n-for="tab-shadcn" data-i18n-locale="ar">مع defuss-shadcn</template>
           <template data-i18n-for="tab-peers" data-i18n-locale="en">Without shadcn</template>
           <template data-i18n-for="tab-peers" data-i18n-locale="de">Ohne shadcn</template>
-          <template data-i18n-for="tab-peers" data-i18n-locale="ar">من دون shadcn</template>
         </div>
     </section>
 
-    <div class="container" style="--layout-gutter:1.25rem;" data-i18n-component id="cta">
+    <div class="site-section parallax-reveal" data-i18n-component id="cta">
       <section class="mk-cta" data-variant="dark" aria-labelledby="cta-title">
         <div class="mk-cta-inner">
           <div class="mk-cta-copy">
@@ -567,30 +512,25 @@
       <div hidden>
           <template data-i18n-for="title" data-i18n-locale="en">Read the documentation</template>
           <template data-i18n-for="title" data-i18n-locale="de">Zur Dokumentation</template>
-          <template data-i18n-for="title" data-i18n-locale="ar">اقرأ التوثيق</template>
           <template data-i18n-for="desc" data-i18n-locale="en">Guides to state and ownership, lazy loading and the security model, plus the full API and error reference.</template>
           <template data-i18n-for="desc" data-i18n-locale="de">Leitfäden zu Zustand und Zuständigkeit, Nachladen und Sicherheitsmodell sowie die vollständige API- und Fehlerreferenz.</template>
-          <template data-i18n-for="desc" data-i18n-locale="ar">أدلة عن الحالة والملكية والتحميل الكسول ونموذج الأمان، إلى جانب مرجع كامل للواجهة البرمجية والأخطاء.</template>
           <template data-i18n-for="start" data-i18n-locale="en">Getting started</template>
           <template data-i18n-for="start" data-i18n-locale="de">Erste Schritte</template>
-          <template data-i18n-for="start" data-i18n-locale="ar">البداية</template>
           <template data-i18n-for="api" data-i18n-locale="en">API reference</template>
           <template data-i18n-for="api" data-i18n-locale="de">API-Referenz</template>
-          <template data-i18n-for="api" data-i18n-locale="ar">مرجع الواجهة البرمجية</template>
           <template data-i18n-for="note" data-i18n-locale="en">MIT licensed · Source on GitHub</template>
           <template data-i18n-for="note" data-i18n-locale="de">MIT-Lizenz · Quellcode auf GitHub</template>
-          <template data-i18n-for="note" data-i18n-locale="ar">رخصة MIT · الشيفرة المصدرية على GitHub</template>
         </div>
     </div>
   </main>
 
   <footer class="mk-footer" data-i18n-component id="site-footer">
     <div class="mk-footer-inner">
-      <nav class="mk-footer-nav" aria-label="Footer" data-i18n-aria-label-en="Footer" data-i18n-aria-label-de="Fußzeile" data-i18n-aria-label-ar="تذييل الصفحة">
+      <nav class="mk-footer-nav site-footer-nav" aria-label="Footer" data-i18n-aria-label-en="Footer" data-i18n-aria-label-de="Fußzeile">
         <div class="mk-footer-col">
           <h3 class="mk-footer-heading" data-i18n-target="project">Project</h3>
           <ul class="mk-footer-list">
-            <li><a href="https://github.com/kyr0/defuss-i18n">GitHub</a></li>
+            <li><a href="https://github.com/kyr0/defuss-i18n" data-i18n-target="source">Source code</a></li>
             <li><a href="https://www.npmjs.com/package/defuss-i18n">npm</a></li>
             <li><a href="https://www.jsdelivr.com/package/npm/defuss-i18n">jsDelivr</a></li>
             <li><a href="https://github.com/kyr0/defuss-i18n/blob/main/CHANGELOG.md" data-i18n-target="changelog">Changelog</a></li>
@@ -607,53 +547,64 @@
           </ul>
         </div>
         <div class="mk-footer-col">
-          <h3 class="mk-footer-heading" data-i18n-target="runtime">defuss runtime</h3>
+          <h3 class="mk-footer-heading" data-i18n-target="runtime">Built with</h3>
           <ul class="mk-footer-list">
             <li><a href="https://shadcn.defuss.org/">defuss-shadcn</a></li>
             <li><a href="https://www.npmjs.com/package/defuss-query">defuss-query</a></li>
             <li><a href="https://www.npmjs.com/package/defuss-morph">defuss-morph</a></li>
           </ul>
         </div>
+        <div class="mk-footer-col">
+          <h3 class="mk-footer-heading" data-i18n-target="consulting">Professional consulting services</h3>
+          <aside class="corner-leaf site-ad" aria-label="Consulting by Aron Homberg" data-i18n-aria-label-en="Consulting by Aron Homberg" data-i18n-aria-label-de="Beratung durch Aron Homberg">
+            <div class="site-ad-head">
+              <div class="aura aura-glow aura-gold site-ad-portrait" style="--shape-round:1.5rem"><img class="shape-squircle" src="assets/aron-homberg.jpg" width="400" height="400" alt="Portrait of Aron Homberg" data-i18n-alt-en="Portrait of Aron Homberg" data-i18n-alt-de="Porträt von Aron Homberg" loading="lazy"></div>
+              <div>
+                <p class="site-ad-name">Aron Homberg</p>
+                <p class="site-ad-role" data-i18n-target="role">Freelance expert · independent AI researcher</p>
+              </div>
+            </div>
+            <a class="btn" data-size="sm" href="https://www.linkedin.com/in/aronhomberg/"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg><span data-i18n-target="linkedin">Connect on LinkedIn</span></a>
+          </aside>
+        </div>
       </nav>
       <hr class="separator mk-footer-rule" />
       <div class="mk-footer-bottom">
-        <a href="#top" class="mk-footer-brand" aria-label="Go to the top of the page" data-i18n-aria-label-en="Go to the top of the page" data-i18n-aria-label-de="Zum Seitenanfang" data-i18n-aria-label-ar="إلى أعلى الصفحة"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/></svg><span class="mk-footer-brand-name">defuss-i18n</span></a>
+        <a href="#top" class="mk-footer-brand" aria-label="Back to the top" data-i18n-aria-label-en="Back to the top" data-i18n-aria-label-de="Zurück nach oben"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/></svg><span class="mk-footer-brand-name">defuss-i18n</span></a>
         <div class="mk-footer-meta">
-          <p class="mk-footer-copy" data-i18n-target="copy">MIT License · built with defuss-shadcn 0.9.8</p>
+          <p class="mk-footer-copy" data-i18n-target="copy">© 2026 <a href="https://www.linkedin.com/in/aronhomberg/">Aron Homberg (kyr0)</a> · <a href="https://github.com/kyr0/defuss-i18n/blob/main/LICENSE">MIT License</a> · built with <a href="https://shadcn.defuss.org/">defuss-shadcn</a> 0.9.8</p>
         </div>
       </div>
     </div>
     <div hidden>
           <template data-i18n-for="project" data-i18n-locale="en">Project</template>
           <template data-i18n-for="project" data-i18n-locale="de">Projekt</template>
-          <template data-i18n-for="project" data-i18n-locale="ar">المشروع</template>
+          <template data-i18n-for="source" data-i18n-locale="en">Source code</template>
+          <template data-i18n-for="source" data-i18n-locale="de">Quellcode</template>
           <template data-i18n-for="changelog" data-i18n-locale="en">Changelog</template>
           <template data-i18n-for="changelog" data-i18n-locale="de">Änderungsprotokoll</template>
-          <template data-i18n-for="changelog" data-i18n-locale="ar">سجل التغييرات</template>
           <template data-i18n-for="docs" data-i18n-locale="en">Documentation</template>
           <template data-i18n-for="docs" data-i18n-locale="de">Dokumentation</template>
-          <template data-i18n-for="docs" data-i18n-locale="ar">التوثيق</template>
           <template data-i18n-for="start" data-i18n-locale="en">Getting started</template>
           <template data-i18n-for="start" data-i18n-locale="de">Erste Schritte</template>
-          <template data-i18n-for="start" data-i18n-locale="ar">البداية</template>
           <template data-i18n-for="state" data-i18n-locale="en">State and ownership</template>
           <template data-i18n-for="state" data-i18n-locale="de">Zustand und Zuständigkeit</template>
-          <template data-i18n-for="state" data-i18n-locale="ar">الحالة والملكية</template>
           <template data-i18n-for="lazy" data-i18n-locale="en">Lazy loading</template>
           <template data-i18n-for="lazy" data-i18n-locale="de">Nachladen</template>
-          <template data-i18n-for="lazy" data-i18n-locale="ar">التحميل الكسول</template>
           <template data-i18n-for="security" data-i18n-locale="en">Security model</template>
           <template data-i18n-for="security" data-i18n-locale="de">Sicherheitsmodell</template>
-          <template data-i18n-for="security" data-i18n-locale="ar">نموذج الأمان</template>
           <template data-i18n-for="api" data-i18n-locale="en">API reference</template>
           <template data-i18n-for="api" data-i18n-locale="de">API-Referenz</template>
-          <template data-i18n-for="api" data-i18n-locale="ar">مرجع الواجهة البرمجية</template>
-          <template data-i18n-for="runtime" data-i18n-locale="en">defuss runtime</template>
-          <template data-i18n-for="runtime" data-i18n-locale="de">defuss-Laufzeit</template>
-          <template data-i18n-for="runtime" data-i18n-locale="ar">بيئة تشغيل defuss</template>
-          <template data-i18n-for="copy" data-i18n-locale="en">MIT License · built with defuss-shadcn 0.9.8</template>
-          <template data-i18n-for="copy" data-i18n-locale="de">MIT-Lizenz · gebaut mit defuss-shadcn 0.9.8</template>
-          <template data-i18n-for="copy" data-i18n-locale="ar">رخصة MIT · مبنية بـ defuss-shadcn 0.9.8</template>
+          <template data-i18n-for="runtime" data-i18n-locale="en">Built with</template>
+          <template data-i18n-for="runtime" data-i18n-locale="de">Gebaut mit</template>
+          <template data-i18n-for="consulting" data-i18n-locale="en">Professional consulting services</template>
+          <template data-i18n-for="consulting" data-i18n-locale="de">Professionelle Beratung</template>
+          <template data-i18n-for="role" data-i18n-locale="en">Freelance expert · independent AI researcher</template>
+          <template data-i18n-for="role" data-i18n-locale="de">Freiberuflicher Experte · unabhängiger KI-Forscher</template>
+          <template data-i18n-for="linkedin" data-i18n-locale="en">Connect on LinkedIn</template>
+          <template data-i18n-for="linkedin" data-i18n-locale="de">Auf LinkedIn vernetzen</template>
+          <template data-i18n-for="copy" data-i18n-locale="en">© 2026 <a href="https://www.linkedin.com/in/aronhomberg/">Aron Homberg (kyr0)</a> · <a href="https://github.com/kyr0/defuss-i18n/blob/main/LICENSE">MIT License</a> · built with <a href="https://shadcn.defuss.org/">defuss-shadcn</a> 0.9.8</template>
+          <template data-i18n-for="copy" data-i18n-locale="de">© 2026 <a href="https://www.linkedin.com/in/aronhomberg/">Aron Homberg (kyr0)</a> · <a href="https://github.com/kyr0/defuss-i18n/blob/main/LICENSE">MIT-Lizenz</a> · gebaut mit <a href="https://shadcn.defuss.org/">defuss-shadcn</a> 0.9.8</template>
         </div>
   </footer>
 
@@ -666,12 +617,11 @@
       <div class="dialog-body stack gap-4">
         <div>
           <label class="label" for="nickname" data-i18n-target="name">Name</label>
-          <input class="input" type="text" id="nickname" placeholder="Your name" data-i18n-placeholder-en="Your name" data-i18n-placeholder-de="Dein Name" data-i18n-placeholder-ar="اسمك">
+          <input class="input" type="text" id="nickname" placeholder="Your name" data-i18n-placeholder-en="Your name" data-i18n-placeholder-de="Dein Name">
         </div>
-        <div class="toggle-group" role="group" id="settings-locale" data-type="single" data-variant="outline" data-size="sm" aria-label="Language" data-i18n-aria-label-en="Language" data-i18n-aria-label-de="Sprache" data-i18n-aria-label-ar="اللغة">
+        <div class="toggle-group" role="group" id="settings-locale" data-type="single" data-variant="outline" data-size="sm" aria-label="Language" data-i18n-aria-label-en="Language" data-i18n-aria-label-de="Sprache">
           <button class="toggle" aria-pressed="true" value="en" lang="en">English</button>
           <button class="toggle" aria-pressed="false" value="de" lang="de">Deutsch</button>
-          <button class="toggle" aria-pressed="false" value="ar" lang="ar" dir="rtl">العربية</button>
         </div>
       </div>
       <div class="dialog-footer">
@@ -681,16 +631,12 @@
     <div hidden>
           <template data-i18n-for="heading" data-i18n-locale="en">Your settings</template>
           <template data-i18n-for="heading" data-i18n-locale="de">Deine Einstellungen</template>
-          <template data-i18n-for="heading" data-i18n-locale="ar">إعداداتك</template>
           <template data-i18n-for="description" data-i18n-locale="en">Type a name, then switch the language: the field keeps what you typed.</template>
           <template data-i18n-for="description" data-i18n-locale="de">Gib einen Namen ein und wechsle dann die Sprache: Das Feld behält deine Eingabe.</template>
-          <template data-i18n-for="description" data-i18n-locale="ar">اكتب اسمًا ثم بدّل اللغة: يحتفظ الحقل بما كتبته.</template>
           <template data-i18n-for="name" data-i18n-locale="en">Name</template>
           <template data-i18n-for="name" data-i18n-locale="de">Name</template>
-          <template data-i18n-for="name" data-i18n-locale="ar">الاسم</template>
           <template data-i18n-for="done" data-i18n-locale="en">Done</template>
           <template data-i18n-for="done" data-i18n-locale="de">Fertig</template>
-          <template data-i18n-for="done" data-i18n-locale="ar">تم</template>
         </div>
   </dialog>
 

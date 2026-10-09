@@ -100,14 +100,22 @@ test('shipped browser artifacts and side-effect-free DOM adapter', async t => {
       assert.deepEqual([routed, stripped], pass === 'checkout' ? [1, true] : [0, false], 'the checkout pass must load dist/all.min.js');
       report.site[pass] = { i18n: loaded };
       const heading = await page.$('#welcome-heading'); const nickname = await page.$('#nickname');
+      const lastLog = () => page.locator('#event-log pre').last().textContent();
+      assert.match(await lastLog(), /^bind\(\) · \d+ components · en$/);
+      assert.equal(await page.locator('#code-line-en').getAttribute('data-cursor'), '', 'the cursor marks the live template line');
 
       await page.locator('#locale-switcher .toggle[value="de"]').click();
       assert.equal(await text(page, '#welcome-heading'), 'Seite übersetzen. Zustand behalten.');
       assert(await heading.evaluate(element => element === document.getElementById('welcome-heading')), 'the heading keeps its identity');
-      assert.match(await page.locator('.mk-hero-media img').getAttribute('src'), /assets\/welcome-de\.svg$/);
-      assert.equal(await page.locator('.mk-hero-media img').getAttribute('alt'), 'Hallo in einer Sprechblase');
-      assert.equal(await page.locator('#add-item').getAttribute('aria-label'), 'Artikel hinzufügen');
-      assert.equal(await text(page, '#cart-copy'), '1 Artikel');
+      assert.deepEqual([await page.locator('#code-line-de').getAttribute('data-cursor'), await page.locator('#code-line-en').getAttribute('data-cursor')], ['', null]);
+      assert.match(await lastLog(), /^setLocale\('de'\) · revision 1 · \d+ components morphed$/);
+      assert.match(await page.locator('#attributes-card img').getAttribute('src'), /assets\/welcome-de\.svg$/);
+      assert.equal(await page.locator('#attributes-card img').getAttribute('alt'), 'Hallo in einer Sprechblase');
+      assert.equal(await page.locator('#add-item').getAttribute('aria-label'), 'Ein Ei hinzufügen');
+      assert.equal(await text(page, '#cart-copy'), '1 Ei');
+      await page.locator('#add-item').click();
+      assert.equal(await text(page, '#cart-copy'), '2 Eier', 'German plural: Ei becomes Eier');
+      assert.equal(await lastLog(), 'refresh() · #cart');
       assert.equal(await text(page, '#stats [data-i18n-target="gzip"]'), '6,2 kB', 'Intl formats the stat for de');
       assert.deepEqual([await text(page, '#snapshot-locale'), await text(page, '#snapshot-chain')], ['de', 'de → en']);
       for (const id of switchers) assert.deepEqual(await pressed(page, id), ['de'], `${id} follows the locale`);
@@ -116,14 +124,26 @@ test('shipped browser artifacts and side-effect-free DOM adapter', async t => {
       await page.locator('#locale-switcher .toggle[value="de"]').click();
       assert.deepEqual(await pressed(page, 'locale-switcher'), ['de']);
 
+      // Hero markup tabs: plain HTML, then the defuss-i18n diff again (its animation replays).
+      assert.equal(await text(page, '#tab-plain'), 'Standard-HTML');
+      await page.locator('#tab-plain').click();
+      assert.deepEqual([await page.locator('#panel-plain').isVisible(), await page.locator('#panel-i18n').isVisible()], [true, false]);
+      await page.locator('#tab-i18n').click();
+      assert.deepEqual([await page.locator('#panel-i18n').isVisible(), await page.locator('#markup-diff').getAttribute('data-animate')], [true, '']);
+
       // Install tabs (the Tabs component) and copying the visible code block.
       assert.equal(await text(page, '#tab-shadcn'), 'Mit defuss-shadcn');
       await page.locator('#tab-npm').click();
       assert.deepEqual([await page.locator('#panel-npm').isVisible(), await page.locator('#panel-shadcn').isVisible()], [true, false]);
-      const inline = page.locator('#panel-npm .mk-code-block[data-variant="inline"]');
-      await inline.locator('.mk-code-block-copy').click();
+      await page.locator('#panel-npm .mk-code-block[data-variant="inline"] .mk-code-block-copy').click();
       await page.waitForFunction(() => document.querySelector('#panel-npm .mk-code-block[data-variant="inline"] .mk-code-block-status').textContent === 'Kopiert');
       assert.equal(await page.evaluate(() => navigator.clipboard.readText()), 'bun add defuss-i18n defuss-query@^0.1.0 defuss-morph@^0.1.1');
+
+      // Footer: linked copyright line and the consulting column.
+      assert.deepEqual(await page.locator('#site-footer .mk-footer-copy a').evaluateAll(links => links.map(link => link.getAttribute('href'))),
+        ['https://www.linkedin.com/in/aronhomberg/', 'https://github.com/kyr0/defuss-i18n/blob/main/LICENSE', 'https://shadcn.defuss.org/']);
+      assert.equal(await text(page, '#site-footer .site-ad .btn'), 'Auf LinkedIn vernetzen');
+      assert.equal(await page.locator('#site-footer .site-ad img').getAttribute('alt'), 'Porträt von Aron Homberg');
 
       await page.locator('#open-settings').click();
       assert(await page.locator('#settings').evaluate(element => element.open));
@@ -137,21 +157,20 @@ test('shipped browser artifacts and side-effect-free DOM adapter', async t => {
       await page.locator('#settings-close').click();
       assert(!(await page.locator('#settings').evaluate(element => element.open)));
 
+      assert.equal(await text(page, '#cart-copy'), '2 eggs');
       await page.locator('#add-item').click();
-      await page.locator('#add-item').click();
-      assert.equal(await text(page, '#cart-copy'), '3 items');
+      assert.equal(await text(page, '#cart-copy'), '3 eggs');
       await page.locator('#remove-item').click();
-      assert.equal(await text(page, '#cart-copy'), '2 items');
+      await page.locator('#remove-item').click();
+      assert.equal(await text(page, '#cart-copy'), '1 egg');
       await page.locator('#controlled').uncheck();
       await page.screenshot({ path: `${reportDir}/site-${pass}-en.png`, fullPage: true });
-      await page.locator('#demo-locale .toggle[value="ar"]').click();
-      assert.deepEqual([await page.locator('html').getAttribute('lang'), await page.locator('html').getAttribute('dir')], ['ar', 'rtl']);
-      assert.match(await text(page, '#cart-copy'), /عنصر$/);
-      assert.equal(await text(page, 'label[for="controlled"]'), 'مربع اختيار تتحكم فيه الحالة');
+      await page.locator('#demo-locale .toggle[value="de"]').click();
+      assert.equal(await text(page, 'label[for="controlled"]'), 'Eine kontrollierte Checkbox');
       assert.equal(await page.locator('#controlled').isChecked(), false, 'the renderer keeps application state across a switch');
       await page.locator('#toggle-checked').click();
       assert.equal(await page.locator('#controlled').isChecked(), true);
-      await page.screenshot({ path: `${reportDir}/site-${pass}-ar.png`, fullPage: true });
+      await page.screenshot({ path: `${reportDir}/site-${pass}-de.png`, fullPage: true });
       assert.deepEqual(problems, []); await context.close();
     });
     await t.test('project site opens in the visitor’s language', async () => {
@@ -183,12 +202,12 @@ test('shipped browser artifacts and side-effect-free DOM adapter', async t => {
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth), 375, 'no sideways scrolling');
       await page.locator('.mk-header-menu').click();
       assert(await page.locator('#site-menu').evaluate(element => element.open));
-      await page.locator('#sheet-locale .toggle[value="ar"]').click();
-      assert.equal(await text(page, '#site-menu a[href="#demo"]'), 'عرض حي');
+      await page.locator('#sheet-locale .toggle[value="de"]').click();
+      assert.equal(await text(page, '#site-menu a[href="#demo"]'), 'Live-Demo');
       await page.locator('#site-menu a[href="#demo"]').click();
       await page.waitForFunction(() => !document.getElementById('site-menu').open);
-      assert.equal(await page.locator('html').getAttribute('dir'), 'rtl');
-      await page.screenshot({ path: `${reportDir}/site-phone-ar.png` });
+      assert.equal(await page.locator('html').getAttribute('lang'), 'de');
+      await page.screenshot({ path: `${reportDir}/site-phone-de.png` });
       assert.deepEqual(problems, []); await context.close();
     });
   } finally {
