@@ -14,3 +14,12 @@ A lesson recurring ≥2 → test | .agents/VERIFY.py rule | MEMORY line, then de
 2026-10-08T12:22:39Z s=a7b9f95a FINDING examples/demo.js:52 learn=test: tests/browser.test.mjs asserts the pressed item survives a second click in both demo passes.
 2026-10-08T12:22:39Z s=a7b9f95a FINDING examples/index.html:14 learn=none: Whether defuss-shadcn intends pages to bring their own base is not documented in 0.9.7; recorded in the page comment, not as a rule.
 2026-10-08T12:22:39Z s=a7b9f95a FINDING README.md:5 learn=none: A one-time doc follow-up; tests/docs.test.mjs already guards README links.
+2026-10-08T12:24:55Z s=a7b9f95a DONE fp=c34d8f5b3a53 cov=100.0% paths=AGENTS.md,ARCH.md,CHANGELOG.md,README.md(+11)
+2026-10-08T12:24:55Z s=a7b9f95a FINDING package.json:3; src/locale.ts:2; CHANGELOG.md:3 learn=verifier: scripts/verify.mjs already fails on version disagreement between package.json, I18N_VERSION and dist.
+2026-10-09T09:46:51Z s=a7b9f95a DONE fp=d74bf6f637e9 cov=100.0% paths=AGENTS.md,ARCH.md,CHANGELOG.md,README.md(+16)
+2026-10-09T09:46:51Z s=a7b9f95a FINDING docs/index.html (code blocks) learn=memory: MEMORY [defuss-shadcn@0.9.8] records the hard-coded tab values; the e2e covers the Tabs panels.
+2026-10-09T09:46:51Z s=a7b9f95a FINDING docs/index.html (head scripts) learn=verifier: scripts/verify.mjs requires an integrity hash on every CDN script/link tag; CLI_GIST sri records how to recompute one.
+2026-10-09T09:46:51Z s=a7b9f95a FINDING tests/browser.test.mjs (no-JavaScript test) learn=test: The e2e catches default/template drift from any later hand edit of docs/index.html.
+2026-10-09T09:46:51Z s=a7b9f95a FINDING docs/index.html (demo desc); README.md:28 learn=none: A wording fix; nothing mechanical to check.
+2026-10-09T09:46:51Z s=a7b9f95a FINDING docs/index.html (page base, footer) learn=none: Accessibility and verbatim-markup fixes; markup-check guards the vocabulary.
+2026-10-09T09:46:51Z s=a7b9f95a FINDING docs/assets/demo.js:8 learn=test: The 'opens in the visitor's language' e2e test guards negotiation.

@@ -9,3 +9,4 @@ Budget 2 KiB (`vae.py doctor --repo .`); entries are injected at session start. 
 - VERIFIED[verify] `make verify` (lint, test, coverage, e2e, release checks); loads the gitignored `.env` via `bun --env-file` (dotenv syntax, quoted values fine); `make setup` bootstraps a missing bun
 - VERIFIED[docs] `node --test tests/docs.test.mjs`
 - UNKNOWN[release] `bun publish` NOT executed; requires explicit human authorization (VERIFIED in a throwaway package: `bun publish` runs prepublishOnly)
+- VERIFIED[sri] `curl -s <jsDelivr file url> | openssl dgst -sha384 -binary | openssl base64 -A` → the integrity hash (prefix sha384-) for docs/index.html after a CDN version bump
