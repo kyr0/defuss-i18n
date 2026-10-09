@@ -23,3 +23,8 @@ A lesson recurring ≥2 → test | .agents/VERIFY.py rule | MEMORY line, then de
 2026-10-09T09:46:51Z s=a7b9f95a FINDING docs/index.html (demo desc); README.md:28 learn=none: A wording fix; nothing mechanical to check.
 2026-10-09T09:46:51Z s=a7b9f95a FINDING docs/index.html (page base, footer) learn=none: Accessibility and verbatim-markup fixes; markup-check guards the vocabulary.
 2026-10-09T09:46:51Z s=a7b9f95a FINDING docs/assets/demo.js:8 learn=test: The 'opens in the visitor's language' e2e test guards negotiation.
+2026-10-09T10:36:57Z s=a7b9f95a DONE fp=531e4591556b cov=100.0% paths=AGENTS.md,ARCH.md,CHANGELOG.md,README.md(+17)
+2026-10-09T10:36:57Z s=a7b9f95a FINDING docs/assets/demo.js:showLocale (code-line cursor) learn=test: The site e2e asserts the cursor on code-line-en at start and on code-line-de after the switch.
+2026-10-09T10:36:57Z s=a7b9f95a FINDING docs/assets/demo.js:flush (event log) learn=test: Log content is asserted in both site passes.
+2026-10-09T10:36:57Z s=a7b9f95a FINDING docs/index.html (How it works) learn=none: Whether the diagram toolbar labels can be configured is not established; settle it in defuss-shadcn's diagram.ts before using it on a localized page.
+2026-10-09T10:36:57Z s=a7b9f95a FINDING docs/index.html (Arabic removed) learn=none: validateI18n({ locales: ['en','de'] }) in demo.js and the no-JavaScript e2e cover the two locales.
