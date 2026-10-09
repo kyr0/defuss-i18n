@@ -19,7 +19,7 @@ Swapping translated markup wholesale destroys the elements inside it, and with t
 
 Requirements: Node.js >= 22 and, for development, bun 1.4.2. The peers are defuss-query `^0.1.0` and defuss-morph `^0.1.1`.
 
-`docs/` holds the project site, which is also the live demo. It is static, so GitHub Pages can serve it from the `/docs` folder; to run it from a checkout:
+`docs/` holds the project site, which is also the live demo; GitHub Pages serves it at <https://i18n.defuss.org>. To run it from a checkout:
 
 ```bash
 bun run serve
