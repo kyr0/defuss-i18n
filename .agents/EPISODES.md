@@ -34,3 +34,6 @@ A lesson recurring ≥2 → test | .agents/VERIFY.py rule | MEMORY line, then de
 2026-10-09T14:21:55Z s=a7b9f95a FINDING tests/browser.test.mjs:108,179 learn=none: The site e2e asserts the German heading against the template text.
 2026-10-09T14:25:23Z s=a7b9f95a DONE fp=d6b05fa5c093 cov=100.0% paths=AGENTS.md,ARCH.md,CHANGELOG.md,README.md(+20)
 2026-10-09T14:25:23Z s=a7b9f95a FINDING README.md:22; ARCH.md (Deployment and scaling) learn=memory: MEMORY [docs/] records the Pages setup, which lives in GitHub settings rather than the repository.
+2026-10-09T14:47:50Z s=a7b9f95a DONE fp=7a6a58d3bf63 cov=100.0% paths=AGENTS.md,ARCH.md,CHANGELOG.md,README.md(+20)
+2026-10-09T14:47:50Z s=a7b9f95a FINDING site/translations.json install.prompt-1..4 learn=test: The site e2e copies the German prompt and asserts its first line and four lines without the send hint.
+2026-10-09T14:47:50Z s=a7b9f95a FINDING docs/assets/site.css (.site-consult) learn=none: Layout, checked by screenshots; markup-check guards the vocabulary.
