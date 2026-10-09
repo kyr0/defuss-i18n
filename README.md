@@ -19,13 +19,13 @@ Swapping translated markup wholesale destroys the elements inside it, and with t
 
 Requirements: Node.js >= 22 and, for development, bun 1.4.2. The peers are defuss-query `^0.1.0` and defuss-morph `^0.1.1`.
 
-Run the demo from a checkout of this repository:
+`docs/` holds the project site, which is also the live demo. It is static, so GitHub Pages can serve it from the `/docs` folder; to run it from a checkout:
 
 ```bash
 bun run serve
 ```
 
-Open <http://127.0.0.1:8080/examples/> and switch languages: the heading, image and cart text change, while the open settings dialog keeps its edited name field. The demo is built from defuss-shadcn 0.9.7 components and loads defuss-shadcn and the released defuss-i18n 0.1.0 from jsDelivr, so it needs network access but no install or build; any static file server can serve `examples/`.
+Open <http://127.0.0.1:8080/docs/> and switch languages: every sentence on the page changes, while the open settings dialog keeps its edited name field. The site is built from defuss-shadcn 0.9.8 components and loads defuss-shadcn and the released defuss-i18n 0.1.0 from jsDelivr with Subresource Integrity, so it needs network access but no install or build; any static file server can serve `docs/`.
 
 Install the package next to its peers, with the peers inside their supported ranges:
 

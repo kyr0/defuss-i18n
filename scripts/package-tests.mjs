@@ -10,7 +10,7 @@ try {
   const tarball = join(temporary, basename(execFileSync('bun', ['pm', 'pack', '--ignore-scripts', '--quiet', '--destination', temporary], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim().split('\n').pop()));
   const paths = execFileSync('tar', ['-tzf', tarball], { encoding: 'utf8' }).trim().split('\n').map(path => path.replace(/^package\//, ''));
   const { version } = JSON.parse(await readFile('package.json', 'utf8'));
-  for (const required of ['dist/index.js', 'dist/index.cjs', 'dist/core.d.ts', 'dist/global.min.js', 'src/locale.ts', 'documentation/i18n.mdx', 'documentation/api.md', 'documentation/errors.md', 'examples/index.html']) assert(paths.includes(required), `${required} missing from the packed tarball`);
+  for (const required of ['dist/index.js', 'dist/index.cjs', 'dist/core.d.ts', 'dist/global.min.js', 'src/locale.ts', 'documentation/i18n.mdx', 'documentation/api.md', 'documentation/errors.md', 'docs/index.html']) assert(paths.includes(required), `${required} missing from the packed tarball`);
   for (const path of paths) assert(!/^(node_modules|tests|test-results|coverage|scripts)\//.test(path), `Unexpected dev file ${path}`);
   const consumer = join(temporary, 'consumer'); await mkdir(join(consumer, 'node_modules'), { recursive: true });
   execFileSync('tar', ['-xzf', tarball, '-C', temporary]);

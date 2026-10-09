@@ -11,4 +11,4 @@ Apply this contract when making defuss-shadcn/plain HTML locale-aware. Read the 
 7. Use full state rendering only with a complete application snapshot. Return HTML synchronously from render; use afterRender/query.prop for explicit live-property control. Keep children outside its owned root.
 8. Validate with `validateI18n(root, { locales, values })`, resolve every diagnostic, and verify linguistic quality separately. Test language switching with a modal dialog, checked checkbox and edited input/focus/selection.
 
-Use pure TypeScript/JavaScript, HTML and CSS. No Astro. See [API reference](api.md), [errors and diagnostics](errors.md), [state and ownership](state-and-ownership.md), [MDX](i18n.mdx) and [runnable demo](../examples/index.html).
+Use pure TypeScript/JavaScript, HTML and CSS. No Astro. See [API reference](api.md), [errors and diagnostics](errors.md), [state and ownership](state-and-ownership.md), [MDX](i18n.mdx) and [project site and live demo](../docs/index.html).

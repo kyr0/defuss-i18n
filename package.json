@@ -67,7 +67,7 @@
     "ARCH.md",
     "LICENSE",
     "documentation",
-    "examples"
+    "docs"
   ],
   "peerDependencies": {
     "defuss-morph": "^0.1.1",

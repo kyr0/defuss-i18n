@@ -19,5 +19,5 @@ export function serve(root = fileURLToPath(new URL('../', import.meta.url)), por
 }
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const server = await serve(undefined, Number(process.env.PORT ?? 8080));
-  console.log(`http://127.0.0.1:${server.address().port}/examples/`);
+  console.log(`http://127.0.0.1:${server.address().port}/docs/`);
 }
